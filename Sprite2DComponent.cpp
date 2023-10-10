@@ -19,8 +19,8 @@ namespace LeaderEngine {
 		target.draw(sprite, states);
 	}
 
-	COMPONENT_TYPE Sprite2DComponent::GetType() const
+	/*COMPONENT_TYPE Sprite2DComponent::GetType() const
 	{
 		return COMPONENT_TYPE::DRAWABLE;
-	}
+	}*/
 }

@@ -16,7 +16,7 @@ namespace LeaderEngine {
 		void Update(); // Update through all the components
 		void Start();
 		void Destroy();
-		void Draw(sf::RenderTarget& target, sf::RenderStates states) const; // Walk through all the rendable components
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
 		
 		void AddSpriteComponent2D(std::string filename);
 	};

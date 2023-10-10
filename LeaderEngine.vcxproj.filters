@@ -45,6 +45,9 @@
     <ClInclude Include="COMPONENT_TYPE.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="IDrawableComponent.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LeaderEngine.cpp">

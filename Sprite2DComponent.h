@@ -1,11 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "IComponent.h"
+#include "IDrawableComponent.h"
 //#include "COMPONENT_TYPE.h"
 
 namespace LeaderEngine
 {
-	class Sprite2DComponent : public IComponent, public sf::Drawable
+	class Sprite2DComponent : public IDrawableComponent
 	{
 		private : 
 			sf::Texture texture;
@@ -17,7 +17,7 @@ namespace LeaderEngine
 		public :
 			Sprite2DComponent(std::string);
 			~Sprite2DComponent();
-			COMPONENT_TYPE GetType() const override;
+			//COMPONENT_TYPE GetType() const override;
 	};
 }
 

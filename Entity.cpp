@@ -34,16 +34,17 @@ namespace LeaderEngine {
 	}
 
 	// Draw all drawable components of the entity
-	void Entity::Draw(sf::RenderTarget& target, sf::RenderStates states) const
+	void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		for (const auto& comp : _components)
 		{
-			// Check if the component's type equals DRAWABLE
-			if (comp->GetType() == COMPONENT_TYPE::DRAWABLE)
-			{
-				const sf::Drawable* drawable = static_cast<const sf::Drawable*>(comp.get()); // Static Cast didn't work beacause of C++
-				target.draw(*drawable, states); // Draw the drawable component if the cast was successful
+			// Try to cast the component to a drawable component
+			const IDrawableComponent* drawable = dynamic_cast<IDrawableComponent*>(comp.get());
 
+			// If successful, draw it
+			if (drawable)
+			{
+				target.draw(*drawable, states);
 			}
 		}
 	}

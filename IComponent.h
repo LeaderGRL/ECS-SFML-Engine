@@ -5,7 +5,7 @@ namespace LeaderEngine
 {
 	class IComponent {
 		public:
-			virtual ~IComponent() { };
-			virtual COMPONENT_TYPE GetType() const = 0;
+			virtual ~IComponent() = default;
+			//virtual COMPONENT_TYPE GetType() const = 0;
 	};
 }

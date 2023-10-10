@@ -78,6 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -112,6 +113,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -145,6 +147,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IComponent.h" />
+    <ClInclude Include="IDrawableComponent.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderSystem.h" />
