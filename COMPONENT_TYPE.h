@@ -1,0 +1,18 @@
+#pragma once
+namespace LeaderEngine
+{
+	enum class COMPONENT_TYPE
+	{
+		DRAWABLE,
+		TRANSFORM,
+		CAMERA,
+		LIGHT,
+		SCRIPT,
+		ANIMATION,
+		BOX_COLLIDER,
+		SPHERE_COLLIDER,
+		CAPSULE_COLLIDER,
+		RIGIDBODY,
+		CHARACTER_CONTROLLER,
+	};
+}
