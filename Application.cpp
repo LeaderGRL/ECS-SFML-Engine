@@ -2,10 +2,11 @@
 #include "Application.h"
 #include "Sprite2DComponent.h"
 #include "Entity.h"
+#include "System.h"
+#include "CameraComponent.h"
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <filesystem>
-#include "System.h"
 
 namespace LeaderEngine {
 
@@ -41,15 +42,23 @@ namespace LeaderEngine {
 		gameEntity2.setRotation(120.f);
 		gameEntity2.setScale(sf::Vector2f(0.2f, 0.2f));
 		gameEntity2.setPosition(sf::Vector2f(500.f, 200.f));
+
+
+		Entity camera;
+		camera.SetId(2);
+		camera.AddComponent(std::make_unique<CameraComponent>());
+		
 		system.AddEntity(std::move(gameEntity));
 		system.AddEntity(std::move(gameEntity2));
+
 	}
 
 	void Application::Run()
 	{
 		while (window.isOpen())
 		{
-			 sf::Event event;
+			system.GetEntityById(0)->setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
+			sf::Event event;
 			while (window.pollEvent(event))
 			{
 				// "close requested" event: we close the window

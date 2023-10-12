@@ -4,7 +4,7 @@
 
 namespace LeaderEngine
 {
-	class CameraComponent : IComponent
+	class CameraComponent : public IComponent
 	{
 	private :
 		sf::View view;
@@ -33,5 +33,7 @@ namespace LeaderEngine
 		void setZoom(float zoom);
 
 		void Update() override;
+
+		COMPONENT_TYPE GetType() const override;
 	};
 }

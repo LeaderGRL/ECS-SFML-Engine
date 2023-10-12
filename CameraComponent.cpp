@@ -70,4 +70,9 @@ namespace LeaderEngine
 		view.setSize(size);
 		view.zoom(zoom);
 	}
+	
+	COMPONENT_TYPE CameraComponent::GetType() const
+	{
+		return COMPONENT_TYPE::CAMERA;
+	}
 }

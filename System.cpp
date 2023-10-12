@@ -48,6 +48,19 @@ namespace LeaderEngine
 	{
 		return _entities;
 	}
+
+	Entity* System::GetEntityById(int id)
+	{
+		for (auto& entity : _entities)
+		{
+			if (entity.GetId() == id)
+			{
+				return &entity;
+			}
+		}
+
+		return nullptr;
+	}
 	
 	bool operator==(const Entity& lhs, const Entity& rhs)
 	{
