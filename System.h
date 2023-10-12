@@ -12,9 +12,10 @@ namespace LeaderEngine
 		public:
 			System();
 			~System();
-			void AddEntity(Entity entity);
-			void RemoveEntity(Entity entity);
-			std::vector<Entity> GetEntities();
-			virtual void Update() = 0;
+			void AddEntity(Entity&& entity); // RValue reference
+			void RemoveEntity(Entity& entity);
+			//void RemoveEntity(Entity&& entity);
+			const std::vector<Entity>& GetEntities() const; // Return a reference to the vector of entities
+			//virtual void Update() = 0;
 	};
 }

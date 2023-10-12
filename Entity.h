@@ -3,7 +3,7 @@
 #include "IComponent.h"
 
 namespace LeaderEngine {
-	class Entity : public sf::Drawable, public sf::Transform
+	class Entity : public sf::Drawable, public sf::Transformable
 	{
 	protected :
 		int _id;
@@ -19,8 +19,13 @@ namespace LeaderEngine {
 		std::vector<std::unique_ptr<IComponent>> _components;
 	public:
 		Entity();
+		Entity(const Entity&) = delete; // delete copy constructor
+		Entity& operator=(const Entity&) = delete; // delete copy assignment
+		Entity(Entity&&) = default; // use default move constructor
+		Entity& operator=(Entity&&) = default; // use default move assignment
+		//bool operator==(const Entity& lhs, const Entity& rhs);
 		~Entity();
-		int GetId();
+		int GetId() const;
 		void SetId(int id);
 		void Update(); // Update through all the components
 		void Start();
@@ -28,19 +33,6 @@ namespace LeaderEngine {
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
 		//void AddSpriteComponent2D(std::string filename);
 		void AddComponent(std::unique_ptr<IComponent> component);
-		void SetPosition(float x, float y);
-		void SetRotation(float rotation);
-		void SetScale(float width, float height);
-		void SetOrigin(float x, float y);
-		void SetOrigin(sf::Vector2f origin);
-		void SetOriginToCenter();
-		void SetOriginToTopLeft();
-		void SetOriginToTopRight();
-		void SetOriginToBottomLeft();
-		void SetOriginToBottomRight();
-		void SetOriginToTopCenter();
-		void SetOriginToBottomCenter();
-		void SetOriginToLeftCenter();
-		void SetOriginToRightCenter();
+
 	};
 }

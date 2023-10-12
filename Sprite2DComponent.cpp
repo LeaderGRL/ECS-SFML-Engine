@@ -16,9 +16,9 @@ namespace LeaderEngine {
 
 	void Sprite2DComponent::Update()
 	{
-		//sprite.setPosition(transform.position);
-		//sprite.setRotation(transform.rotation);
-		//sprite.setScale(transform.scale);
+		/*sprite.setPosition();
+		sprite.setRotation(transform.rotation);
+		sprite.setScale(transform.scale);*/
 	}
 
 	void Sprite2DComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const

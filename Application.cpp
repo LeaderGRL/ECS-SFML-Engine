@@ -5,6 +5,7 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <filesystem>
+#include "System.h"
 
 namespace LeaderEngine {
 
@@ -28,11 +29,11 @@ namespace LeaderEngine {
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::cout << "Current path is: " << currentPath.string() << std::endl;
 		//Sprite2DComponent test("Assets\\blanket.png");
-		/*Entity gameEntity;*/
+		Entity gameEntity;
 		gameEntity.SetId(0);
-		gameEntity.SetRotation(90);
 		gameEntity.AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
-		//gameEntity.AddSpriteComponent2D("Assets\\blanket.png");
+		gameEntity.setRotation(35.f);
+		system.AddEntity(std::move(gameEntity));
 	}
 
 	void Application::Run()
@@ -49,7 +50,14 @@ namespace LeaderEngine {
 
 			window.clear(sf::Color::Black);
 
-			gameEntity.draw(window, sf::RenderStates::Default);
+			for (const Entity& entity : system.GetEntities())
+			{
+				entity.draw(window, sf::RenderStates::Default);
+				//entity.Update();
+			}
+			
+		/*	gameEntity.draw(window, sf::RenderStates::Default);
+			gameEntity.Update();*/
 			window.display();
 		}
 	}
