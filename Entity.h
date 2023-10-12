@@ -23,15 +23,13 @@ namespace LeaderEngine {
 		Entity& operator=(const Entity&) = delete; // delete copy assignment
 		Entity(Entity&&) = default; // use default move constructor
 		Entity& operator=(Entity&&) = default; // use default move assignment
-		//bool operator==(const Entity& lhs, const Entity& rhs);
 		~Entity();
 		int GetId() const;
 		void SetId(int id);
-		void Update(); // Update through all the components
+		void Update() const; // Update through all the components
 		void Start();
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
-		//void AddSpriteComponent2D(std::string filename);
 		void AddComponent(std::unique_ptr<IComponent> component);
 
 	};

@@ -19,11 +19,11 @@ namespace LeaderEngine {
 		Entity::_id = id;
 	}
 
-	void Entity::Update()
+	void Entity::Update() const // WARNING : Check if the "const" cannot be a problem in the future
 	{
 		for (const auto& comp : _components)
 		{
-			//comp.Update();
+			comp.get()->Update(); // Call all component Update()
 		}
 	}
 

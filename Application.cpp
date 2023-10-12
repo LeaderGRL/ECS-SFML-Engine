@@ -33,7 +33,16 @@ namespace LeaderEngine {
 		gameEntity.SetId(0);
 		gameEntity.AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
 		gameEntity.setRotation(35.f);
+		gameEntity.setScale(sf::Vector2f(0.2f, 0.2f));
+
+		Entity gameEntity2;
+		gameEntity2.SetId(1);
+		gameEntity2.AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
+		gameEntity2.setRotation(120.f);
+		gameEntity2.setScale(sf::Vector2f(0.2f, 0.2f));
+		gameEntity2.setPosition(sf::Vector2f(500.f, 200.f));
 		system.AddEntity(std::move(gameEntity));
+		system.AddEntity(std::move(gameEntity2));
 	}
 
 	void Application::Run()
@@ -53,11 +62,9 @@ namespace LeaderEngine {
 			for (const Entity& entity : system.GetEntities())
 			{
 				entity.draw(window, sf::RenderStates::Default);
-				//entity.Update();
+				entity.Update();
 			}
 			
-		/*	gameEntity.draw(window, sf::RenderStates::Default);
-			gameEntity.Update();*/
 			window.display();
 		}
 	}
