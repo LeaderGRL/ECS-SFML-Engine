@@ -17,7 +17,8 @@ namespace LeaderEngine
 		public :
 			Sprite2DComponent(std::string);
 			~Sprite2DComponent();
-			//COMPONENT_TYPE GetType() const override;
+			void Update() override;
+			COMPONENT_TYPE GetType() const override;
 	};
 }
 

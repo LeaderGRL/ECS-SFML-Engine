@@ -9,6 +9,7 @@ namespace LeaderEngine {
 		private:
 			sf::RenderWindow window;
 			void Init();
+			std::vector<Entity> entities;
 		protected :
 		public : 
 			Application();

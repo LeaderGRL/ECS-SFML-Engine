@@ -27,10 +27,12 @@ namespace LeaderEngine {
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::cout << "Current path is: " << currentPath.string() << std::endl;
-		Sprite2DComponent test("Assets\\blanket.png");
+		//Sprite2DComponent test("Assets\\blanket.png");
 		/*Entity gameEntity;*/
 		gameEntity.SetId(0);
-		gameEntity.AddSpriteComponent2D("Assets\\blanket.png");
+		gameEntity.SetRotation(90);
+		gameEntity.AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
+		//gameEntity.AddSpriteComponent2D("Assets\\blanket.png");
 	}
 
 	void Application::Run()
