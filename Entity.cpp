@@ -61,8 +61,5 @@ namespace LeaderEngine {
 		return _id;
 	}
 
-	/*bool operator==(const Entity& lhs, const Entity& rhs)
-	{
-		return lhs.GetId() == rhs.GetId();
-	}*/
+	
 }

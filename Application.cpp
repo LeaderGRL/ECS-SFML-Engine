@@ -47,9 +47,12 @@ namespace LeaderEngine {
 		Entity camera;
 		camera.SetId(2);
 		camera.AddComponent(std::make_unique<CameraComponent>());
+		camera.GetComponent<CameraComponent>()->setView(sf::View(sf::FloatRect(10, 10, 10, 10)));
 		
 		system.AddEntity(std::move(gameEntity));
 		system.AddEntity(std::move(gameEntity2));
+		system.AddEntity(std::move(camera));
+		//camera.GetComponent<CameraComponent>()->getPosition();
 
 	}
 
@@ -57,7 +60,11 @@ namespace LeaderEngine {
 	{
 		while (window.isOpen())
 		{
+			int i = 0;
 			system.GetEntityById(0)->setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
+			system.GetEntityById(2)->GetComponent<CameraComponent>()->setRotation(i++);
+			std::cout << system.GetEntityById(2)->GetComponent<CameraComponent>()->getPosition().x << std::endl;
+			
 			sf::Event event;
 			while (window.pollEvent(event))
 			{

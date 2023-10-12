@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "CameraComponent.h"
+#include <iostream>
+
+using namespace std;
 
 namespace LeaderEngine
 {

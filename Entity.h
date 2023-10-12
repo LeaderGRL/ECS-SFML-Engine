@@ -19,18 +19,30 @@ namespace LeaderEngine {
 		std::vector<std::unique_ptr<IComponent>> _components;
 	public:
 		Entity();
+		~Entity();
 		Entity(const Entity&) = delete; // delete copy constructor
 		Entity& operator=(const Entity&) = delete; // delete copy assignment
 		Entity(Entity&&) = default; // use default move constructor
 		Entity& operator=(Entity&&) = default; // use default move assignment
-		~Entity();
+		
 		int GetId() const;
 		void SetId(int id);
 		void Update() const; // Update through all the components
 		void Start();
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
+		
 		void AddComponent(std::unique_ptr<IComponent> component);
+		template<typename T>
+		T* GetComponent()
+		{
+			for (const auto& comp : _components)
+			{
+				if (dynamic_cast<T*>(comp.get()))
+					return static_cast<T*>(comp.get());
+			}
+			return nullptr;
+		}
 
 	};
 }
