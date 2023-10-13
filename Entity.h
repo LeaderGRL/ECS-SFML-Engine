@@ -20,6 +20,7 @@ namespace LeaderEngine {
 	public:
 		Entity();
 		~Entity();
+		Entity(std::string name);
 		Entity(const Entity&) = delete; // delete copy constructor
 		Entity& operator=(const Entity&) = delete; // delete copy assignment
 		Entity(Entity&&) = default; // use default move constructor

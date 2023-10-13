@@ -13,6 +13,11 @@ namespace LeaderEngine {
 	{
 		
 	}
+
+	Entity::Entity(std::string name)
+	{
+		
+	}
 	
 	void Entity::SetId(int id)
 	{

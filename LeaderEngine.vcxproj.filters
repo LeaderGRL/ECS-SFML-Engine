@@ -48,7 +48,7 @@
     <ClInclude Include="IDrawableComponent.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
+    <ClInclude Include="EntityManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
@@ -80,7 +80,7 @@
     <ClCompile Include="Sprite2DComponent.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
+    <ClCompile Include="EntityManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">

@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "Entity.h"
-#include "System.h"
+#include "EntityManager.h"
 
 namespace LeaderEngine {
 	class Application
@@ -11,8 +11,7 @@ namespace LeaderEngine {
 			sf::RenderWindow window;
 			void Init();
 			std::vector<Entity> entities;
-			EntityManager system;
-			sf::View view;
+			EntityManager entityManager;
 		protected :
 		public : 
 			Application();

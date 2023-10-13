@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Sprite2DComponent.h"
 #include "Entity.h"
-#include "System.h"
+#include "EntityManager.h"
 #include "CameraComponent.h"
 #include <SFML/Window.hpp>
 #include <iostream>
@@ -29,8 +29,13 @@ namespace LeaderEngine {
 	{
 		std::filesystem::path currentPath = std::filesystem::current_path();
 		std::cout << "Current path is: " << currentPath.string() << std::endl;
+
+		entityManager.CreateEntity("test");
+		entityManager.GetEntity("test")->AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
+		entityManager.GetEntity("test")->setRotation(75.f);
+
 		//Sprite2DComponent test("Assets\\blanket.png");
-		Entity gameEntity;
+		/*Entity gameEntity;
 		gameEntity.SetId(0);
 		gameEntity.AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
 		gameEntity.setRotation(35.f);
@@ -48,25 +53,20 @@ namespace LeaderEngine {
 		camera.SetId(2);
 		camera.AddComponent(std::make_unique<CameraComponent>());
 		sf::View view = camera.GetComponent<CameraComponent>()->getView();
-		view.rotate(180);
+		view.rotate(180);*/
 
 		
-		system.AddEntity(std::move(gameEntity));
-		system.AddEntity(std::move(gameEntity2));
-		system.AddEntity(std::move(camera));
-		window.setView(view);
+		//system.AddEntity(std::move(gameEntity));
+		//system.AddEntity(std::move(gameEntity2));
+		//system.AddEntity(std::move(camera));
+		//window.setView(view);
 
 	}  
 
 	void Application::Run()
 	{
-		int i = 0;
 		while (window.isOpen())
 		{
-			i += 1;
-			system.GetEntityById(0)->setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
-			view.setRotation(i);
-			window.setView(view);
 			
 			sf::Event event;
 			while (window.pollEvent(event))
@@ -79,11 +79,12 @@ namespace LeaderEngine {
 
 			window.clear(sf::Color::Black);
 
-			for (const Entity& entity : system.GetEntities())
-			{
-				entity.draw(window, sf::RenderStates::Default);
-				entity.Update();
-			}
+			entityManager.draw(window, sf::RenderStates::Default);
+			//for (const Entity& entity : system.GetEntities())
+			//{
+			//	entity.draw(window, sf::RenderStates::Default);
+			//	entity.Update();
+			//}
 			
 			window.display();
 		}
