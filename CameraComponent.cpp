@@ -8,7 +8,7 @@ namespace LeaderEngine
 {
 	CameraComponent::CameraComponent()
 	{
-		 
+		
 	}
 
 	CameraComponent::~CameraComponent()

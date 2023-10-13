@@ -12,6 +12,7 @@ namespace LeaderEngine {
 			void Init();
 			std::vector<Entity> entities;
 			System system;
+			sf::View view;
 		protected :
 		public : 
 			Application();
