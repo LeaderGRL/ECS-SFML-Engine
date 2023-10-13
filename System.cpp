@@ -5,12 +5,12 @@ using namespace std;
 
 namespace LeaderEngine
 {
-	System::System()
+	EntityManager::EntityManager()
 	{
 		
 	}
 
-	System::~System()
+	EntityManager::~EntityManager()
 	{
 		
 	}
@@ -24,19 +24,19 @@ namespace LeaderEngine
 	}*/
 
 	// && means rvalue reference => entity is moved rather than copied => more performant for large objects
-	void System::AddEntity(Entity&& entity)
+	void EntityManager::AddEntity(Entity&& entity)
 	{
 		_entities.push_back(std::move(entity));
 	}
 	
 	
-	void System::RemoveEntity(Entity& entity)
+	void EntityManager::RemoveEntity(Entity& entity)
 	{
 		// Rearranges the elements, moving the ones to be erased to the end.
 		_entities.erase(std::remove(_entities.begin(), _entities.end(), entity), _entities.end());
 	}
 
-	void System::RemoveAllEntities()
+	void EntityManager::RemoveAllEntities()
 	{
 		_entities.clear();
 	}
@@ -44,12 +44,12 @@ namespace LeaderEngine
 	// First const make sure that the return value is not modifiable
 	// Second const make sure that the function does not modify the class
 	// & means that the function does not copy the class => Reference to the _entities vector rather than a copy of it
-	const std::vector<Entity>& System::GetEntities() const
+	const std::vector<Entity>& EntityManager::GetEntities() const
 	{
 		return _entities;
 	}
 
-	Entity* System::GetEntityById(int id)
+	Entity* EntityManager::GetEntityById(int id)
 	{
 		for (auto& entity : _entities)
 		{

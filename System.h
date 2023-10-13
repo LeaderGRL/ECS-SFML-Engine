@@ -3,15 +3,15 @@
 
 namespace LeaderEngine
 {
-	class System
+	class EntityManager
 	{
 		private:
 			std::vector<Entity> _entities;
 		protected:
 			
 		public:
-			System();
-			~System();
+			EntityManager();
+			~EntityManager();
 			void AddEntity(Entity&& entity); // RValue reference
 			void RemoveEntity(Entity& entity);
 			void RemoveAllEntities();

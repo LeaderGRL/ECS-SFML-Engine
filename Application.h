@@ -11,7 +11,7 @@ namespace LeaderEngine {
 			sf::RenderWindow window;
 			void Init();
 			std::vector<Entity> entities;
-			System system;
+			EntityManager system;
 			sf::View view;
 		protected :
 		public : 

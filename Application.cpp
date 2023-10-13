@@ -56,7 +56,7 @@ namespace LeaderEngine {
 		system.AddEntity(std::move(camera));
 		window.setView(view);
 
-	}
+	}  
 
 	void Application::Run()
 	{
