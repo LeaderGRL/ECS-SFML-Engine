@@ -152,6 +152,7 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Sprite2DComponent.h" />
     <ClInclude Include="EntityManager.h" />
   </ItemGroup>
@@ -169,6 +170,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Sprite2DComponent.cpp" />
     <ClCompile Include="EntityManager.cpp" />
   </ItemGroup>

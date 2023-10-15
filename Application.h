@@ -3,6 +3,7 @@
 #include <SFML/Window.hpp>
 #include "Entity.h"
 #include "EntityManager.h"
+#include "ResourceManager.h"
 
 namespace LeaderEngine {
 	class Application

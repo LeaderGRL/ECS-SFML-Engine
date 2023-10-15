@@ -27,11 +27,13 @@ namespace LeaderEngine {
 
 	void Application::Init()
 	{
-		std::filesystem::path currentPath = std::filesystem::current_path();
-		std::cout << "Current path is: " << currentPath.string() << std::endl;
+		ResourceManager rm;
+		rm.LoadResource("Assets/Config/resources.yml");
+		/*std::filesystem::path currentPath = std::filesystem::current_path();
+		std::cout << "Current path is: " << currentPath.string() << std::endl;*/
 
 		entityManager.CreateEntity("test");
-		entityManager.GetEntity("test")->AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
+		entityManager.GetEntity("test")->AddComponent(std::make_unique<Sprite2DComponent>("Assets\\Sprites\\blanket.png"));
 		entityManager.GetEntity("test")->setRotation(75.f);
 
 		//Sprite2DComponent test("Assets\\blanket.png");
