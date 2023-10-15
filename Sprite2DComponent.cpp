@@ -3,9 +3,8 @@
 
 namespace LeaderEngine {
 
-	Sprite2DComponent::Sprite2DComponent(std::string filepath)
+	Sprite2DComponent::Sprite2DComponent(sf::Texture texture)
 	{
-		texture.loadFromFile(filepath);
 		sprite.setTexture(texture);
 	}
 

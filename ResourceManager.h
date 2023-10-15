@@ -12,6 +12,7 @@ namespace LeaderEngine
 			ResourceManager();
 			~ResourceManager();
 			void LoadResource(const std::string path);
+			sf::Texture& getTexture(std::string id);
 		
 
 		private:

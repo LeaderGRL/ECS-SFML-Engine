@@ -33,7 +33,7 @@ namespace LeaderEngine {
 		std::cout << "Current path is: " << currentPath.string() << std::endl;*/
 
 		entityManager.CreateEntity("test");
-		entityManager.GetEntity("test")->AddComponent(std::make_unique<Sprite2DComponent>("Assets\\Sprites\\blanket.png"));
+		entityManager.GetEntity("test")->AddComponent(std::make_unique<Sprite2DComponent>(rm.getTexture("Leader")));
 		entityManager.GetEntity("test")->setRotation(75.f);
 
 		//Sprite2DComponent test("Assets\\blanket.png");

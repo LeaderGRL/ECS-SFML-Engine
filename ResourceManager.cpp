@@ -24,6 +24,11 @@ namespace LeaderEngine
 		}
 	}
 
+	sf::Texture& ResourceManager::getTexture(std::string id)
+	{
+		return _textures[id];
+	}
+
 	void ResourceManager::LoadTextures(const YAML::Node& textureNode)
 	{
 		for (const YAML::Node& texture : textureNode)
