@@ -9,16 +9,26 @@ namespace LeaderEngine
 	class ResourceManager
 	{
 		public:
+			static ResourceManager& GetInstance();
+
 			ResourceManager();
 			~ResourceManager();
 			void LoadResource(const std::string path);
-			sf::Texture& getTexture(std::string id);
+			const sf::Texture& getTexture(const std::string& id) const;
+			//sf::Sprite& getSprite(const std::string& id);
 		
 
 		private:
-			void LoadTextures(const YAML::Node& textureNode);
+			//static ResourceManager instance;
+			//ResourceManager(const ResourceManager& other) = delete; // prevent constructor copy
+			//ResourceManager& operator=(const ResourceManager& other) = delete; // prevent copy
 			
+			void LoadTextures(const YAML::Node& textureNode);
+			//sf::Sprite& LoadSprite(const std::string id);
+			
+			sf::Texture tempTexture;
 			std::unordered_map<std::string, sf::Texture> _textures;
+			//std::unordered_map<std::string, sf::Sprite> _sprites;
 			
 	};
 }

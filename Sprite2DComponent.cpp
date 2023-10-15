@@ -3,7 +3,7 @@
 
 namespace LeaderEngine {
 
-	Sprite2DComponent::Sprite2DComponent(sf::Texture texture)
+	Sprite2DComponent::Sprite2DComponent(const sf::Texture& texture)
 	{
 		sprite.setTexture(texture);
 	}

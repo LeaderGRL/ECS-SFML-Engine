@@ -5,6 +5,11 @@
 
 namespace LeaderEngine
 {
+	ResourceManager& ResourceManager::GetInstance()
+	{
+		static ResourceManager instance;
+		return instance;
+	}
 	ResourceManager::ResourceManager()
 	{
 		
@@ -24,10 +29,28 @@ namespace LeaderEngine
 		}
 	}
 
-	sf::Texture& ResourceManager::getTexture(std::string id)
+	const sf::Texture& ResourceManager::getTexture(const std::string& id) const
 	{
-		return _textures[id];
+		//if (!_textures.contains(id))
+		//{
+		//	std::cerr << "Texture with id " << id << " does not exist" << std::endl;
+		//}
+
+		auto it = _textures.find(id);
+		if (it != _textures.end()) {
+			return it->second;
+		}
+		else {
+			// Log error, and return a placeholder/fallback texture.
+		}
+		
+		//return _textures.at(id);
 	}
+
+	//sf::Sprite& ResourceManager::getSprite(const std::string& id)
+	//{
+	//	// TODO: insert return statement here
+	//}
 
 	void ResourceManager::LoadTextures(const YAML::Node& textureNode)
 	{
@@ -36,15 +59,21 @@ namespace LeaderEngine
 			std::string id = texture["id"].as<std::string>();
 			std::string path = texture["path"].as<std::string>();
 
-			sf::Texture texture;
-			if (!texture.loadFromFile(path))
+			std::cout << "Loading texture " << id << " from " << path << std::endl;
+			
+			if (!_textures[id].loadFromFile(path))
 			{
-				std::cerr << "Failed to load texture: " << path << std::endl; // 
+				std::cerr << "Failed to load texture: " << path << std::endl;
 			}
 			
-			_textures[id] = texture;
+			//_textures[id] = std::move(tempTexture);
 		}
 	}
+
+	//sf::Sprite& ResourceManager::LoadSprite(const std::string id)
+	//{
+	//	_sprites[id] = sf::Sprite(_textures[id]);
+	//}
 
 	/*void ResourceManager::LoadShaders(const YAML::Node& shaderNode)
 	{

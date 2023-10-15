@@ -15,7 +15,7 @@ namespace LeaderEngine
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 		public :
-			Sprite2DComponent(sf::Texture texture);
+			Sprite2DComponent(const sf::Texture& texture);
 			~Sprite2DComponent();
 			void Update() override;
 			COMPONENT_TYPE GetType() const override;

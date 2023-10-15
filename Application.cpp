@@ -27,20 +27,23 @@ namespace LeaderEngine {
 
 	void Application::Init()
 	{
-		ResourceManager rm;
-		rm.LoadResource("Assets/Config/resources.yml");
+		//ResourceManager rm;
+		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
 		/*std::filesystem::path currentPath = std::filesystem::current_path();
 		std::cout << "Current path is: " << currentPath.string() << std::endl;*/
 
+		//const sf::Texture& texture = rm.getTexture("Leader");
+		
 		entityManager.CreateEntity("test");
-		entityManager.GetEntity("test")->AddComponent(std::make_unique<Sprite2DComponent>(rm.getTexture("Leader")));
-		entityManager.GetEntity("test")->setRotation(75.f);
+		entityManager.GetEntity("test")->AddComponent(std::make_unique<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader")));
+		//entityManager.GetEntity("test")->setRotation(75.f);
+		//entityManager.GetEntity("test")->setScale(sf::Vector2f(0.2f, 0.2f));
 
 		//Sprite2DComponent test("Assets\\blanket.png");
 		/*Entity gameEntity;
 		gameEntity.SetId(0);
 		gameEntity.AddComponent(std::make_unique<Sprite2DComponent>("Assets\\blanket.png"));
-		gameEntity.setRotation(35.f);
+		gameEntity.setRotation(35.f); 
 		gameEntity.setScale(sf::Vector2f(0.2f, 0.2f));
 
 		Entity gameEntity2;
@@ -80,14 +83,7 @@ namespace LeaderEngine {
 			}
 
 			window.clear(sf::Color::Black);
-
 			entityManager.draw(window, sf::RenderStates::Default);
-			//for (const Entity& entity : system.GetEntities())
-			//{
-			//	entity.draw(window, sf::RenderStates::Default);
-			//	entity.Update();
-			//}
-			
 			window.display();
 		}
 	}
