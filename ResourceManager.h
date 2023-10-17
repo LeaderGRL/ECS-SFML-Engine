@@ -18,11 +18,7 @@ namespace LeaderEngine
 			//sf::Sprite& getSprite(const std::string& id);
 		
 
-		private:
-			//static ResourceManager instance;
-			//ResourceManager(const ResourceManager& other) = delete; // prevent constructor copy
-			//ResourceManager& operator=(const ResourceManager& other) = delete; // prevent copy
-			
+		private:	
 			void LoadTextures(const YAML::Node& textureNode);
 			//sf::Sprite& LoadSprite(const std::string id);
 			
