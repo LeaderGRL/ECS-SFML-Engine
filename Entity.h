@@ -9,7 +9,6 @@ namespace LeaderEngine {
 		int _id;
 		float _x;
 		float _y;
-		float _z;
 		float _width;
 		float _height;
 		float _rotation;
@@ -33,13 +32,12 @@ namespace LeaderEngine {
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
 		
-		template<typename T, typename ...Args>
-		void AddComponent(Args&&... args)
+		template<typename T, typename ...Args> 
+		void AddComponent(Args&&... args) // r value reference on n arguments
 		{
-			static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from IComponent");
-			_components.push_back(std::make_unique<T>(std::forward<Args>(args)...));
+			static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from IComponent"); // Check if T inherit from IComponent
+			_components.push_back(std::make_unique<T>(std::forward<Args>(args)...)); // forwards the arguments args to the constructor of T with their original value
 		}
-		
 		
 		template<typename T>
 		T* GetComponent()

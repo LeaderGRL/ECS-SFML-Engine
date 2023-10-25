@@ -13,7 +13,7 @@ namespace LeaderEngine
 			BoxColliderComponent(sf::Vector2f size);
 			~BoxColliderComponent();
 
-			void CheckCollision(ColliderComponent* other) override;
+			//void CheckCollision(ColliderComponent* other) override;
 			void Update() override;
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 			//COMPONENT_TYPE GetType() const override;
