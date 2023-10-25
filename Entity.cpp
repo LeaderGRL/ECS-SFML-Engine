@@ -46,7 +46,7 @@ namespace LeaderEngine {
 	void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform.combine(getTransform()); // Apply the entity transform to the drawable components
-		for (const auto& comp : _components)
+		for (const auto& comp : _components) 
 		{
 			if (comp->GetType() == COMPONENT_TYPE::DRAWABLE) // Check if the component's type equals DRAWABLE
 			{
