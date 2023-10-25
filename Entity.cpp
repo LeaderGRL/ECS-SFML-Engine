@@ -46,11 +46,11 @@ namespace LeaderEngine {
 	void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform.combine(getTransform()); // Apply the entity transform to the drawable components
-		for (const auto& comp : _components) 
+		for (const auto& comp : _components)
 		{
 			if (comp->GetType() == COMPONENT_TYPE::DRAWABLE) // Check if the component's type equals DRAWABLE
 			{
-				const IDrawableComponent* drawable = (IDrawableComponent*)comp.get();
+				const IDrawableComponent* drawable = (IDrawableComponent*)comp.get(); // Cast the component to IDrawable component
 				target.draw(*drawable, states); // Draw the drawable component if the cast was successful
 			}
 		}

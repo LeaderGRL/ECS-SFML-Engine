@@ -20,6 +20,11 @@ namespace LeaderEngine {
 		sprite.setScale(transform.scale);*/
 	}
 
+	void Sprite2DComponent::SetSize(sf::Vector2f size)
+	{
+		 sprite.setScale(size.x / sprite.getLocalBounds().width, size.y / sprite.getLocalBounds().height);
+	}
+
 	void Sprite2DComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.draw(sprite, states);

@@ -14,6 +14,7 @@ namespace LeaderEngine
 
 	void BoxColliderComponent::CheckCollision(ColliderComponent* other)
 	{
+		
 	}
 
 	void BoxColliderComponent::Update()
@@ -22,15 +23,15 @@ namespace LeaderEngine
 
 	void BoxColliderComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform.combine(getTransform());
+		//states.transform.combine(getTransform());
 		sf::RectangleShape rect;
 		rect.setSize(size);
-		rect.setOrigin(size.x / 2, size.y / 2);
-		rect.setPosition(getPosition());
+		//rect.setOrigin(size.x / 2, size.y / 2);
+		//rect.setPosition(getPosition());
 		rect.setFillColor(sf::Color::Transparent);
 		rect.setOutlineColor(sf::Color::Red);
 		rect.setOutlineThickness(1);
-		target.draw(rect);
+		target.draw(rect, states);
 	}
 
 	//COMPONENT_TYPE BoxColliderComponent::GetType() const

@@ -37,9 +37,10 @@ namespace LeaderEngine {
 		
 		entityManager.CreateEntity("test");
 		entityManager.GetEntity("test")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader"));
-		entityManager.GetEntity("test")->setScale(sf::Vector2f(0.2f, 0.2f));
+		//entityManager.GetEntity("test")->setScale(sf::Vector2f(0.2f, 0.2f));
+		entityManager.GetEntity("test")->GetComponent<Sprite2DComponent>()->SetSize(sf::Vector2f(300, 300));
 		entityManager.GetEntity("test")->setPosition(sf::Vector2f(200, 200));
-		entityManager.GetEntity("test")->AddComponent<BoxColliderComponent>(sf::Vector2f(100, 100));
+		entityManager.GetEntity("test")->AddComponent<BoxColliderComponent>(sf::Vector2f(300, 300));
 		//entityManager.GetEntity("test")->setRotation(75.f);
 	
 

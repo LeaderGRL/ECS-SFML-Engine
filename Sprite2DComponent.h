@@ -10,6 +10,7 @@ namespace LeaderEngine
 		private : 
 			sf::Texture texture;
 			sf::Sprite sprite;
+			sf::Vector2f size;
 			
 		protected :
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -18,6 +19,7 @@ namespace LeaderEngine
 			Sprite2DComponent(const sf::Texture& texture);
 			~Sprite2DComponent();
 			void Update() override;
+			void SetSize(sf::Vector2f size);
 			//COMPONENT_TYPE GetType() const override;
 	};
 }
