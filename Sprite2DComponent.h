@@ -18,7 +18,7 @@ namespace LeaderEngine
 			Sprite2DComponent(const sf::Texture& texture);
 			~Sprite2DComponent();
 			void Update() override;
-			COMPONENT_TYPE GetType() const override;
+			//COMPONENT_TYPE GetType() const override;
 	};
 }
 

@@ -33,7 +33,14 @@ namespace LeaderEngine {
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
 		
-		void AddComponent(std::unique_ptr<IComponent> component);
+		template<typename T, typename ...Args>
+		void AddComponent(Args&&... args)
+		{
+			static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from IComponent");
+			_components.push_back(std::make_unique<T>(std::forward<Args>(args)...));
+		}
+		
+		
 		template<typename T>
 		T* GetComponent()
 		{

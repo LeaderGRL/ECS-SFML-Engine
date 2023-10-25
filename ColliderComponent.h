@@ -5,7 +5,7 @@
 
 namespace LeaderEngine
 {
-	class ColliderComponent : IDrawableComponent
+	class ColliderComponent : public IDrawableComponent
 	{
 		private :
 

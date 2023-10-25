@@ -56,10 +56,10 @@ namespace LeaderEngine {
 		}
 	}
 
-	void Entity::AddComponent(std::unique_ptr<IComponent> component)
-	{
-		_components.push_back(std::move(component)); // Move component into the vector
-	}
+	//void Entity::AddComponent(std::unique_ptr<IComponent> component)
+	//{
+	//	_components.push_back(std::move(component)); // Move component into the vector
+	//}
 
 	int Entity::GetId() const
 	{
