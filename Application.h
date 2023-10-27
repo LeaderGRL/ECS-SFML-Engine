@@ -14,7 +14,7 @@ namespace LeaderEngine {
 			void Init();
 			std::vector<Entity> entities;
 			EntityManager entityManager;
-			CollisionSystem collisionSystem;
+			//CollisionSystem collisionSystem;
 		protected :
 		public : 
 			Application();

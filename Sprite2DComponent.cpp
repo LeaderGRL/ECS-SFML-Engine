@@ -13,7 +13,7 @@ namespace LeaderEngine {
 		
 	}
 
-	void Sprite2DComponent::Update()
+	void Sprite2DComponent::Update(float deltaTime)
 	{
 		/*sprite.setPosition();
 		sprite.setRotation(transform.rotation);

@@ -49,7 +49,7 @@ namespace LeaderEngine {
 		entityManager.GetEntity("oui")->setPosition(sf::Vector2f(480, 480));
 		entityManager.GetEntity("oui")->AddComponent<BoxColliderComponent>(sf::Vector2f(300, 300));
 
-		std::cout << collisionSystem.BoxOverlap(*entityManager.GetEntity("test"), *entityManager.GetEntity("oui")) <<std::endl;
+		//std::cout << collisionSystem.BoxOverlap(*entityManager.GetEntity("test"), *entityManager.GetEntity("oui")) <<std::endl;
 
 		//Sprite2DComponent test("Assets\\blanket.png");
 		/*Entity gameEntity;
@@ -82,6 +82,7 @@ namespace LeaderEngine {
 
 	void Application::Run()
 	{
+		sf::Clock clock;
 		while (window.isOpen())
 		{
 			
@@ -94,8 +95,11 @@ namespace LeaderEngine {
 					window.close();
 			}
 
+			sf::Time time = clock.getElapsedTime();
+
 			window.clear(sf::Color::Black);
 			entityManager.draw(window, sf::RenderStates::Default);
+			entityManager.Update(time.asMilliseconds());
 			window.display();
 		}
 	}

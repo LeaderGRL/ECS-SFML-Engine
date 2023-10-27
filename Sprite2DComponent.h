@@ -18,7 +18,7 @@ namespace LeaderEngine
 		public :
 			Sprite2DComponent(const sf::Texture& texture);
 			~Sprite2DComponent();
-			void Update() override;
+			void Update(float deltaTime) override;
 			void SetSize(sf::Vector2f size);
 			//COMPONENT_TYPE GetType() const override;
 	};

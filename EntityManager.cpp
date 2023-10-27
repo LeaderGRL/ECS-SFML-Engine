@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "EntityManager.h"
+#include "CollisionSystem.h"
 
 using namespace std;
 
@@ -53,11 +54,26 @@ namespace LeaderEngine
 		return nullptr;
 	}
 
+	const std::unordered_map<std::string, std::unique_ptr<Entity>>& EntityManager::GetEntities() const
+	{
+		return _entities;
+	}
+
 	void EntityManager::draw(sf::RenderTarget& target, sf::RenderStates states)
 	{
 		for (auto it = _entities.begin(); it != _entities.end(); it++)
 		{
 			it->second->draw(target, states);
+		}
+	}
+
+	void EntityManager::Update(float deltaTime)
+	{
+		CollisionSystem collisionSystem;
+		collisionSystem.CheckCollisions(_entities);
+		for (auto it = _entities.begin(); it != _entities.end(); it++)
+		{
+			it->second->Update(deltaTime);
 		}
 	}
 

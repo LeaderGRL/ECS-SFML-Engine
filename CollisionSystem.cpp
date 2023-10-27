@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CollisionSystem.h"
 #include "BoxColliderComponent.h"
+#include "EntityManager.h"
+#include <iostream>
 
 namespace LeaderEngine
 {
@@ -14,26 +16,39 @@ namespace LeaderEngine
 		
 	}
 
-	void CollisionSystem::CheckCollisions(const std::vector<Entity>& entities)
+	void CollisionSystem::CheckCollisions(const std::unordered_map<std::string, std::unique_ptr<Entity>>& entities)
 	{
-		/*for (auto& entity : entities)
+	/*	EntityManager entityManager;
+		auto entities = entityManager.GetEntities();*/
+		
+		for (auto it1 = entities.begin(); it1 != entities.end(); ++it1)
 		{
-			if (entity.HasComponent<ColliderComponent>())
+			for (auto it2 = std::next(it1); it2 != entities.end(); ++it2)
 			{
-				auto& collider = entity.GetComponent<ColliderComponent>();
-				collider.Colliding = false;
-				for (auto& otherEntity : entities)
+			/*	auto boxCollider1 = (*it1)->GetComponent<BoxColliderComponent>();
+				auto boxCollider2 = (*it2)->GetComponent<BoxColliderComponent>();*/
+
+				if (BoxOverlap(*(it1->second), *(it2->second)))
 				{
-					if (otherEntity.HasComponent<ColliderComponent>())
-					{
-						auto& otherCollider = otherEntity.GetComponent<ColliderComponent>();
-						if (collider.CollidesWith(otherCollider))
-						{
-							collider.Colliding = true;
-							collider.CollidingWith = otherEntity;
-							break;
-						}
-					}
+					std::cout << "Collision detected between " << it1->first << " and " << it2->first << std::endl;
+				}
+			}
+		}
+		
+		/*for (int i = 0; i < entities.size(); i++)
+		{
+			auto& entity = entities[i]
+			auto& collider = entity.GetComponent<BoxColliderComponent>();
+
+			for (int j = i + 1; j < entities.size(); j++)
+			{
+				auto& otherEntity = entities[j];
+				auto& otherCollider = otherEntity.GetComponent<BoxColliderComponent>();
+
+				if (collider.IsColliding(otherCollider))
+				{
+					collider.OnCollision(otherCollider);
+					otherCollider.OnCollision(collider);
 				}
 			}
 		}*/
@@ -41,13 +56,11 @@ namespace LeaderEngine
 
 	bool CollisionSystem::BoxOverlap(const Entity& a, const Entity& b)
 	{
-		//auto& aTransform = a.getTransform()
 		const auto& aCollider = a.GetComponent<BoxColliderComponent>();
-		//auto& bTransform = b.GetComponent<TransformComponent>();
 		const auto& bCollider = b.GetComponent<BoxColliderComponent>();
 
-		auto aMin = a.getPosition();
-		auto aMax = aMin + aCollider->GetSize();
+		auto aMin = a.getPosition(); // Top left
+		auto aMax = aMin + aCollider->GetSize(); // Bottom right
 		auto bMin =	b.getPosition();
 		auto bMax = bMin + bCollider->GetSize();
 

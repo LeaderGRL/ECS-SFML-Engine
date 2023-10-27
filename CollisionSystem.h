@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include <unordered_map>
 
 namespace LeaderEngine
 {
@@ -8,8 +9,7 @@ namespace LeaderEngine
 		public:
 			CollisionSystem();
 			~CollisionSystem();
-			void CheckCollisions(const std::vector<Entity>& entities);
-			bool BoxOverlap(const Entity& a, const Entity& b);
+			void CheckCollisions(const std::unordered_map<std::string, std::unique_ptr<Entity>>& entities);
 
 
 		private:
@@ -18,7 +18,8 @@ namespace LeaderEngine
 			bool BoxBoxOverlap(const Entity& entity1, const Entity& entity2);
 			bool SphereSphereOverlap(const Entity& entity1, const Entity& entity2);
 			bool SphereBoxOverlap(const Entity& entity1, const Entity& entity2);*/
-
+			
+			bool BoxOverlap(const Entity& a, const Entity& b);
 			bool PreciseCollision(const Entity& a, const Entity& b);
 			void ResolveCollision(Entity& a, Entity& b);
 			

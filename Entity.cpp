@@ -24,11 +24,11 @@ namespace LeaderEngine {
 		Entity::_id = id;
 	}
 
-	void Entity::Update() const // WARNING : Check if the "const" cannot be a problem in the future
+	void Entity::Update(float deltaTime) const // WARNING : Check if the "const" cannot be a problem in the future
 	{
 		for (const auto& comp : _components)
 		{
-			comp.get()->Update(); // Call all component Update()
+			comp.get()->Update(deltaTime); // Call all component Update()
 		}
 	}
 

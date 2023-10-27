@@ -66,7 +66,7 @@ namespace LeaderEngine
 		this->zoom = zoom;
 	}
 	
-	void CameraComponent::Update()
+	void CameraComponent::Update(float deltaTime)
 	{
 		view.setCenter(position);
 		view.setRotation(rotation);
