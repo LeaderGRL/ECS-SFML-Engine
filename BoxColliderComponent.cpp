@@ -34,6 +34,11 @@ namespace LeaderEngine
 		target.draw(rect, states);
 	}
 
+	sf::Vector2f BoxColliderComponent::GetSize() const
+	{
+		return size;
+	}
+
 	//COMPONENT_TYPE BoxColliderComponent::GetType() const
 	//{
 	//	return COMPONENT_TYPE::BOX_COLLIDER;

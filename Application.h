@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "EntityManager.h"
 #include "ResourceManager.h"
+#include "CollisionSystem.h"
 
 namespace LeaderEngine {
 	class Application
@@ -13,6 +14,7 @@ namespace LeaderEngine {
 			void Init();
 			std::vector<Entity> entities;
 			EntityManager entityManager;
+			CollisionSystem collisionSystem;
 		protected :
 		public : 
 			Application();

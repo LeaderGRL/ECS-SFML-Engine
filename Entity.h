@@ -40,7 +40,7 @@ namespace LeaderEngine {
 		}
 		
 		template<typename T>
-		T* GetComponent()
+		T* GetComponent() const
 		{
 			for (const auto& comp : _components)
 			{
