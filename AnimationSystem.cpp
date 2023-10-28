@@ -20,12 +20,15 @@ namespace LeaderEngine
 			Sprite2DComponent* spriteComp = it->second->GetComponent<Sprite2DComponent>();
 
 			if (!spriteComp)
-				return;
+				continue;
+
 
 			if (!spriteComp->isAnimating)
 			{
-				return;
+				continue;
 			}
+			
+			std::cout << "test" << std::endl;
 
 			spriteComp->currentFrameTime += deltaTime;
 
@@ -42,14 +45,11 @@ namespace LeaderEngine
 					continue;
 				}
 			}
-
-			/*spriteComp.sprite.setTexture(*(spriteComp.animations[spriteComp.currentAnimation][spriteComp.currentFrameIndex].texture));
-			spriteComp.currentFra*///meTime = 0.0f;
 			
 			const auto& frame = rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
-			//spriteComp->sprite.setTexture(*frame.texture);
 
 			spriteComp->SetSprite(*frame.texture);
+			std::cout << frame.textureRect.getSize().x << std::endl;
 			spriteComp->GetSprite().setTextureRect(frame.textureRect);
 		}
 	}
