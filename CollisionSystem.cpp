@@ -25,7 +25,7 @@ namespace LeaderEngine
 		{
 			for (auto it2 = std::next(it1); it2 != entities.end(); ++it2)
 			{
-			/*	auto boxCollider1 = (*it1)->GetComponent<BoxColliderComponent>();
+				/*auto boxCollider1 = (*it1)->GetComponent<BoxColliderComponent>();
 				auto boxCollider2 = (*it2)->GetComponent<BoxColliderComponent>();*/
 
 				if (BoxOverlap(*(it1->second), *(it2->second)))
@@ -58,6 +58,9 @@ namespace LeaderEngine
 	{
 		const auto& aCollider = a.GetComponent<BoxColliderComponent>();
 		const auto& bCollider = b.GetComponent<BoxColliderComponent>();
+
+		if (!aCollider || !bCollider)
+			return false;
 
 		auto aMin = a.getPosition(); // Top left
 		auto aMax = aMin + aCollider->GetSize(); // Bottom right
