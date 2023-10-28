@@ -7,7 +7,7 @@
 namespace LeaderEngine
 {
 	struct AnimationFrame {
-		sf::Texture texture; // Reference to a portion of a texture
+		sf::Texture* texture; // Reference to a portion of a texture
 		sf::IntRect textureRect;
 		float duration; // Duration for which this frame should be shown
 	};

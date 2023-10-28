@@ -28,6 +28,16 @@ namespace LeaderEngine {
 		 _sprite.setScale(size.x / _sprite.getLocalBounds().width, size.y / _sprite.getLocalBounds().height);
 	}
 
+	void Sprite2DComponent::SetSprite(sf::Texture& texture)
+	{
+		_sprite.setTexture(texture);
+	}
+
+	sf::Sprite& Sprite2DComponent::GetSprite()
+	{
+		return _sprite;
+	}
+
 	std::string& Sprite2DComponent::GetAnimationName()
 	{
 		return _animationName;
@@ -42,7 +52,7 @@ namespace LeaderEngine {
 		
 		const auto& animationFrames = rs.GetAnimation(animationName);
 		if (!animationFrames.empty()) {
-			_sprite.setTexture(animationFrames.front().texture);
+			_sprite.setTexture(*animationFrames.front().texture);
 		}
 		else {
 			std::cerr << "Error: No frames for animation named " << animationName << std::endl;

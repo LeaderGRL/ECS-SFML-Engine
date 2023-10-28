@@ -29,6 +29,8 @@ namespace LeaderEngine
 			void PlayAnimation(const std::string& animationName, bool loop = true);
 			void Update(float deltaTime) override;
 			void SetSize(sf::Vector2f size);
+			void SetSprite(sf::Texture& texture);
+			sf::Sprite& GetSprite();
 			std::string& GetAnimationName();
 			//COMPONENT_TYPE GetType() const override;
 	};

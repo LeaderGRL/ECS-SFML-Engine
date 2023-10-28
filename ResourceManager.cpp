@@ -96,7 +96,7 @@ namespace LeaderEngine
 			for (const YAML::Node& frame : animation["frames"])
 			{
 				AnimationFrame frameData;
-				frameData.texture = getTexture(textureId);
+				frameData.texture = &_textures[textureId];
 				frameData.textureRect = sf::IntRect(frame["x"].as<int>(), frame["y"].as<int>(), frame["width"].as<int>(), frame["height"].as<int>());
 				frameData.duration = frame["duration"].as<float>();
 

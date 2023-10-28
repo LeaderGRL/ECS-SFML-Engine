@@ -42,6 +42,15 @@ namespace LeaderEngine
 					continue;
 				}
 			}
+
+			/*spriteComp.sprite.setTexture(*(spriteComp.animations[spriteComp.currentAnimation][spriteComp.currentFrameIndex].texture));
+			spriteComp.currentFra*///meTime = 0.0f;
+			
+			const auto& frame = rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
+			//spriteComp->sprite.setTexture(*frame.texture);
+
+			spriteComp->SetSprite(*frame.texture);
+			spriteComp->GetSprite().setTextureRect(frame.textureRect);
 		}
 	}
 }
