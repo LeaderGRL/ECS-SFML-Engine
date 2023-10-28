@@ -47,6 +47,15 @@ namespace LeaderEngine
 		//return _textures.at(id);
 	}
 
+	const std::vector<AnimationFrame> ResourceManager::GetAnimation(const std::string& id) const
+	{
+		auto it = _animations.find(id);
+		if (it != _animations.end())
+		{
+			return it->second;
+		}
+	}
+
 	//sf::Sprite& ResourceManager::getSprite(const std::string& id)
 	//{
 	//	// TODO: insert return statement here
