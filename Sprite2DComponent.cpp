@@ -35,11 +35,19 @@ namespace LeaderEngine {
 
 	void Sprite2DComponent::PlayAnimation(const std::string& animationName, bool loop)
 	{
-		ResourceManager rs;
+		ResourceManager rs = ResourceManager::GetInstance();
 		_animationName = animationName;
 		isAnimating = true;
 		shouldLoop = loop;
-		_sprite.setTexture(rs.GetAnimation(animationName)[0].texture);
+		
+		const auto& animationFrames = rs.GetAnimation(animationName);
+		if (!animationFrames.empty()) {
+			_sprite.setTexture(animationFrames.front().texture);
+		}
+		else {
+			std::cerr << "Error: No frames for animation named " << animationName << std::endl;
+		}
+
 	}
 
 	void Sprite2DComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const

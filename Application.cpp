@@ -41,9 +41,9 @@ namespace LeaderEngine {
 		entityManager.GetEntity("Fighter")->setPosition(sf::Vector2f(200, 200));
 
 		entityManager.CreateEntity("FighterEffect");
-		//entityManager.GetEntity("FighterEffect")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().GetAnimation("FighterEffect"));
-		/*entityManager.GetEntity("FighterEffect")->GetComponent<Sprite2DComponent>()->PlayAnimation("FighterEffect");
-		entityManager.GetEntity("FighterEffect")->setPosition(sf::Vector2f(200, 200));*/
+		entityManager.GetEntity("FighterEffect")->AddComponent<Sprite2DComponent>();
+		entityManager.GetEntity("FighterEffect")->GetComponent<Sprite2DComponent>()->PlayAnimation("FighterEffectAnimation");
+		entityManager.GetEntity("FighterEffect")->setPosition(sf::Vector2f(200, 200));
 		
 		//entityManager.CreateEntity("test");
 		//entityManager.GetEntity("test")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader"));
