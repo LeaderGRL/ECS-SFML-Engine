@@ -24,9 +24,10 @@ namespace LeaderEngine
 		YAML::Node resource = YAML::LoadFile(path);
 
 		if (resource["textures"])
-		{
 			LoadTextures(resource["textures"]);
-		}
+
+		if (resource["animations"])
+			LoadAnimation(resource["animations"]);
 	}
 
 	const sf::Texture& ResourceManager::getTexture(const std::string& id) const
@@ -36,24 +37,27 @@ namespace LeaderEngine
 		//	std::cerr << "Texture with id " << id << " does not exist" << std::endl;
 		//}
 
+		sf::Texture placeholderTexture;
+
 		auto it = _textures.find(id);
 		if (it != _textures.end()) {
 			return it->second;
 		}
-		else {
-			// Log error, and return a placeholder/fallback texture.
-		}
+		std::cout << "Fail to find texture with id " << id << std::endl;
+		return placeholderTexture;
 		
 		//return _textures.at(id);
 	}
 
-	const std::vector<AnimationFrame> ResourceManager::GetAnimation(const std::string& id) const
-	{
+	const std::vector<AnimationFrame>& ResourceManager::GetAnimation(const std::string& id) const
+	{	
 		auto it = _animations.find(id);
 		if (it != _animations.end())
 		{
 			return it->second;
 		}
+
+		return std::vector<AnimationFrame>(); // return empty vector if not found
 	}
 
 	//sf::Sprite& ResourceManager::getSprite(const std::string& id)
@@ -76,6 +80,35 @@ namespace LeaderEngine
 			}
 			
 			//_textures[id] = std::move(tempTexture);
+		}
+	}
+
+	void ResourceManager::LoadAnimation(const YAML::Node& animationNode)
+	{
+		for (const YAML::Node& animation : animationNode)
+		{
+			std::string id = animation["id"].as<std::string>();
+			std::string textureId = animation["textureId"].as<std::string>();
+			std::vector<AnimationFrame> frames;
+
+			std::cout << "Loading animation " << id << " with texture " << textureId << std::endl;
+
+			for (const YAML::Node& frame : animation["frames"])
+			{
+				AnimationFrame frameData;
+				frameData.texture = getTexture(textureId);
+				frameData.textureRect = sf::IntRect(frame["x"].as<int>(), frame["y"].as<int>(), frame["width"].as<int>(), frame["height"].as<int>());
+				frameData.duration = frame["duration"].as<float>();
+
+				frames.push_back(frameData);
+			}
+
+		/*	if (!_animations[id].loadFromTexture(getTexture(textureId), frames))
+			{
+				std::cerr << "Failed to load animation: " << id << std::endl;
+			}*/
+
+			_animations[id] = std::move(frames);
 		}
 	}
 

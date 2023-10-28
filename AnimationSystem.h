@@ -9,7 +9,7 @@ namespace LeaderEngine
 	class AnimationSystem
 	{
 		private:
-			ResourceManager rs;
+			ResourceManager& rs = ResourceManager::GetInstance();
 		
 		public:
 		AnimationSystem();

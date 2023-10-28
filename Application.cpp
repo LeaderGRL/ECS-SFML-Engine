@@ -34,20 +34,30 @@ namespace LeaderEngine {
 		std::cout << "Current path is: " << currentPath.string() << std::endl;*/
 
 		//const sf::Texture& texture = rm.getTexture("Leader");
-		
-		entityManager.CreateEntity("test");
-		entityManager.GetEntity("test")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader"));
-		//entityManager.GetEntity("test")->setScale(sf::Vector2f(0.2f, 0.2f));
-		entityManager.GetEntity("test")->GetComponent<Sprite2DComponent>()->SetSize(sf::Vector2f(300, 300));
-		entityManager.GetEntity("test")->setPosition(sf::Vector2f(200, 200));
-		entityManager.GetEntity("test")->AddComponent<BoxColliderComponent>(sf::Vector2f(300, 300));
-		//entityManager.GetEntity("test")->setRotation(75.f);
 
-		entityManager.CreateEntity("oui");
-		entityManager.GetEntity("oui")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader"));
-		entityManager.GetEntity("oui")->GetComponent<Sprite2DComponent>()->SetSize(sf::Vector2f(300, 300));
-		entityManager.GetEntity("oui")->setPosition(sf::Vector2f(480, 480));
-		entityManager.GetEntity("oui")->AddComponent<BoxColliderComponent>(sf::Vector2f(300, 300));
+		entityManager.CreateEntity("Fighter");
+		entityManager.GetEntity("Fighter")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Fighter"));
+		entityManager.GetEntity("Fighter")->AddComponent<BoxColliderComponent>(sf::Vector2f(64,64));
+		entityManager.GetEntity("Fighter")->setPosition(sf::Vector2f(200, 200));
+
+		entityManager.CreateEntity("FighterEffect");
+		//entityManager.GetEntity("FighterEffect")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().GetAnimation("FighterEffect"));
+		/*entityManager.GetEntity("FighterEffect")->GetComponent<Sprite2DComponent>()->PlayAnimation("FighterEffect");
+		entityManager.GetEntity("FighterEffect")->setPosition(sf::Vector2f(200, 200));*/
+		
+		//entityManager.CreateEntity("test");
+		//entityManager.GetEntity("test")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader"));
+		////entityManager.GetEntity("test")->setScale(sf::Vector2f(0.2f, 0.2f));
+		//entityManager.GetEntity("test")->GetComponent<Sprite2DComponent>()->SetSize(sf::Vector2f(300, 300));
+		//entityManager.GetEntity("test")->setPosition(sf::Vector2f(200, 200));
+		//entityManager.GetEntity("test")->AddComponent<BoxColliderComponent>(sf::Vector2f(300, 300));
+		////entityManager.GetEntity("test")->setRotation(75.f);
+
+		//entityManager.CreateEntity("oui");
+		//entityManager.GetEntity("oui")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader"));
+		//entityManager.GetEntity("oui")->GetComponent<Sprite2DComponent>()->SetSize(sf::Vector2f(300, 300));
+		//entityManager.GetEntity("oui")->setPosition(sf::Vector2f(480, 480));
+		//entityManager.GetEntity("oui")->AddComponent<BoxColliderComponent>(sf::Vector2f(300, 300));
 
 		//std::cout << collisionSystem.BoxOverlap(*entityManager.GetEntity("test"), *entityManager.GetEntity("oui")) <<std::endl;
 

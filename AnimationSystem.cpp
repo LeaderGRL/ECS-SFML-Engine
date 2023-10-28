@@ -19,6 +19,9 @@ namespace LeaderEngine
 		{
 			Sprite2DComponent* spriteComp = it->second->GetComponent<Sprite2DComponent>();
 
+			if (!spriteComp)
+				return;
+
 			if (!spriteComp->isAnimating)
 			{
 				return;
@@ -29,7 +32,7 @@ namespace LeaderEngine
 			if (spriteComp->currentFrameTime >= rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].duration)
 				spriteComp->currentFrameIndex++; // Next animation frame
 
-			if (spriteComp->currentFrameIndex >= rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].duration)
+			if (spriteComp->currentFrameIndex >= rs.GetAnimation(spriteComp->GetAnimationName()).size())
 			{
 				if (spriteComp->shouldLoop)
 					spriteComp->currentFrameIndex = 0; // Restart animation

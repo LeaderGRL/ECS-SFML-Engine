@@ -30,7 +30,7 @@ namespace LeaderEngine
 
 				if (BoxOverlap(*(it1->second), *(it2->second)))
 				{
-					std::cout << "Collision detected between " << it1->first << " and " << it2->first << std::endl;
+					// std::cout << "Collision detected between " << it1->first << " and " << it2->first << std::endl;
 				}
 			}
 		}

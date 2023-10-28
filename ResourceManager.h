@@ -7,7 +7,8 @@
 namespace LeaderEngine
 {
 	struct AnimationFrame {
-		sf::Texture* texture; // Reference to a portion of a texture
+		sf::Texture texture; // Reference to a portion of a texture
+		sf::IntRect textureRect;
 		float duration; // Duration for which this frame should be shown
 	};
 
@@ -20,12 +21,13 @@ namespace LeaderEngine
 			~ResourceManager();
 			void LoadResource(const std::string path);
 			const sf::Texture& getTexture(const std::string& id) const;
-			const std::vector<AnimationFrame> GetAnimation(const std::string& id) const;
+			const std::vector<AnimationFrame>& GetAnimation(const std::string& id) const;
 			//sf::Sprite& getSprite(const std::string& id);
 		
 
 		private:	
 			void LoadTextures(const YAML::Node& textureNode);
+			void LoadAnimation(const YAML::Node& animationNode);
 			//sf::Sprite& LoadSprite(const std::string id);
 			//void LoadAnimation(const YAML::Node& animationNode, int frameWidth, int frameHeight, float speed);
 			

@@ -1,6 +1,8 @@
 #pragma once
 #include "Entity.h"
 #include <unordered_map>
+#include "AnimationSystem.h"
+#include "CollisionSystem.h"
 
 namespace LeaderEngine
 {
@@ -8,6 +10,8 @@ namespace LeaderEngine
 	{
 		private:
 			std::unordered_map<std::string, std::unique_ptr<Entity>> _entities;
+			CollisionSystem _collisionSystem;
+			AnimationSystem _animationSystem;
 			static EntityManager& instance();
 		protected:
 			

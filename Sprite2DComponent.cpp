@@ -39,7 +39,7 @@ namespace LeaderEngine {
 		_animationName = animationName;
 		isAnimating = true;
 		shouldLoop = loop;
-		_sprite.setTexture(*(rs.GetAnimation(animationName)[0].texture));
+		_sprite.setTexture(rs.GetAnimation(animationName)[0].texture);
 	}
 
 	void Sprite2DComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const

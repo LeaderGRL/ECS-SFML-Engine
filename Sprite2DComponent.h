@@ -13,7 +13,6 @@ namespace LeaderEngine
 			sf::Sprite _sprite;
 			sf::Vector2f _size;
 			std::string _animationName;
-			void PlayAnimation(const std::string& animationName, bool loop = true);
 			
 		protected :
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -27,6 +26,7 @@ namespace LeaderEngine
 			Sprite2DComponent();
 			Sprite2DComponent(const sf::Texture& texture);
 			~Sprite2DComponent();
+			void PlayAnimation(const std::string& animationName, bool loop = true);
 			void Update(float deltaTime) override;
 			void SetSize(sf::Vector2f size);
 			std::string& GetAnimationName();
