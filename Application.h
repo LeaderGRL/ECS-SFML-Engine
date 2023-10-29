@@ -5,6 +5,7 @@
 #include "EntityManager.h"
 #include "ResourceManager.h"
 #include "CollisionSystem.h"
+#include "EventManager.h"
 
 namespace LeaderEngine {
 	class Application

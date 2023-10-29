@@ -99,10 +99,19 @@ namespace LeaderEngine {
 			sf::Event event;
 			while (window.pollEvent(event))
 			{
-			
-				// "close requested" event: we close the window
-				if (event.type == sf::Event::Closed)
-					window.close();
+				switch (event.type)
+				{
+					// "close requested" event: we close the window
+					case sf::Event::Closed:
+						window.close();
+						break;
+					case sf::Event::KeyPressed:
+						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::KeyPressed, event);
+						break;
+					case sf::Event::KeyReleased:
+						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::KeyReleased, event);
+						break;
+				}
 			}
 
 			sf::Time time = clock.getElapsedTime();

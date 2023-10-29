@@ -9,6 +9,8 @@ namespace LeaderEngine
 	class EventManager
 	{
 		public:
+			static EventManager GetInstance();
+			
 			EventManager();
 			~EventManager();
 

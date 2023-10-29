@@ -11,6 +11,12 @@ namespace LeaderEngine
 	{
 	}
 
+	EventManager EventManager::GetInstance()
+	{
+		static EventManager instance;
+		return instance;
+	}
+	
 	void EventManager::RegisterEvent(INPUT_EVENT inputEvent, EventHandler handler)
 	{
 		_EventHandlers[inputEvent].push_back(handler);
@@ -19,7 +25,7 @@ namespace LeaderEngine
 	void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, EventHandler handler)
 	{
 		auto& handlers = _EventHandlers[inputEvent];
-		handlers.erase(std::remove(handlers.begin(), handlers.end(), handler)); // reorder the vector to put the handler at the end, then remove it
+		//handlers.erase(std::remove(handlers.begin(), handlers.end(), handler)); // reorder the vector to put the handler at the end, then remove it
 	}
 
 	void EventManager::InvokeEvent(INPUT_EVENT inputEvent, const sf::Event& event)
