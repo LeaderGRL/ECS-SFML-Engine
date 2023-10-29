@@ -17,22 +17,27 @@ namespace LeaderEngine
 		return instance;
 	}
 	
-	void EventManager::RegisterEvent(INPUT_EVENT inputEvent, EventHandler handler)
+	void EventManager::RegisterEvent(INPUT_EVENT inputEvent, EventHandler& handler)
 	{
-		_EventHandlers[inputEvent].push_back(handler);
+		_EventHandlers[inputEvent].push_back(std::make_shared<EventHandler>(handler));
 	}
 
-	void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, EventHandler handler)
+	void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, EventHandler& handler)
 	{
+		// Reorder the vector to put the handler at the end if the current item explored is equal to handler
 		auto& handlers = _EventHandlers[inputEvent];
-		//handlers.erase(std::remove(handlers.begin(), handlers.end(), handler)); // reorder the vector to put the handler at the end, then remove it
+		handlers.erase(std::remove_if(handlers.begin(), handlers.end(),
+			[&handler](const std::shared_ptr<EventHandler>& item) {
+				return item->target_type() == handler.target_type()
+					&& item->target<void(const sf::Event&)>() == handler.target<void(const sf::Event&)>();
+			}), handlers.end()); 
 	}
 
 	void EventManager::InvokeEvent(INPUT_EVENT inputEvent, const sf::Event& event)
 	{
-	    for (auto& handler : _EventHandlers[inputEvent])
+	    for (const auto& handler : _EventHandlers[inputEvent])
 		{
-			handler(event); // for each handler of the input event, invoke it => Call the action associated to the input event
+			(*handler)(event); // for each dereferenced handler of the input event, invoke it => Call the action associated to the input event
 		}
 	}
 }
