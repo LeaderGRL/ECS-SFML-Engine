@@ -12,12 +12,15 @@ namespace LeaderEngine
 			std::unordered_map<std::string, std::unique_ptr<Entity>> _entities;
 			CollisionSystem _collisionSystem;
 			AnimationSystem _animationSystem;
-			static EntityManager& instance();
+			//static EntityManager& instance();
 		protected:
 			
 		public:
+			static EntityManager& GetInstance();
+			
 			EntityManager();
 			~EntityManager();
+
 			//void AddEntity(Entity&& entity); // RValue reference
 			Entity* CreateEntity(std::string name);
 			Entity* GetEntity(const std::string& name);

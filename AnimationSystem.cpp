@@ -24,9 +24,7 @@ namespace LeaderEngine
 
 
 			if (!spriteComp->isAnimating)
-			{
 				continue;
-			}
 			
 			std::cout << "test" << std::endl;
 
@@ -49,7 +47,7 @@ namespace LeaderEngine
 			const auto& frame = rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
 
 			spriteComp->SetSprite(*frame.texture);
-			std::cout << frame.textureRect.getSize().x << std::endl;
+			std::cout << spriteComp->currentFrameIndex << std::endl;
 			spriteComp->GetSprite().setTextureRect(frame.textureRect);
 		}
 	}

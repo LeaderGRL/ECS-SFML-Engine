@@ -10,6 +10,7 @@ namespace LeaderEngine
 		static ResourceManager instance;
 		return instance;
 	}
+	
 	ResourceManager::ResourceManager()
 	{
 		

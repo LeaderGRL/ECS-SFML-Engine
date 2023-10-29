@@ -35,7 +35,7 @@ namespace LeaderEngine {
 
 		//const sf::Texture& texture = rm.getTexture("Leader");
 
-		entityManager.CreateEntity("Fighter");
+		/*entityManager.CreateEntity("Fighter");
 		entityManager.GetEntity("Fighter")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Fighter"));
 		entityManager.GetEntity("Fighter")->AddComponent<BoxColliderComponent>(sf::Vector2f(64,64));
 		entityManager.GetEntity("Fighter")->setPosition(sf::Vector2f(200, 200));
@@ -43,7 +43,7 @@ namespace LeaderEngine {
 		entityManager.CreateEntity("FighterEffect");
 		entityManager.GetEntity("FighterEffect")->AddComponent<Sprite2DComponent>();
 		entityManager.GetEntity("FighterEffect")->GetComponent<Sprite2DComponent>()->PlayAnimation("FighterEffectAnimation");
-		entityManager.GetEntity("FighterEffect")->setPosition(sf::Vector2f(200, 200));
+		entityManager.GetEntity("FighterEffect")->setPosition(sf::Vector2f(200, 200));*/
 		
 		//entityManager.CreateEntity("test");
 		//entityManager.GetEntity("test")->AddComponent<Sprite2DComponent>(ResourceManager::GetInstance().getTexture("Leader"));
@@ -108,8 +108,8 @@ namespace LeaderEngine {
 			sf::Time time = clock.getElapsedTime();
 
 			window.clear(sf::Color::Black);
-			entityManager.draw(window, sf::RenderStates::Default);
-			entityManager.Update(time.asMilliseconds());
+			EntityManager::GetInstance().draw(window, sf::RenderStates::Default);
+			EntityManager::GetInstance().Update(time.asMilliseconds());
 			window.display();
 		}
 	}

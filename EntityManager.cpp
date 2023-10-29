@@ -5,13 +5,13 @@
 using namespace std;
 
 namespace LeaderEngine
-{
-	EntityManager& EntityManager::instance()
+{	
+	EntityManager& EntityManager::GetInstance()
 	{
-		static EntityManager* instance = new EntityManager();
-		return *instance;
+		static EntityManager instance;
+		return instance;
 	}
-	
+
 	EntityManager::EntityManager()
 	{
 		

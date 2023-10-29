@@ -13,8 +13,6 @@ namespace LeaderEngine {
 			sf::RenderWindow window;
 			void Init();
 			std::vector<Entity> entities;
-			EntityManager entityManager;
-			//CollisionSystem collisionSystem;
 		protected :
 		public : 
 			Application();
