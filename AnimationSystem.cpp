@@ -26,8 +26,6 @@ namespace LeaderEngine
 			if (!spriteComp->isAnimating)
 				continue;
 			
-			std::cout << "test" << std::endl;
-
 			spriteComp->currentFrameTime += deltaTime;
 
 			if (spriteComp->currentFrameTime >= rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].duration)
@@ -47,7 +45,6 @@ namespace LeaderEngine
 			const auto& frame = rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
 
 			spriteComp->SetSprite(*frame.texture);
-			std::cout << spriteComp->currentFrameIndex << std::endl;
 			spriteComp->GetSprite().setTextureRect(frame.textureRect);
 		}
 	}
