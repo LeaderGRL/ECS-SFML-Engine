@@ -2,6 +2,17 @@
 #include <SFML/Graphics.hpp>
 #include "IComponent.h"
 
+//extern "C"
+//{
+//	#include "lua.h"
+//	#include "lualib.h"
+//	#include "lauxlib.h"
+//}
+
+#include "lua.hpp"
+#include "luabridge3/LuaBridge/LuaBridge.h"
+
+
 namespace LeaderEngine {
 	class Entity : public sf::Drawable, public sf::Transformable
 	{
@@ -17,6 +28,7 @@ namespace LeaderEngine {
 		sf::Vector2f _origin;
 		std::vector<std::unique_ptr<IComponent>> _components;
 	public:
+		void report_errors(lua_State* luaState, int status);
 		Entity();
 		~Entity();
 		Entity(std::string name);
@@ -31,6 +43,7 @@ namespace LeaderEngine {
 		void Start();
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
+		int PrintNumber();
 		
 		template<typename T, typename ...Args> 
 		void AddComponent(Args&&... args) // r value reference on n arguments
@@ -49,6 +62,5 @@ namespace LeaderEngine {
 			}
 			return nullptr;
 		}
-
 	};
 }

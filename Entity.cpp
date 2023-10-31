@@ -4,9 +4,40 @@
 #include <iostream>
 
 namespace LeaderEngine {
+	void Entity::report_errors(lua_State* luaState, int status)
+	{
+		if (status == 0) {
+			return;
+		}
+
+		std::cerr << "[LUA ERROR] " << lua_tostring(luaState, -1) << std::endl;
+
+		// remove error message from Lua state
+		lua_pop(luaState, 1);
+	}
+	
 	Entity::Entity()
 	{
 		Entity::_id = 0;
+
+		lua_State* luaState = luaL_newstate(); // Create a lua state
+
+		luaL_openlibs(luaState); // Open all standard library
+
+		luabridge::getGlobalNamespace(luaState)
+			.beginClass<Entity>("Entity")
+			.addConstructor<void(*) (void)>()
+			.addFunction("GetId", &Entity::GetId)
+			.addFunction("PrintNumber", &Entity::PrintNumber)
+			.endClass();
+
+		auto globalEntity = std::make_unique<Entity>("test"); // 
+		luabridge::setGlobal(luaState, globalEntity.get(), "Entity");
+
+		//int scriptLoadStatus = luaL_dofile(luaState, "../LeaderEngine/Script.lua"); // Load the script
+
+		//report_errors(luaState, scriptLoadStatus);
+	
 	}
 
 	Entity::~Entity()
@@ -54,6 +85,11 @@ namespace LeaderEngine {
 				target.draw(*drawable, states); // Draw the drawable component if the cast was successful
 			}
 		}
+	}
+
+	int Entity::PrintNumber()
+	{
+		return 55;
 	}
 
 	//void Entity::AddComponent(std::unique_ptr<IComponent> component)

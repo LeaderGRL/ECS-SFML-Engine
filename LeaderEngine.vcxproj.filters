@@ -13,6 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Components">
+      <UniqueIdentifier>{de33f33c-c9d5-4e83-a2e1-835e886b555f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\System">
+      <UniqueIdentifier>{dddea317-8be6-4690-8620-9ecb50b990a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Enum">
+      <UniqueIdentifier>{3ea1788f-904e-497e-a8e4-caf44184093d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Manager">
+      <UniqueIdentifier>{90600852-dcd9-4876-9962-24072f3bb8a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Components">
+      <UniqueIdentifier>{d2d336c4-aa94-48f5-bff7-7014eaf104bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\System">
+      <UniqueIdentifier>{d59516a1-e8b6-43f4-a681-50f8066e9581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Manager">
+      <UniqueIdentifier>{7b5c2d64-3db0-4b18-9370-7d5b956a7e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Lua">
+      <UniqueIdentifier>{ffac286e-90e6-4453-ad8a-7373bf97820d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -24,58 +48,61 @@
     <ClInclude Include="Application.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="AComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="RenderSystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite2DComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="COMPONENT_TYPE.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IDrawableComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="COLLIDER_TYPE.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="AComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
     <ClInclude Include="BoxColliderComponent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationSystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite2DComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawableComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="COLLIDER_TYPE.h">
+      <Filter>Fichiers d%27en-tête\Enum</Filter>
     </ClInclude>
     <ClInclude Include="INPUT_EVENT.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="COMPONENT_TYPE.h">
+      <Filter>Fichiers d%27en-tête\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSystem.h">
+      <Filter>Fichiers d%27en-tête\System</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSystem.h">
+      <Filter>Fichiers d%27en-tête\System</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>Fichiers d%27en-tête\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Fichiers d%27en-tête\Manager</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
+      <Filter>Fichiers d%27en-tête\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Fichiers d%27en-tête\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Fichiers d%27en-tête\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CPP_To_Lua.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,44 +116,52 @@
     <ClCompile Include="Application.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="AComponent.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="RenderSystem.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="BoxColliderComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite2DComponent.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="AComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
-    <ClCompile Include="BoxColliderComponent.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionSystem.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Sprite2DComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
     <ClCompile Include="AnimationSystem.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\System</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
+      <Filter>Fichiers sources\System</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>Fichiers sources\System</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Fichiers sources\Manager</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
+      <Filter>Fichiers sources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Fichiers sources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Fichiers sources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPP_To_Lua.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Script.lua">
+      <Filter>Fichiers sources\Lua</Filter>
+    </None>
   </ItemGroup>
 </Project>

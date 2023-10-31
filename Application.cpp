@@ -8,12 +8,17 @@
 #include <iostream>
 #include <filesystem>
 #include "BoxColliderComponent.h"
+//#include <LuaBridge/LuaBridge.h>
+
 
 namespace LeaderEngine {
 
 	Application::Application() : window(sf::VideoMode(800, 600), "ECS Application")
 	{
+		//luabridge::getGlobalNamespace()
 		Init();
+		CPP_To_Lua cppToLua;
+
 	}
 
 	Application::~Application()

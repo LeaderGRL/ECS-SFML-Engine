@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "CollisionSystem.h"
 #include "EventManager.h"
+#include "CPP_To_Lua.h"
 
 namespace LeaderEngine {
 	class Application
