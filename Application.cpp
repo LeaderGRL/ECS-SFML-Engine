@@ -8,6 +8,7 @@
 #include <iostream>
 #include <filesystem>
 #include "BoxColliderComponent.h"
+#include "LuaAPI.h"
 //#include <LuaBridge/LuaBridge.h>
 
 
@@ -97,7 +98,7 @@ namespace LeaderEngine {
 	void Application::Run()
 	{
 		sf::Clock clock;
-		CPP_To_Lua cppToLua;
+		LuaAPI luaAPI;
 
 		while (window.isOpen())
 		{

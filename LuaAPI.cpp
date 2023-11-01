@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "CPP_To_Lua.h"
+#include "LuaAPI.h"
 
 namespace LeaderEngine 
 {	
-	CPP_To_Lua::CPP_To_Lua()
+	LuaAPI::LuaAPI()
 	{
 		//auto test = &EntityManager::GetInstance();
 		//EntityManager::GetInstance().GetEntity("Fighter")->setPosition(0, 0);
@@ -22,7 +22,7 @@ namespace LeaderEngine
 			.beginClass<Entity>("Entity")
 			.addConstructor<void(*) (void)>()
 			.addFunction("GetId", &Entity::GetId)
-			.addFunction("PrintNumber", &Entity::PrintNumber)
+			.addFunction("AddComponent", static_cast<void (Entity::*)(IComponent*)>(&Entity::AddComponent))
 			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
 			.endClass();
 
@@ -32,6 +32,23 @@ namespace LeaderEngine
 			.addFunction("GetEntity", &EntityManager::GetEntity)
 			.addStaticFunction("GetInstance", &EntityManager::GetInstance)
 			.addFunction("test", &EntityManager::test)
+			.endClass();
+		
+		luabridge::getGlobalNamespace(L)
+			.beginClass<IComponent>("IComponent")
+			.endClass()
+			.deriveClass<IDrawableComponent, IComponent>("IDrawableComponent")
+			.endClass()
+			.deriveClass<Sprite2DComponent, IDrawableComponent>("Sprite2DComponent")
+			.addConstructor<void(*) (void)>()
+			.addFunction("SetSprite", &Sprite2DComponent::SetSprite)
+			.addFunction("GetSprite", &Sprite2DComponent::GetSprite)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<ResourceManager>("ResourceManager")
+			.addStaticFunction("GetInstance", &ResourceManager::GetInstance)
+			.addFunction("GetTexture", &ResourceManager::getTexture)
 			.endClass();
 
 
@@ -44,15 +61,15 @@ namespace LeaderEngine
 		//globalEntityManager["Instance"] = &EntityManager::GetInstance();
 	}
 
-	CPP_To_Lua::~CPP_To_Lua()
+	LuaAPI::~LuaAPI()
 	{
 		lua_close(L);
 	}
 
-	//void CPP_To_Lua::LoadScript(const char* path)
-	//{
-	//	luaL_dofile(L, path);
-	//}
+	void LuaAPI::LoadScript(const char* path)
+	{
+		luaL_dofile(L, path);
+	}
 
 	//void CPP_To_Lua::CallFunction(const char* funcName)
 	//{
@@ -60,7 +77,7 @@ namespace LeaderEngine
 	//	lua_pcall(L, 0, 0, 0);
 	//}
 
-	void CPP_To_Lua::report_errors(lua_State* luaState, int status)
+	void LuaAPI::report_errors(lua_State* luaState, int status)
 	{
 		if (status == 0) {
 			return;

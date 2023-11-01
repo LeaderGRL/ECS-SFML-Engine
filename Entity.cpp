@@ -87,6 +87,11 @@ namespace LeaderEngine {
 		}
 	}
 
+	void Entity::AddComponent(IComponent* component)
+	{
+		_components.push_back(std::unique_ptr<IComponent>(component));
+	}
+
 	int Entity::PrintNumber()
 	{
 		return 55;

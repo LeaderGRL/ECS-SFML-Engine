@@ -102,7 +102,7 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Fichiers d%27en-tête\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CPP_To_Lua.h">
+    <ClInclude Include="LuaAPI.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,7 +155,7 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Fichiers sources\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CPP_To_Lua.cpp">
+    <ClCompile Include="LuaAPI.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

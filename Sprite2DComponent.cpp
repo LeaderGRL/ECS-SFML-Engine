@@ -45,12 +45,12 @@ namespace LeaderEngine {
 
 	void Sprite2DComponent::PlayAnimation(const std::string& animationName, bool loop)
 	{
-		ResourceManager rs = ResourceManager::GetInstance();
+		/*ResourceManager rs = ResourceManager::GetInstance();*/
 		_animationName = animationName;
 		isAnimating = true;
 		shouldLoop = loop;
 		
-		const auto& animationFrames = rs.GetAnimation(animationName);
+		const auto& animationFrames = ResourceManager::GetInstance().GetAnimation(animationName);
 		if (!animationFrames.empty()) {
 			_sprite.setTexture(*animationFrames.front().texture);
 		}

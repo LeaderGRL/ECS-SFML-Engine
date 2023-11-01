@@ -8,16 +8,16 @@
 
 namespace LeaderEngine
 {
-	class CPP_To_Lua
+	class LuaAPI
 	{
 		private:
-			 
 			lua_State* L;
 			void report_errors(lua_State* luaState, int status);
-		public:
-			CPP_To_Lua();
-			~CPP_To_Lua();
 			
-			 
+		public:
+			LuaAPI();
+			~LuaAPI();
+			void LoadScript(const char* path);
+		
 	};
 }

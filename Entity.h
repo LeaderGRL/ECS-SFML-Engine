@@ -43,6 +43,7 @@ namespace LeaderEngine {
 		void Start();
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
+		void AddComponent(IComponent* component);
 		int PrintNumber();
 		
 		template<typename T, typename ...Args> 

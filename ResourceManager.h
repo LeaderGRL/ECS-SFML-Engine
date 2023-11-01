@@ -19,6 +19,10 @@ namespace LeaderEngine
 
 			ResourceManager();
 			~ResourceManager();
+			ResourceManager(ResourceManager const&) = delete;
+			ResourceManager(ResourceManager&&) = delete;
+			ResourceManager& operator=(ResourceManager const&) = delete;
+			ResourceManager& operator=(ResourceManager&&) = delete;
 			void LoadResource(const std::string path);
 			const sf::Texture& getTexture(const std::string& id) const;
 			const std::vector<AnimationFrame>& GetAnimation(const std::string& id) const;
