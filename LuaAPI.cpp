@@ -51,6 +51,10 @@ namespace LeaderEngine
 			.addFunction("GetTexture", &ResourceManager::getTexture)
 			.endClass();
 
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Texture>("Texture")
+			.endClass();
+
 
 		//EntityManager globalEntityManager = EntityManager::GetInstance();
 		//luabridge::setGlobal(L, &Entity, "Entity");
