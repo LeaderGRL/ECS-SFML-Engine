@@ -13,16 +13,17 @@ namespace LeaderEngine
 		L = luaL_newstate();
 		luaL_openlibs(L);
 
-		luabridge::getGlobalNamespace(L)
-			.beginClass<sf::Transformable>("Transformable")
-			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition)) // specify which version of setPosition I give to Lua
-			.endClass();
+		//luabridge::getGlobalNamespace(L)
+		//	.beginClass<sf::Transformable>("Transformable")
+		//	.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition)) // specify which version of setPosition I give to Lua
+		//	.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<Entity>("Entity")
 			.addConstructor<void(*) (void)>()
 			.addFunction("GetId", &Entity::GetId)
 			.addFunction("PrintNumber", &Entity::PrintNumber)
+			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
