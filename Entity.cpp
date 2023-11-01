@@ -20,19 +20,19 @@ namespace LeaderEngine {
 	{
 		Entity::_id = 0;
 
-		lua_State* luaState = luaL_newstate(); // Create a lua state
+		//lua_State* luaState = luaL_newstate(); // Create a lua state
 
-		luaL_openlibs(luaState); // Open all standard library
+		//luaL_openlibs(luaState); // Open all standard library
 
-		luabridge::getGlobalNamespace(luaState)
-			.beginClass<Entity>("Entity")
-			.addConstructor<void(*) (void)>()
-			.addFunction("GetId", &Entity::GetId)
-			.addFunction("PrintNumber", &Entity::PrintNumber)
-			.endClass();
+		//luabridge::getGlobalNamespace(luaState)
+		//	.beginClass<Entity>("Entity")
+		//	.addConstructor<void(*) (void)>()
+		//	.addFunction("GetId", &Entity::GetId)
+		//	.addFunction("PrintNumber", &Entity::PrintNumber)
+		//	.endClass();
 
-		auto globalEntity = std::make_unique<Entity>("test"); // 
-		luabridge::setGlobal(luaState, globalEntity.get(), "Entity");
+		//auto globalEntity = std::make_unique<Entity>("test"); // 
+		//luabridge::setGlobal(luaState, globalEntity.get(), "Entity");
 
 		//int scriptLoadStatus = luaL_dofile(luaState, "../LeaderEngine/Script.lua"); // Load the script
 

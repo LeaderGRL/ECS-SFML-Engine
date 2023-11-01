@@ -5,8 +5,18 @@ namespace LeaderEngine
 {	
 	CPP_To_Lua::CPP_To_Lua()
 	{
+		//auto test = &EntityManager::GetInstance();
+		//EntityManager::GetInstance().GetEntity("Fighter")->setPosition(0, 0);
+		//test->GetEntity("Fighter")->setPosition(sf::Vector2f(0, 0));
+		//std::cout << test->GetEntity("Fighter")->move(sf::Vector2f(0,0)) << std::endl;
+		
 		L = luaL_newstate();
 		luaL_openlibs(L);
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Transformable>("Transformable")
+			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition)) // specify which version of setPosition I give to Lua
+			.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<Entity>("Entity")
@@ -17,14 +27,16 @@ namespace LeaderEngine
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<EntityManager>("EntityManager")
-			.addConstructor<void(*) (void)>()
 			.addFunction("CreateEntity", &EntityManager::CreateEntity)
 			.addFunction("GetEntity", &EntityManager::GetEntity)
+			.addStaticFunction("GetInstance", &EntityManager::GetInstance)
+			.addFunction("test", &EntityManager::test)
 			.endClass();
+
 
 		//EntityManager globalEntityManager = EntityManager::GetInstance();
 		//luabridge::setGlobal(L, &Entity, "Entity");
-		luabridge::setGlobal(L, &EntityManager::GetInstance(), "EntityManager");
+		//luabridge::setGlobal(L, &EntityManager::GetInstance(), "EntityManager");
 
 		int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		report_errors(L, scriptLoadStatus);

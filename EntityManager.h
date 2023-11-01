@@ -20,6 +20,10 @@ namespace LeaderEngine
 			
 			EntityManager();
 			~EntityManager();
+			EntityManager(EntityManager const&) = delete;
+			EntityManager(EntityManager&&) = delete;
+			EntityManager& operator=(EntityManager const&) = delete;
+			EntityManager& operator=(EntityManager&&) = delete;
 
 			//void AddEntity(Entity&& entity); // RValue reference
 			Entity* CreateEntity(std::string name);
@@ -27,6 +31,7 @@ namespace LeaderEngine
 			const std::unordered_map<std::string, std::unique_ptr<Entity>>& GetEntities() const;
 			void draw(sf::RenderTarget& target, sf::RenderStates states);
 			void Update(float deltaTime);
+			void test();
 			/*void RemoveEntity(Entity& entity);
 			void RemoveAllEntities();*/
 			//void RemoveEntity(Entity&& entity);

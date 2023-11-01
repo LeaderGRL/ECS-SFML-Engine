@@ -22,21 +22,6 @@ namespace LeaderEngine
 		
 	}
 	
-	/*void System::Update()
-	{
-		for (auto& entity : m_Entities)
-		{
-			UpdateEntity(entity);
-		}
-	}*/
-
-	// && means rvalue reference => entity is moved rather than copied => more performant for large objects
-	//void EntityManager::AddEntity(Entity&& entity)
-	//{
-	//	_entities.push_back(std::move(entity));
-	//}
-	
-	
 	Entity* EntityManager::CreateEntity(std::string name)
 	{
 		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(name);
@@ -75,6 +60,11 @@ namespace LeaderEngine
 		{
 			it->second->Update(deltaTime);
 		}
+	}
+
+	void EntityManager::test()
+	{
+		std::cout << "Je suis le boss" << std::endl;
 	}
 
 	//void EntityManager::RemoveEntity(Entity& entity)

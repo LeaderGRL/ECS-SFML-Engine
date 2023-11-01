@@ -17,7 +17,6 @@ namespace LeaderEngine {
 	{
 		//luabridge::getGlobalNamespace()
 		Init();
-		CPP_To_Lua cppToLua;
 
 	}
 
@@ -98,6 +97,8 @@ namespace LeaderEngine {
 	void Application::Run()
 	{
 		sf::Clock clock;
+		CPP_To_Lua cppToLua;
+
 		while (window.isOpen())
 		{
 			
