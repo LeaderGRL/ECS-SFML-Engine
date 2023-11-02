@@ -19,7 +19,7 @@ namespace LeaderEngine
 		luabridge::getGlobalNamespace(L)
 			.beginClass<EventManager>("EventManager")
 			.addStaticFunction("GetInstance", &EventManager::GetInstance)
-			.addFunction("RegisterEvent", static_cast<void (EventManager::*)(INPUT_EVENT, luabridge::LuaRef)>(&EventManager::RegisterEvent))
+			.addFunction("RegisterEvent", static_cast<void (EventManager::*)(int, luabridge::LuaRef)>(&EventManager::RegisterEvent))
 			.addFunction("UnregisterEvent", &EventManager::UnregisterEvent)
 			.addFunction("InvokeEvent", &EventManager::InvokeEvent)
 			.endClass();
@@ -134,6 +134,8 @@ namespace LeaderEngine
 		
 		int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		report_errors(L, scriptLoadStatus);
+
+		//EventManager::GetInstance().
 	}
 
 	LuaAPI::~LuaAPI()

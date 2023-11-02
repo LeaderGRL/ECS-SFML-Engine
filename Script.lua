@@ -9,12 +9,12 @@ player:AddComponent(fighter)
 player:AddComponent(fighterCollider)
 player:SetPosition(200,200)
 
-print(LeaderEngine.INPUT_EVENT_KEY_PRESSED)
 
-EventManager:GetInstance():RegisterEvent(LeaderEngine.INPUT_EVENT_KEY_PRESSED, OnKeyPressed)
 
-function OnKeyPressed()
-    if Event.key.code == Keyboard.KEY_Z then
+function OnKeyPressed(event)
+    print(event.key.code)
+    print(Keyboard.KEY_Z)
+    if event.key.code == Keyboard.KEY_Z then
        Move(0,1) 
     end
 end
@@ -22,3 +22,8 @@ end
 function Move(x, y)
     player:Move(x,y)
 end
+
+EventManager:GetInstance():RegisterEvent(LeaderEngine.INPUT_EVENT_KEY_PRESSED, OnKeyPressed)
+
+--print(OnKeyPressed())
+

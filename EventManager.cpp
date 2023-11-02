@@ -22,15 +22,21 @@ namespace LeaderEngine
 		_EventHandlers[inputEvent].push_back(std::make_shared<EventHandler>(handler));
 	}
 
-	void EventManager::RegisterEvent(INPUT_EVENT inputEvent, luabridge::LuaRef callback)
+	void EventManager::RegisterEvent(int inputEvent, luabridge::LuaRef callback)
 	{
+		std::cout << "test1" << std::endl;
+		INPUT_EVENT event = static_cast<INPUT_EVENT>(inputEvent);
+		
 		EventHandler handler = [callback](const sf::Event& event)
 		{
 			if (callback.isFunction())
+			{
+				std::cout << "test2" << std::endl;
 				callback(event);
+			}
 		};
 		
-		RegisterEvent(inputEvent, handler);
+		RegisterEvent(event, handler);
 	}
 
 	//void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, const EventHandler& handler)
