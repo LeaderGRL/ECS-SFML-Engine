@@ -18,9 +18,10 @@ namespace LeaderEngine
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<EventManager>("EventManager")
+			.addStaticFunction("GetInstance", &EventManager::GetInstance)
 			.addFunction("RegisterEvent", static_cast<void (EventManager::*)(INPUT_EVENT, luabridge::LuaRef)>(&EventManager::RegisterEvent))
 			.addFunction("UnregisterEvent", &EventManager::UnregisterEvent)
-			.addProperty("InvokeEvent", &EventManager::InvokeEvent)
+			.addFunction("InvokeEvent", &EventManager::InvokeEvent)
 			.endClass();
 		
 		luabridge::getGlobalNamespace(L)
@@ -80,27 +81,59 @@ namespace LeaderEngine
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("LeaderEngine")
-			.addVariable("INPUT_EVENT_KEY_PRESSED", INPUT_EVENT::KeyPressed, false)
+			.addVariable("INPUT_EVENT_KEY_PRESSED", INPUT_EVENT::KeyPressed)
+			.addVariable("INPUT_EVENT_KEY_RELEASED", INPUT_EVENT::KeyReleased)
 			.endNamespace();
-			
 
 		luabridge::getGlobalNamespace(L)
+			.beginNamespace("sf")
 			.beginClass<sf::Event>("Event")
 			.addConstructor<void(*) (void)>()
-			.addFunction("type", &sf::Event::type)
+			.addProperty("type", &sf::Event::type)
+			//.addProperty("KeyPressed", sf::Event::KeyPressed)
+			.addProperty("key", &sf::Event::key)
+			.endClass();
 		
 		luabridge::getGlobalNamespace(L)
-			.beginClass<sf::Event>("Event")
+			.beginNamespace("sf")
+			.beginClass<sf::Event::KeyEvent>("KeyEvent")
+			.addProperty("code", &sf::Event::KeyEvent::code)
 			.endClass();
 
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("sf")
+			.addVariable("KEY_A", sf::Keyboard::Key::A)
+			.addVariable("KEY_B", sf::Keyboard::Key::B)
+			.addVariable("KEY_C", sf::Keyboard::Key::C)
+			.addVariable("KEY_D", sf::Keyboard::Key::D)
+			.addVariable("KEY_E", sf::Keyboard::Key::E)
+			.addVariable("KEY_F", sf::Keyboard::Key::F)
+			.addVariable("KEY_G", sf::Keyboard::Key::G)
+			.addVariable("KEY_H", sf::Keyboard::Key::H)
+			.addVariable("KEY_I", sf::Keyboard::Key::I)
+			.addVariable("KEY_J", sf::Keyboard::Key::J)
+			.addVariable("KEY_K", sf::Keyboard::Key::K)
+			.addVariable("KEY_L", sf::Keyboard::Key::L)
+			.addVariable("KEY_M", sf::Keyboard::Key::M)
+			.addVariable("KEY_N", sf::Keyboard::Key::N)
+			.addVariable("KEY_O", sf::Keyboard::Key::O)
+			.addVariable("KEY_P", sf::Keyboard::Key::P)
+			.addVariable("KEY_Q", sf::Keyboard::Key::Q)
+			.addVariable("KEY_R", sf::Keyboard::Key::R)
+			.addVariable("KEY_S", sf::Keyboard::Key::S)
+			.addVariable("KEY_T", sf::Keyboard::Key::T)
+			.addVariable("KEY_U", sf::Keyboard::Key::U)
+			.addVariable("KEY_V", sf::Keyboard::Key::V)
+			.addVariable("KEY_W", sf::Keyboard::Key::W)
+			.addVariable("KEY_X", sf::Keyboard::Key::X)
+			.addVariable("KEY_Y", sf::Keyboard::Key::Y)
+			.addVariable("KEY_Z", sf::Keyboard::Key::Z)
+			.endNamespace();
 
-		//EntityManager globalEntityManager = EntityManager::GetInstance();
-		//luabridge::setGlobal(L, &Entity, "Entity");
-		//luabridge::setGlobal(L, &EntityManager::GetInstance(), "EntityManager");
-
+		//lua_pushinteger(L, static_cast<int>(sf::Keyboard::Key::A));
+		
 		int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		report_errors(L, scriptLoadStatus);
-		//globalEntityManager["Instance"] = &EntityManager::GetInstance();
 	}
 
 	LuaAPI::~LuaAPI()
