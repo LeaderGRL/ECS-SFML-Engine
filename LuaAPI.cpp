@@ -5,18 +5,8 @@ namespace LeaderEngine
 {	
 	LuaAPI::LuaAPI()
 	{
-		//auto test = &EntityManager::GetInstance();
-		//EntityManager::GetInstance().GetEntity("Fighter")->setPosition(0, 0);
-		//test->GetEntity("Fighter")->setPosition(sf::Vector2f(0, 0));
-		//std::cout << test->GetEntity("Fighter")->move(sf::Vector2f(0,0)) << std::endl;
-		
 		L = luaL_newstate();
 		luaL_openlibs(L);
-
-		//luabridge::getGlobalNamespace(L)
-		//	.beginClass<sf::Transformable>("Transformable")
-		//	.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition)) // specify which version of setPosition I give to Lua
-		//	.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<Entity>("Entity")
@@ -26,6 +16,13 @@ namespace LeaderEngine
 			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
 			.endClass();
 
+		luabridge::getGlobalNamespace(L)
+			.beginClass<EventManager>("EventManager")
+			.addFunction("RegisterEvent", static_cast<void (EventManager::*)(INPUT_EVENT, luabridge::LuaRef)>(&EventManager::RegisterEvent))
+			.addFunction("UnregisterEvent", &EventManager::UnregisterEvent)
+			.addProperty("InvokeEvent", &EventManager::InvokeEvent)
+			.endClass();
+		
 		luabridge::getGlobalNamespace(L)
 			.beginClass<EntityManager>("EntityManager")
 			.addFunction("CreateEntity", &EntityManager::CreateEntity)
@@ -43,6 +40,13 @@ namespace LeaderEngine
 			.addConstructor<void(*) (void)>()
 			.addFunction("SetSprite", &Sprite2DComponent::SetSprite)
 			.addFunction("GetSprite", &Sprite2DComponent::GetSprite)
+			.addFunction("SetSize", &Sprite2DComponent::SetSize)
+			.addFunction("PlayAnimation", &Sprite2DComponent::PlayAnimation)
+			.endClass()
+			.deriveClass<ColliderComponent, IComponent>("ColliderComponent")
+			.endClass()
+			.deriveClass<BoxColliderComponent, ColliderComponent>("BoxColliderComponent")
+			.addConstructor<void(*) (sf::Vector2f)>()
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
@@ -53,6 +57,40 @@ namespace LeaderEngine
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<sf::Texture>("Texture")
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Vector2f>("Vector2f")
+			.addConstructor<void(*) (float, float)>()
+			.addProperty("x", &sf::Vector2f::x)
+			.addProperty("y", &sf::Vector2f::y)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Sprite>("Sprite")
+			.addConstructor<void(*) (void)>()
+			.addFunction("setPosition", static_cast<void (sf::Sprite::*)(float, float)>(&sf::Sprite::setPosition))
+			.addFunction("setColor", &sf::Sprite::setColor)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("LeaderEngine")
+			.beginClass<INPUT_EVENT>("INPUT_EVENT")
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("LeaderEngine")
+			.addVariable("INPUT_EVENT_KEY_PRESSED", INPUT_EVENT::KeyPressed, false)
+			.endNamespace();
+			
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Event>("Event")
+			.addConstructor<void(*) (void)>()
+			.addFunction("type", &sf::Event::type)
+		
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Event>("Event")
 			.endClass();
 
 

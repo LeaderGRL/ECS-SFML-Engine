@@ -22,6 +22,47 @@ namespace LeaderEngine
 		_EventHandlers[inputEvent].push_back(std::make_shared<EventHandler>(handler));
 	}
 
+	void EventManager::RegisterEvent(INPUT_EVENT inputEvent, luabridge::LuaRef callback)
+	{
+		EventHandler handler = [callback](const sf::Event& event)
+		{
+			if (callback.isFunction())
+				callback(event);
+		};
+		
+		RegisterEvent(inputEvent, handler);
+	}
+
+	//void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, const EventHandler& handler)
+	//{
+	//	auto& handlers = _EventHandlers[inputEvent];
+	//	auto it = std::find_if(handlers.begin(), handlers.end(), [&handler](const std::shared_ptr<EventHandler>& h)
+	//	{
+	//		return h->target_type() == handler.target_type();
+	//	});
+
+	//	if (it != handlers.end())
+	//		handlers.erase(it);
+	//}
+
+	//void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, luabridge::LuaRef callback)
+	//{
+	//	EventHandler handler = [callback](const sf::Event& event)
+	//	{
+	//		if (callback.isFunction())
+	//			callback(event);
+	//	};
+
+	//	UnregisterEvent(inputEvent, handler);
+	//}
+
+	//void EventManager::HandleEvent(const sf::Event& event)
+	//{
+	//	auto& handlers = _EventHandlers[event.type];
+	//	for (auto& handler : handlers)
+	//		(*handler)(event);
+	//}
+
 	void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, EventHandler& handler)
 	{
 		// We make witchcraft comparaison cause there is no == operator for std::function

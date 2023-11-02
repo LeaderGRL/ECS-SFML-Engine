@@ -5,6 +5,8 @@
 #include "luabridge3/LuaBridge/LuaBridge.h"
 #include "Entity.h"
 #include "EntityManager.h"
+#include "BoxColliderComponent.h"
+#include "EventManager.h"
 
 namespace LeaderEngine
 {
