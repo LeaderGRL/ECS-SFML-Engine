@@ -7,6 +7,7 @@
 #include "EntityManager.h"
 #include "BoxColliderComponent.h"
 #include "EventManager.h"
+#include "Utils.h"
 
 namespace LeaderEngine
 {

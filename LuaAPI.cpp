@@ -14,6 +14,7 @@ namespace LeaderEngine
 			.addFunction("GetId", &Entity::GetId)
 			.addFunction("AddComponent", static_cast<void (Entity::*)(IComponent*)>(&Entity::AddComponent))
 			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
+			.addFunction("Move", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::move))
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
@@ -85,6 +86,30 @@ namespace LeaderEngine
 			.addVariable("INPUT_EVENT_KEY_RELEASED", INPUT_EVENT::KeyReleased)
 			.endNamespace();
 
+		//luabridge::getGlobalNamespace(L)
+		//	.beginNamespace("sf")
+		//	.beginClass<sf::Event>("Event")
+		//	.addConstructor<void(*) (void)>()
+		//	.addProperty("type", &sf::Event::type)
+		//	.addProperty("key", &sf::Event::key)
+		//	.endClass()
+		//	.deriveClass<sf::Event::KeyEvent, sf::Event>("KeyEvent")
+		//	.addProperty("code", &sf::Event::KeyEvent::code)
+		//	.endClass();
+		//	
+
+		//luabridge::getGlobalNamespace(L)
+		//	.beginNamespace("sf")
+		//	.beginClass<sf::Event::KeyEvent>("KeyEvent")
+		//	.addProperty("code", &sf::Event::KeyEvent::code)
+		//	.endClass()
+		//	.beginClass<sf::Event>("Event")
+		//	.addConstructor<void(*) (void)>()
+		//	.addProperty("type", &sf::Event::type)
+		//	.addProperty("key", &sf::Event::key)
+		//	.endClass();
+
+
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("sf")
 			.beginClass<sf::Event>("Event")
@@ -94,14 +119,18 @@ namespace LeaderEngine
 			.addProperty("key", &sf::Event::key)
 			.endClass();
 		
-		luabridge::getGlobalNamespace(L)
-			.beginNamespace("sf")
-			.beginClass<sf::Event::KeyEvent>("KeyEvent")
-			.addProperty("code", &sf::Event::KeyEvent::code)
-			.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("sf")
+			.addVariable("Closed", sf::Event::EventType::Closed)
+			.addVariable("KeyPressed", sf::Event::EventType::KeyPressed)
+			.addVariable("KeyReleased", sf::Event::EventType::KeyReleased)
+			.endNamespace();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("sf")
+			.beginClass<sf::Keyboard::Key>("Key")
+			.endClass()
 			.addVariable("KEY_A", sf::Keyboard::Key::A)
 			.addVariable("KEY_B", sf::Keyboard::Key::B)
 			.addVariable("KEY_C", sf::Keyboard::Key::C)
@@ -129,8 +158,13 @@ namespace LeaderEngine
 			.addVariable("KEY_Y", sf::Keyboard::Key::Y)
 			.addVariable("KEY_Z", sf::Keyboard::Key::Z)
 			.endNamespace();
-
-		//lua_pushinteger(L, static_cast<int>(sf::Keyboard::Key::A));
+		
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("sf")
+			.beginClass<sf::Event::KeyEvent>("KeyEvent")
+			.addStaticFunction("GetKeyEventCode", &Utils::GetKeyEventCode)
+			//.addProperty("code", static_cast<int>(&sf::Event::KeyEvent::code), false)
+			.endClass();
 		
 		int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		report_errors(L, scriptLoadStatus);

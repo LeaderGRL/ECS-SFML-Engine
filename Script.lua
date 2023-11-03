@@ -9,17 +9,18 @@ player:AddComponent(fighter)
 player:AddComponent(fighterCollider)
 player:SetPosition(200,200)
 
-
-
 function OnKeyPressed(event)
-    print(event.key.code)
-    print(Keyboard.KEY_Z)
-    if event.key.code == Keyboard.KEY_Z then
-       Move(0,1) 
+--    print(sf.KeyEvent.GetKeyEventCode(event.key))
+--    print("Keyboard.KEY_Z:", sf.KEY_Z)
+
+    if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_Z then
+       print("test3")
+       Move(0,-1) 
     end
 end
 
 function Move(x, y)
+    print(player)
     player:Move(x,y)
 end
 

@@ -163,6 +163,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Sprite2DComponent.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AComponent.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Sprite2DComponent.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Script.lua" />
