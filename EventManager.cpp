@@ -22,16 +22,19 @@ namespace LeaderEngine
 		_EventHandlers[inputEvent].push_back(std::make_shared<EventHandler>(handler));
 	}
 
-	void EventManager::RegisterEvent(int inputEvent, luabridge::LuaRef callback)
+	void EventManager::RegisterEvent(int inputEvent, const luabridge::LuaRef &callback)
 	{
-		INPUT_EVENT event = static_cast<INPUT_EVENT>(inputEvent);
+		const INPUT_EVENT& event = static_cast<INPUT_EVENT>(inputEvent);
 		
-		EventHandler handler = [callback](const sf::Event& event)
+		EventHandler handler = [&callback](const sf::Event& event)
 		{
 			if (callback.isFunction())
 			{
+				//luabridge::Stack<sf::Event>::push(callback.state(), event);
+				if (!LuaAPI::Call_Errors(callback.state(), callback, 1, 0))
+					std::cerr << "Error calling Lua event handler!" << std::endl;
+					
 				callback(event);
-				std::cout << "test2" << std::endl;
 			}
 		};
 		
@@ -88,4 +91,6 @@ namespace LeaderEngine
 			(*handler)(event); // for each dereferenced handler of the input event, invoke it => Call the action associated to the input event
 		}
 	}
+	
+	
 }

@@ -20,7 +20,7 @@ namespace LeaderEngine
 		luabridge::getGlobalNamespace(L)
 			.beginClass<EventManager>("EventManager")
 			.addStaticFunction("GetInstance", &EventManager::GetInstance)
-			.addFunction("RegisterEvent", static_cast<void (EventManager::*)(int, luabridge::LuaRef)>(&EventManager::RegisterEvent))
+			.addFunction("RegisterEvent", static_cast<void (EventManager::*)(int, const luabridge::LuaRef&)>(&EventManager::RegisterEvent))
 			.addFunction("UnregisterEvent", &EventManager::UnregisterEvent)
 			.addFunction("InvokeEvent", &EventManager::InvokeEvent)
 			.endClass();
@@ -198,5 +198,22 @@ namespace LeaderEngine
 
 		// remove error message from Lua state
 		lua_pop(luaState, 1);
+	}
+	
+	bool LuaAPI::Call_Errors(lua_State* luaState, const luabridge::LuaRef& func, int nbArgs, int nbReturnValue)
+	{
+		if (!func.isFunction())
+			return false;
+
+		func.push(); // Push the Lua function onto the stack
+
+		if (lua_pcall(luaState, nbArgs, nbReturnValue, 0) != 0) // Call the function
+		{
+			std::cerr << "Lua error: " << lua_tostring(func.state(), -1) << std::endl;
+			lua_pop(func.state(), 1);  // pop the error message from the stack
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -21,6 +21,7 @@ namespace LeaderEngine
 			LuaAPI();
 			~LuaAPI();
 			void LoadScript(const char* path);
+			static bool Call_Errors(lua_State* luaState, const luabridge::LuaRef& func, int nbArgs, int nbReturnValue);
 		
 	};
 }
