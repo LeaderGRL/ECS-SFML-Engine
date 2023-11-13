@@ -20,7 +20,7 @@ namespace LeaderEngine {
 
 	void Sprite2DComponent::Update(float deltaTime)
 	{
-		std::cout << "size : " << _sprite.getScale().x << std::endl;
+
 	}
 
 	void Sprite2DComponent::SetSize(sf::Vector2f size)

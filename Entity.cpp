@@ -85,19 +85,31 @@ namespace LeaderEngine {
 
 		if (c_type == COMPONENT_TYPE::SPRITE2D)
 			AddComponent<Sprite2DComponent>();
+		if (c_type == COMPONENT_TYPE::BOX_COLLIDER)
+			AddComponent<BoxColliderComponent>(sf::Vector2f(0,0));
 			//_components.push_back(std::move(std::shared_ptr<Sprite2DComponent>(static_cast<Sprite2DComponent*>(component))));
 	}
 
 	luabridge::LuaRef Entity::GetComponent(int type)
 	{
+
 		auto type_c = static_cast<COMPONENT_TYPE>(type);
 		if (type_c == COMPONENT_TYPE::SPRITE2D)
 			for (const auto& comp : _components)
 			{
 				if (Sprite2DComponent* spriteComp = dynamic_cast<Sprite2DComponent*>(comp.get()))
 				{
-					std::cout << "YEEEEEEEEEEEEEEEEEEEES" << std::endl;
 					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), spriteComp);
+				}
+
+			}
+
+		if (type_c == COMPONENT_TYPE::BOX_COLLIDER)
+			for (const auto& comp : _components)
+			{
+				if (BoxColliderComponent* boxComp = dynamic_cast<BoxColliderComponent*>(comp.get()))
+				{
+					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), boxComp);
 				}
 
 			}

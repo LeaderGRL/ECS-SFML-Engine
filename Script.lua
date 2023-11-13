@@ -8,42 +8,46 @@ local Player = {
 
 function Player:Create()
     local player = self.EManager:CreateEntity(self.entityName)
-    --local player = self.EManager:GetEntity(self.entityName)
-    --local fighter = Sprite2DComponent()
-    --local fighterCollider = BoxColliderComponent(Vector2f(64,64))
-    --fighter:SetSprite(self.RManager:GetTexture("Fighter"))
+    
     player:AddComponent(Component.SPRITE2D)
+    player:AddComponent(Component.BOX_COLLIDER)
+    
     local fighter = player:GetComponent(Component.SPRITE2D)
-    print(fighter)
+    local boxCollider = player:GetComponent(Component.BOX_COLLIDER)
+    
+    print(player:GetComponent(Component.BOX_COLLIDER))
+    
     if fighter then
         fighter:SetSprite(self.RManager:GetTexture("Fighter"))
     end
---    local fighter = player:GetComponent(Component.SPRITE2D)
---    print(fighter)
---    fighter:SetSprite(self.RManager:GetTexture("Fighter"))
-    -- player:AddComponent(fighterCollider)
+
+    if boxCollider then
+    print("nnnnnnnnn")
+        boxCollider:SetSize(Vector2f(32,32))
+    end
+        
     player:SetPosition(200,200)
 end
 
 function Player:OnKeyPressed(event)
     self.i = self.i + 1
-    self:Move(0,-1) 
-
     print(self.i)
+    
     if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_Z then
         self:Move(0,-1) 
     end
 
---    if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_S then
---       self:Move(0,1) 
---    end
+    if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_S then
+       self:Move(0,1) 
+    end
 
---    if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_Q then
---       self:Move(-1,0) 
---    end
---    if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_D then
---       self:Move(1,0) 
---    end
+    if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_Q then
+       self:Move(-1,0) 
+    end
+    
+    if sf.KeyEvent.GetKeyEventCode(event.key) == sf.KEY_D then
+       self:Move(1,0) 
+    end
 end
 
 function Player:Move(x, y)
@@ -55,14 +59,7 @@ function Player:RegisterEvents()
     self.EventManager:RegisterEvent(Input.INPUT_EVENT_KEY_PRESSED, function(event) self:OnKeyPressed(event) end)
 end
 
-function Player:Test()
-    for i = 1, 300 do
-        self:Move(0,1)
-    end
-end
-
 
 -- Create the player and register events
 Player:Create()
---Player:Test()
 Player:RegisterEvents()

@@ -81,6 +81,7 @@ namespace LeaderEngine
 			.endClass()
 			.deriveClass<BoxColliderComponent, ColliderComponent>("BoxColliderComponent")
 			.addConstructor<void(*) (sf::Vector2f)>()
+			.addFunction("SetSize", &BoxColliderComponent::SetSize)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)

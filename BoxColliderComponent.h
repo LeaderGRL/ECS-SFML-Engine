@@ -7,7 +7,7 @@ namespace LeaderEngine
 	class BoxColliderComponent : public ColliderComponent, sf::Transformable
 	{
 		private :
-			sf::Vector2f size;
+			sf::Vector2f _size;
 
 		public :
 			BoxColliderComponent(sf::Vector2f size);
@@ -17,6 +17,7 @@ namespace LeaderEngine
 			void Update(float deltaTime) override;
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 			sf::Vector2f GetSize() const;
+			void SetSize(sf::Vector2f size);
 			//COMPONENT_TYPE GetType() const override;
 	};
 }
