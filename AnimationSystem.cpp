@@ -13,7 +13,7 @@ namespace LeaderEngine
 		
 	}
 
-	void AnimationSystem::Update(const std::unordered_map<std::string, std::unique_ptr<Entity>>& entities, float deltaTime)
+	void AnimationSystem::Update(const std::unordered_map<std::string, std::shared_ptr<Entity>>& entities, float deltaTime)
 	{
 		for (auto it = entities.begin(); it != entities.end(); it++)
 		{

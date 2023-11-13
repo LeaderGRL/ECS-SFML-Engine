@@ -5,14 +5,43 @@ namespace LeaderEngine
 {	
 	LuaAPI::LuaAPI()
 	{
+
+	}
+
+	LuaAPI::~LuaAPI()
+	{
+		lua_close(L);
+		free(L);
+	}
+
+	LuaAPI& LuaAPI::GetInstance()
+	{
+		static LuaAPI instance;
+		return instance;
+	}
+
+	void LuaAPI::CPP_To_LUA()
+	{
 		L = luaL_newstate();
 		luaL_openlibs(L);
+
+		//luabridge::getGlobalNamespace(L)
+		//	.beginClass<Entity>("Entity")
+		//	.addConstructor<void(*) (void)>()
+		//	.addFunction("GetId", &Entity::GetId)
+		//	.addFunction("AddComponent", static_cast<void (Entity::*)(IComponent*)>(&Entity::AddComponent))
+		//	.addFunction("GetPosition", (&sf::Transformable::getPosition))
+		//	.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
+		//	.addFunction("Move", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::move))
+		//	.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<Entity>("Entity")
 			.addConstructor<void(*) (void)>()
 			.addFunction("GetId", &Entity::GetId)
-			.addFunction("AddComponent", static_cast<void (Entity::*)(IComponent*)>(&Entity::AddComponent))
+			.addFunction("AddComponent", static_cast<void (Entity::*)(int)>(&Entity::AddComponent))
+			.addFunction("GetComponent", static_cast<luabridge::LuaRef (Entity::*)(int)>(&Entity::GetComponent))
+			.addFunction("GetPosition", (&sf::Transformable::getPosition))
 			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
 			.addFunction("Move", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::move))
 			.endClass();
@@ -24,15 +53,18 @@ namespace LeaderEngine
 			.addFunction("UnregisterEvent", &EventManager::UnregisterEvent)
 			.addFunction("InvokeEvent", &EventManager::InvokeEvent)
 			.endClass();
-		
+
 		luabridge::getGlobalNamespace(L)
 			.beginClass<EntityManager>("EntityManager")
 			.addFunction("CreateEntity", &EntityManager::CreateEntity)
 			.addFunction("GetEntity", &EntityManager::GetEntity)
 			.addStaticFunction("GetInstance", &EntityManager::GetInstance)
-			.addFunction("test", &EntityManager::test)
 			.endClass();
-		
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Drawable>("Drawable")
+			.endClass();
+
 		luabridge::getGlobalNamespace(L)
 			.beginClass<IComponent>("IComponent")
 			.endClass()
@@ -76,39 +108,21 @@ namespace LeaderEngine
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
-			.beginNamespace("LeaderEngine")
+			.beginNamespace("Input")
 			.beginClass<INPUT_EVENT>("INPUT_EVENT")
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
-			.beginNamespace("LeaderEngine")
+			.beginNamespace("Input")
 			.addVariable("INPUT_EVENT_KEY_PRESSED", INPUT_EVENT::KeyPressed)
 			.addVariable("INPUT_EVENT_KEY_RELEASED", INPUT_EVENT::KeyReleased)
 			.endNamespace();
 
-		//luabridge::getGlobalNamespace(L)
-		//	.beginNamespace("sf")
-		//	.beginClass<sf::Event>("Event")
-		//	.addConstructor<void(*) (void)>()
-		//	.addProperty("type", &sf::Event::type)
-		//	.addProperty("key", &sf::Event::key)
-		//	.endClass()
-		//	.deriveClass<sf::Event::KeyEvent, sf::Event>("KeyEvent")
-		//	.addProperty("code", &sf::Event::KeyEvent::code)
-		//	.endClass();
-		//	
-
-		//luabridge::getGlobalNamespace(L)
-		//	.beginNamespace("sf")
-		//	.beginClass<sf::Event::KeyEvent>("KeyEvent")
-		//	.addProperty("code", &sf::Event::KeyEvent::code)
-		//	.endClass()
-		//	.beginClass<sf::Event>("Event")
-		//	.addConstructor<void(*) (void)>()
-		//	.addProperty("type", &sf::Event::type)
-		//	.addProperty("key", &sf::Event::key)
-		//	.endClass();
-
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("Component")
+			.addVariable("SPRITE2D", COMPONENT_TYPE::SPRITE2D)
+			.addVariable("BOX_COLLIDER", COMPONENT_TYPE::BOX_COLLIDER)
+			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("sf")
@@ -118,7 +132,7 @@ namespace LeaderEngine
 			//.addProperty("KeyPressed", sf::Event::KeyPressed)
 			.addProperty("key", &sf::Event::key)
 			.endClass();
-		
+
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("sf")
@@ -158,23 +172,18 @@ namespace LeaderEngine
 			.addVariable("KEY_Y", sf::Keyboard::Key::Y)
 			.addVariable("KEY_Z", sf::Keyboard::Key::Z)
 			.endNamespace();
-		
+
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("sf")
 			.beginClass<sf::Event::KeyEvent>("KeyEvent")
 			.addStaticFunction("GetKeyEventCode", &Utils::GetKeyEventCode)
 			//.addProperty("code", static_cast<int>(&sf::Event::KeyEvent::code), false)
 			.endClass();
-		
-		int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
+
+		const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		report_errors(L, scriptLoadStatus);
 
 		//EventManager::GetInstance().
-	}
-
-	LuaAPI::~LuaAPI()
-	{
-		lua_close(L);
 	}
 
 	void LuaAPI::LoadScript(const char* path)
@@ -182,11 +191,16 @@ namespace LeaderEngine
 		luaL_dofile(L, path);
 	}
 
-	//void CPP_To_Lua::CallFunction(const char* funcName)
-	//{
-	//	lua_getglobal(L, funcName);
-	//	lua_pcall(L, 0, 0, 0);
-	//}
+	void LuaAPI::GetLuaStack()
+	{
+		int stack = lua_gettop(L);
+		std::cout << "STACK : " << stack << std::endl;
+	}
+
+	lua_State* LuaAPI::GetLuaState()
+	{
+		return L;
+	}
 
 	void LuaAPI::report_errors(lua_State* luaState, int status)
 	{
@@ -205,7 +219,7 @@ namespace LeaderEngine
 		if (!func.isFunction())
 			return false;
 
-		func.push(); // Push the Lua function onto the stack
+		//func.push(); // Push the Lua function onto the stack
 
 		if (lua_pcall(luaState, nbArgs, nbReturnValue, 0) != 0) // Call the function
 		{
@@ -213,7 +227,26 @@ namespace LeaderEngine
 			lua_pop(func.state(), 1);  // pop the error message from the stack
 			return false;
 		}
+		
+		//lua_gc(L, LUA_GCCOLLECT, 0);
 
 		return true;
+	}
+
+	void LuaAPI::CallFunction(const std::string& funcName)
+	{
+		lua_getglobal(L, funcName.c_str());
+		if (lua_isfunction(L, -1))
+		{
+			if (lua_pcall(L, 0, 0, 0) != 0)
+			{
+				std::cerr << lua_tostring(L, -1) << std::endl;
+				lua_pop(L, 1); // remove error message
+			}
+		}
+		else
+		{
+			lua_pop(L, 1); // remove non-function value
+		}
 	}
 }

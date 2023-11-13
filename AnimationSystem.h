@@ -15,6 +15,6 @@ namespace LeaderEngine
 		AnimationSystem();
 		~AnimationSystem();
 
-		void Update(const std::unordered_map<std::string, std::unique_ptr<Entity>>& entities, float deltaTime);
+		void Update(const std::unordered_map<std::string, std::shared_ptr<Entity>>& entities, float deltaTime);
 	};
 }

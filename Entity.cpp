@@ -2,20 +2,12 @@
 #include "Entity.h"
 #include "Sprite2DComponent.h"
 #include <iostream>
+#include <typeinfo>
+
+#include "BoxColliderComponent.h"
+#include "LuaAPI.h"
 
 namespace LeaderEngine {
-	void Entity::report_errors(lua_State* luaState, int status)
-	{
-		if (status == 0) {
-			return;
-		}
-
-		std::cerr << "[LUA ERROR] " << lua_tostring(luaState, -1) << std::endl;
-
-		// remove error message from Lua state
-		lua_pop(luaState, 1);
-	}
-	
 	Entity::Entity()
 	{
 		Entity::_id = 0;
@@ -87,10 +79,41 @@ namespace LeaderEngine {
 		}
 	}
 
-	void Entity::AddComponent(IComponent* component)
+	void Entity::AddComponent(int type)
 	{
-		_components.push_back(std::unique_ptr<IComponent>(component));
+		COMPONENT_TYPE c_type = static_cast<COMPONENT_TYPE>(type);
+
+		if (c_type == COMPONENT_TYPE::SPRITE2D)
+			AddComponent<Sprite2DComponent>();
+			//_components.push_back(std::move(std::shared_ptr<Sprite2DComponent>(static_cast<Sprite2DComponent*>(component))));
 	}
+
+	luabridge::LuaRef Entity::GetComponent(int type)
+	{
+		auto type_c = static_cast<COMPONENT_TYPE>(type);
+		if (type_c == COMPONENT_TYPE::SPRITE2D)
+			for (const auto& comp : _components)
+			{
+				if (Sprite2DComponent* spriteComp = dynamic_cast<Sprite2DComponent*>(comp.get()))
+				{
+					std::cout << "YEEEEEEEEEEEEEEEEEEEES" << std::endl;
+					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), spriteComp);
+				}
+
+			}
+		return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState());
+	}
+
+	//void Entity::AddComponent(IComponent* component)
+	//{
+	//	_components.push_back(std::move(std::shared_ptr<IComponent>(component)));
+	//}
+
+
+	//void Entity::AddComponent(std::unique_ptr<IComponent> component)
+	//{
+	//	_components.push_back(std::move(component));
+	//}
 
 	int Entity::PrintNumber()
 	{

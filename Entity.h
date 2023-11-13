@@ -26,7 +26,7 @@ namespace LeaderEngine {
 		sf::Vector2f _position;
 		sf::Vector2f _scale;
 		sf::Vector2f _origin;
-		std::vector<std::unique_ptr<IComponent>> _components;
+		std::vector<std::shared_ptr<IComponent>> _components;
 	public:
 		void report_errors(lua_State* luaState, int status);
 		Entity();
@@ -43,14 +43,16 @@ namespace LeaderEngine {
 		void Start();
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
-		void AddComponent(IComponent* component);
+		//void AddComponent(IComponent* component);
+		void AddComponent(int type);
+		luabridge::LuaRef GetComponent(int type);
 		int PrintNumber();
 		
 		template<typename T, typename ...Args> 
 		void AddComponent(Args&&... args) // r value reference on n arguments
 		{
 			static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from IComponent"); // Check if T inherit from IComponent
-			_components.push_back(std::make_unique<T>(std::forward<Args>(args)...)); // forwards the arguments args to the constructor of T with their original value
+			_components.push_back(std::make_shared<T>(std::forward<Args>(args)...)); // forwards the arguments args to the constructor of T with their original value
 		}
 		
 		template<typename T>

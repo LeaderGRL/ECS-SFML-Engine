@@ -14,5 +14,6 @@ namespace LeaderEngine
 		CAPSULE_COLLIDER,
 		RIGIDBODY,
 		CHARACTER_CONTROLLER,
+		SPRITE2D,
 	};
 }

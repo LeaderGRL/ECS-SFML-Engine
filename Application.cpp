@@ -11,10 +11,9 @@
 #include "LuaAPI.h"
 //#include <LuaBridge/LuaBridge.h>
 
-
 namespace LeaderEngine {
 
-	Application::Application() : window(sf::VideoMode(800, 600), "ECS Application")
+	Application::Application() //: window(sf::VideoMode(800, 600), "ECS Application")
 	{
 		//luabridge::getGlobalNamespace()
 		Init();
@@ -23,7 +22,7 @@ namespace LeaderEngine {
 
 	Application::~Application()
 	{
-		
+		window.close();
 	}
 
 	sf::RenderWindow& Application::GetWindow()
@@ -98,12 +97,13 @@ namespace LeaderEngine {
 	void Application::Run()
 	{
 		sf::Clock clock;
-		LuaAPI luaAPI;
+		LuaAPI::GetInstance().CPP_To_LUA();
+		sf::Event event;
+
 
 		while (window.isOpen())
 		{
 			
-			sf::Event event;
 			while (window.pollEvent(event))
 			{
 				switch (event.type)
@@ -114,6 +114,7 @@ namespace LeaderEngine {
 						break;
 					case sf::Event::KeyPressed:
 						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::KeyPressed, event);
+						LuaAPI::GetInstance().GetLuaStack();
 						break;
 					case sf::Event::KeyReleased:
 						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::KeyReleased, event);

@@ -23,15 +23,15 @@ namespace LeaderEngine
 
 	void BoxColliderComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		//states.transform.combine(getTransform());
-		sf::RectangleShape rect;
-		rect.setSize(size);
-		//rect.setOrigin(size.x / 2, size.y / 2);
-		//rect.setPosition(getPosition());
-		rect.setFillColor(sf::Color::Transparent);
-		rect.setOutlineColor(sf::Color::Red);
-		rect.setOutlineThickness(1);
-		target.draw(rect, states);
+		////states.transform.combine(getTransform());
+		//sf::RectangleShape rect;
+		//rect.setSize(size);
+		////rect.setOrigin(size.x / 2, size.y / 2);
+		////rect.setPosition(getPosition());
+		//rect.setFillColor(sf::Color::Transparent);
+		//rect.setOutlineColor(sf::Color::Red);
+		//rect.setOutlineThickness(1);
+		//target.draw(rect, states);
 	}
 
 	sf::Vector2f BoxColliderComponent::GetSize() const

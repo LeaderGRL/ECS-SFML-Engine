@@ -18,6 +18,7 @@ namespace LeaderEngine
 
 	ResourceManager::~ResourceManager()
 	{
+		_textures.clear();
 	}
 
 	void ResourceManager::LoadResource(const std::string path)
@@ -29,6 +30,10 @@ namespace LeaderEngine
 
 		if (resource["animations"])
 			LoadAnimation(resource["animations"]);
+
+		// close yaml file
+		resource.reset();
+		
 	}
 
 	const sf::Texture& ResourceManager::getTexture(const std::string& id) const

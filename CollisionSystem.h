@@ -9,7 +9,7 @@ namespace LeaderEngine
 		public:
 			CollisionSystem();
 			~CollisionSystem();
-			void CheckCollisions(const std::unordered_map<std::string, std::unique_ptr<Entity>>& entities);
+			void CheckCollisions(const std::unordered_map<std::string, std::shared_ptr<Entity>>& entities);
 
 
 		private:
