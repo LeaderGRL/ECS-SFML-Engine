@@ -34,15 +34,13 @@ namespace LeaderEngine {
 	void Application::Init()
 	{
 		LuaAPI::GetInstance().CPP_To_LUA();
-		//ResourceManager rm;
 		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
-		/*std::filesystem::path currentPath = std::filesystem::current_path();
-		std::cout << "Current path is: " << currentPath.string() << std::endl;*/
 
-		//const sf::Texture& texture = rm.getTexture("Leader");
 		Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
-		//std::cout << entityManager.GetEntity("Fighter") << std::endl;
 		player->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Player.lua"); // Load the script automaticaly
+
+		Entity* Weapons = EntityManager::GetInstance().CreateEntity("FighterWeapons");
+		Weapons->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Weapons.lua");
 	}  
 	
 	void Application::Run()
