@@ -16,7 +16,7 @@ namespace LeaderEngine
 		
 	}
 
-	void CollisionSystem::CheckCollisions(const std::unordered_map<std::string, std::shared_ptr<Entity>>& entities)
+	void CollisionSystem::CheckCollisions(const std::unordered_map<std::string, std::unique_ptr<Entity>>& entities)
 	{
 	/*	EntityManager entityManager;
 		auto entities = entityManager.GetEntities();*/

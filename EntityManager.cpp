@@ -24,7 +24,7 @@ namespace LeaderEngine
 	
 	Entity* EntityManager::CreateEntity(std::string name)
 	{
-		std::shared_ptr<Entity> newEntity = std::make_shared<Entity>(name);
+		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(name);
 		Entity* rawPtr = newEntity.get();
 		_entities[name] = std::move(newEntity);
 		//_entities.insert(std::make_pair(name, newEntity));
@@ -35,11 +35,15 @@ namespace LeaderEngine
 	{
 		const auto it = _entities.find(name);
 		if (it != _entities.end())
+		{
+			std::cout << "Pierre, jadore ce mec !" << std::endl;
 			return it->second.get();
+		}
+		std::cout << "Pierre, je deteste ce mec !" << std::endl;
 		return nullptr;
 	}
 
-	const std::unordered_map<std::string, std::shared_ptr<Entity>>& EntityManager::GetEntities() const
+	const std::unordered_map<std::string, std::unique_ptr<Entity>>& EntityManager::GetEntities() const
 	{
 		return _entities;
 	}

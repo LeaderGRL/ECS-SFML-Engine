@@ -171,6 +171,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="ScriptComponent.h" />
     <ClInclude Include="Sprite2DComponent.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Utils.h" />
@@ -196,12 +197,10 @@
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="ScriptComponent.cpp" />
     <ClCompile Include="Sprite2DComponent.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Script.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

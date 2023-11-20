@@ -9,7 +9,7 @@ namespace LeaderEngine
 	class EntityManager
 	{
 		private:
-			std::unordered_map<std::string, std::shared_ptr<Entity>> _entities;
+			std::unordered_map<std::string, std::unique_ptr<Entity>> _entities;
 			CollisionSystem _collisionSystem;
 			AnimationSystem _animationSystem;
 			//static EntityManager& instance();
@@ -28,7 +28,7 @@ namespace LeaderEngine
 			//void AddEntity(Entity&& entity); // RValue reference
 			Entity* CreateEntity(std::string name);
 			Entity* GetEntity(const std::string& name);
-			const std::unordered_map<std::string, std::shared_ptr<Entity>>& GetEntities() const;
+			const std::unordered_map<std::string, std::unique_ptr<Entity>>& GetEntities() const;
 			void draw(sf::RenderTarget& target, sf::RenderStates states);
 			void Update(float deltaTime);
 
