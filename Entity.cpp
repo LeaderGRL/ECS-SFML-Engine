@@ -87,7 +87,8 @@ namespace LeaderEngine {
 			AddComponent<Sprite2DComponent>();
 		if (c_type == COMPONENT_TYPE::BOX_COLLIDER)
 			AddComponent<BoxColliderComponent>(sf::Vector2f(0,0));
-			//_components.push_back(std::move(std::shared_ptr<Sprite2DComponent>(static_cast<Sprite2DComponent*>(component))));
+		if (c_type == COMPONENT_TYPE::ANIMATION)
+			AddComponent<Sprite2DComponent>();
 	}
 
 	luabridge::LuaRef Entity::GetComponent(int type)
@@ -113,6 +114,17 @@ namespace LeaderEngine {
 				}
 
 			}
+
+		if (type_c == COMPONENT_TYPE::ANIMATION)
+			for (const auto& comp : _components)
+			{
+				if (Sprite2DComponent* animComp = dynamic_cast<Sprite2DComponent*>(comp.get()))
+				{
+					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), animComp);
+				}
+
+			}
+
 		return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState());
 	}
 

@@ -123,6 +123,7 @@ namespace LeaderEngine
 			.beginNamespace("Component")
 			.addVariable("SPRITE2D", COMPONENT_TYPE::SPRITE2D)
 			.addVariable("BOX_COLLIDER", COMPONENT_TYPE::BOX_COLLIDER)
+			.addVariable("ANIMATION", COMPONENT_TYPE::ANIMATION)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)
