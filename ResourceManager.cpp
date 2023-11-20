@@ -118,6 +118,11 @@ namespace LeaderEngine
 		}
 	}
 
+	void ResourceManager::LoadScripts()
+	{
+		for (const )
+	}
+
 	//sf::Sprite& ResourceManager::LoadSprite(const std::string id)
 	//{
 	//	_sprites[id] = sf::Sprite(_textures[id]);

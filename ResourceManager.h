@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
 
+#include "LuaAPI.h"
+
 namespace LeaderEngine
 {
 	struct AnimationFrame {
@@ -32,6 +34,7 @@ namespace LeaderEngine
 		private:	
 			void LoadTextures(const YAML::Node& textureNode);
 			void LoadAnimation(const YAML::Node& animationNode);
+			void LoadScripts();
 			//sf::Sprite& LoadSprite(const std::string id);
 			//void LoadAnimation(const YAML::Node& animationNode, int frameWidth, int frameHeight, float speed);
 			

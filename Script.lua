@@ -24,11 +24,11 @@ function Player:Create()
     end
 
     if boxCollider then
-        boxCollider:SetSize(Vector2f(32,32))
+        boxCollider:SetSize(Vector2f(64,64))
     end
 
     if fighterEffect then
-        fighterEffect:PlayAnimation("FighterEffectAnimation")
+        fighterEffect:PlayAnimation("FighterEffectAnimation", true)
     end
         
     player:SetPosition(200,200)

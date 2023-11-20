@@ -122,7 +122,6 @@ namespace LeaderEngine {
 				{
 					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), animComp);
 				}
-
 			}
 
 		return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState());

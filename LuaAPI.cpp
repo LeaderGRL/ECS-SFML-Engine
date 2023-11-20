@@ -182,15 +182,16 @@ namespace LeaderEngine
 			//.addProperty("code", static_cast<int>(&sf::Event::KeyEvent::code), false)
 			.endClass();
 
-		const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
-		report_errors(L, scriptLoadStatus);
+		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
+		//report_errors(L, scriptLoadStatus);
 
 		//EventManager::GetInstance().
 	}
 
 	void LuaAPI::LoadScript(const char* path)
 	{
-		luaL_dofile(L, path);
+		const int scriptLoadStatus = luaL_dofile(L, path);
+		report_errors(L, scriptLoadStatus);
 	}
 
 	void LuaAPI::GetLuaStack()
