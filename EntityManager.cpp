@@ -36,10 +36,8 @@ namespace LeaderEngine
 		const auto it = _entities.find(name);
 		if (it != _entities.end())
 		{
-			std::cout << "Pierre, jadore ce mec !" << std::endl;
 			return it->second.get();
 		}
-		std::cout << "Pierre, je deteste ce mec !" << std::endl;
 		return nullptr;
 	}
 

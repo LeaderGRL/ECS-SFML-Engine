@@ -68,7 +68,7 @@ namespace LeaderEngine
 				//if (!LuaAPI::Call_Errors(LuaAPI::GetInstance().GetLuaState(), callback, 1, 0))
 				//{
 				//	std::cerr << "Error calling Lua event handler!" << std::endl;
-				//}
+				//} 
 				//lua_settop(callback.state(), 3);
 
 				//std::cout << event.type << std::endl;

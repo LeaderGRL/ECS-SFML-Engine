@@ -65,10 +65,12 @@ namespace LeaderEngine {
 						break;
 					case sf::Event::KeyPressed:
 						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::KeyPressed, event);
-						LuaAPI::GetInstance().GetLuaStack();
 						break;
 					case sf::Event::KeyReleased:
 						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::KeyReleased, event);
+						break;
+					case sf::Event::MouseButtonPressed:
+						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::MouseButtonPressed, event);
 						break;
 				}
 			}

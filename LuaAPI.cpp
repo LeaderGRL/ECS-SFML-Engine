@@ -118,6 +118,7 @@ namespace LeaderEngine
 			.beginNamespace("Input")
 			.addVariable("INPUT_EVENT_KEY_PRESSED", INPUT_EVENT::KeyPressed)
 			.addVariable("INPUT_EVENT_KEY_RELEASED", INPUT_EVENT::KeyReleased)
+			.addVariable("INPUT_EVENT_MOUSE_PRESSED", INPUT_EVENT::MouseButtonPressed)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)
@@ -134,6 +135,7 @@ namespace LeaderEngine
 			.addProperty("type", &sf::Event::type)
 			//.addProperty("KeyPressed", sf::Event::KeyPressed)
 			.addProperty("key", &sf::Event::key)
+			.addProperty("mouseButton", &sf::Event::mouseButton)
 			.endClass();
 
 
@@ -142,6 +144,7 @@ namespace LeaderEngine
 			.addVariable("Closed", sf::Event::EventType::Closed)
 			.addVariable("KeyPressed", sf::Event::EventType::KeyPressed)
 			.addVariable("KeyReleased", sf::Event::EventType::KeyReleased)
+			.addVariable("MouseButtonPressed", sf::Event::EventType::MouseButtonPressed)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)
@@ -178,8 +181,23 @@ namespace LeaderEngine
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("sf")
+			.beginClass<sf::Mouse::Button>("Button")
+			.endClass()
+			.addVariable("LEFT", sf::Mouse::Left)
+			.addVariable("RIGHT", sf::Mouse::Right)
+			.endNamespace();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("sf")
 			.beginClass<sf::Event::KeyEvent>("KeyEvent")
 			.addStaticFunction("GetKeyEventCode", &Utils::GetKeyEventCode)
+			//.addProperty("code", static_cast<int>(&sf::Event::KeyEvent::code), false)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("sf")
+			.beginClass<sf::Event::MouseButtonEvent>("MouseButtonEvent")
+			.addStaticFunction("GetMouseEventCode", &Utils::GetMouseEventCode)
 			//.addProperty("code", static_cast<int>(&sf::Event::KeyEvent::code), false)
 			.endClass();
 
