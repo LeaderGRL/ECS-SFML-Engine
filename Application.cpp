@@ -34,13 +34,16 @@ namespace LeaderEngine {
 	void Application::Init()
 	{
 		LuaAPI::GetInstance().CPP_To_LUA();
+		LuaAPI::GetInstance().LoadScript("Assets/Scripts/Config.lua");
 		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
 
-		Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
-		player->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Player.lua"); // Load the script automaticaly
 
 		Entity* Weapons = EntityManager::GetInstance().CreateEntity("FighterWeapons");
 		Weapons->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Weapons.lua");
+		Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
+		player->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Player.lua"); // Load the script automaticaly
+
+		
 	}  
 	
 	void Application::Run()
