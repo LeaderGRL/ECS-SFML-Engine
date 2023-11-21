@@ -37,12 +37,12 @@ namespace LeaderEngine {
 		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
 
 
-		Entity* Weapons = EntityManager::GetInstance().CreateEntity("FighterWeapons");
-		Weapons->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Weapons.lua");
+		Entity* weapons = EntityManager::GetInstance().CreateEntity("FighterWeapons");
+		weapons->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Weapons.lua");
 		Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
 		player->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Player.lua"); // Load the script automaticaly
-
-		
+		Entity* bullets = EntityManager::GetInstance().CreateEntity("Rocket");
+		bullets->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Bullets.lua");
 	}  
 	
 	void Application::Run()
