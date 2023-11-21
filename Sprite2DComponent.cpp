@@ -57,7 +57,12 @@ namespace LeaderEngine {
 		else {
 			std::cerr << "Error: No frames for animation named " << animationName << std::endl;
 		}
+	}
 
+	void Sprite2DComponent::StopAnimation(const std::string& animationName)
+	{
+		if (animationName == _animationName)
+			isAnimating = false;
 	}
 
 	void Sprite2DComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const

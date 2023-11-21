@@ -72,6 +72,9 @@ namespace LeaderEngine {
 					case sf::Event::MouseButtonPressed:
 						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::MouseButtonPressed, event);
 						break;
+					case sf::Event::MouseButtonReleased:
+						EventManager::GetInstance().InvokeEvent(INPUT_EVENT::MouseButtonReleased, event);
+						break;
 				}
 			}
 

@@ -77,6 +77,7 @@ namespace LeaderEngine
 			.addFunction("GetSprite", &Sprite2DComponent::GetSprite)
 			.addFunction("SetSize", &Sprite2DComponent::SetSize)
 			.addFunction("PlayAnimation", &Sprite2DComponent::PlayAnimation)
+			.addFunction("StopAnimation", &Sprite2DComponent::StopAnimation)
 			.endClass()
 			.deriveClass<ColliderComponent, IComponent>("ColliderComponent")
 			.endClass()
@@ -119,6 +120,7 @@ namespace LeaderEngine
 			.addVariable("INPUT_EVENT_KEY_PRESSED", INPUT_EVENT::KeyPressed)
 			.addVariable("INPUT_EVENT_KEY_RELEASED", INPUT_EVENT::KeyReleased)
 			.addVariable("INPUT_EVENT_MOUSE_PRESSED", INPUT_EVENT::MouseButtonPressed)
+			.addVariable("INPUT_EVENT_MOUSE_RELEASED", INPUT_EVENT::MouseButtonReleased)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)
@@ -145,6 +147,7 @@ namespace LeaderEngine
 			.addVariable("KeyPressed", sf::Event::EventType::KeyPressed)
 			.addVariable("KeyReleased", sf::Event::EventType::KeyReleased)
 			.addVariable("MouseButtonPressed", sf::Event::EventType::MouseButtonPressed)
+			.addVariable("MouseButtonReleased", sf::Event::EventType::MouseButtonReleased)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)

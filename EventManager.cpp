@@ -39,76 +39,11 @@ namespace LeaderEngine
 					std::cerr << "Error calling Lua event handler: " << error_msg << std::endl;
 					lua_pop(LuaAPI::GetInstance().GetLuaState(), 1); // Pop the error message
 				}
-
-				// Clean up the Lua stack to avoid overflow
-				//lua_settop(callback.state(), 0);
-
-				/*for (auto e : GetEventFromInput(INPUT_EVENT::KeyPressed) )
-				{
-					std::cout<< "size : " << e
-				}*/
-
-				//int stackSizeBefore = lua_gettop(callback.state());
-				//luabridge::Result itemsPushed = luabridge::push(LuaAPI::GetInstance().GetLuaState(), e);
-
-
-				//luabridge::Stack<sf::Event>::push(LuaAPI::GetInstance().GetLuaState(), e);
-
-				//if (lua_pcall(LuaAPI::GetInstance().GetLuaState(), 1, 0, 0) != LUA_OK) {
-				//	// Handle error: print the error message from the top of the stack
-				//	std::cerr << lua_tostring(LuaAPI::GetInstance().GetLuaState(), -1) << std::endl;
-				//	lua_pop(LuaAPI::GetInstance().GetLuaState(), 1);  // Remove error message from the stack
-				//}
-				//luabridge::Result itemsPushed = luabridge::Stack<sf::Event>::push(callback.state(), event); // Push the event onto the lua stack
-				//int stackSizeAfter = lua_gettop(callback.state());
-				//std::cout << "before : " << stackSizeBefore << " After : " << stackSizeAfter << callback.tostring() + "\n";
-
-				//luabridge::pcall()
-
-				//if (!LuaAPI::Call_Errors(LuaAPI::GetInstance().GetLuaState(), callback, 1, 0))
-				//{
-				//	std::cerr << "Error calling Lua event handler!" << std::endl;
-				//} 
-				//lua_settop(callback.state(), 3);
-
-				//std::cout << event.type << std::endl;
-				//callback(e);
-
 			}
 		};
 		
 		RegisterEvent(event, handler);
 	}
-
-	//void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, const EventHandler& handler)
-	//{
-	//	auto& handlers = _EventHandlers[inputEvent];
-	//	auto it = std::find_if(handlers.begin(), handlers.end(), [&handler](const std::shared_ptr<EventHandler>& h)
-	//	{
-	//		return h->target_type() == handler.target_type();
-	//	});
-
-	//	if (it != handlers.end())
-	//		handlers.erase(it);
-	//}
-
-	//void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, luabridge::LuaRef callback)
-	//{
-	//	EventHandler handler = [callback](const sf::Event& event)
-	//	{
-	//		if (callback.isFunction())
-	//			callback(event);
-	//	};
-
-	//	UnregisterEvent(inputEvent, handler);
-	//}
-
-	//void EventManager::HandleEvent(const sf::Event& event)
-	//{
-	//	auto& handlers = _EventHandlers[event.type];
-	//	for (auto& handler : handlers)
-	//		(*handler)(event);
-	//}
 
 	void EventManager::UnregisterEvent(INPUT_EVENT inputEvent, const EventHandler& handler)
 	{
