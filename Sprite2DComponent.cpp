@@ -52,7 +52,7 @@ namespace LeaderEngine {
 		
 		const auto& animationFrames = ResourceManager::GetInstance().GetAnimation(animationName);
 		if (!animationFrames.empty()) {
-			_sprite.setTexture(*animationFrames.front().texture);
+			_sprite.setTexture(*animationFrames.front().texture); // Set the first frame
 		}
 		else {
 			std::cerr << "Error: No frames for animation named " << animationName << std::endl;
@@ -62,7 +62,16 @@ namespace LeaderEngine {
 	void Sprite2DComponent::StopAnimation(const std::string& animationName)
 	{
 		if (animationName == _animationName)
+		{
 			isAnimating = false;
+			//const auto& animationFrames = ResourceManager::GetInstance().GetAnimation(animationName);
+			//if (!animationFrames.empty()) {
+			//	_sprite.setTexture(*animationFrames.front().texture); // Set the first frame
+			//}
+			//else {
+			//	std::cerr << "Error: No frames for animation named " << animationName << std::endl;
+			//}
+		}
 	}
 
 	void Sprite2DComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -18,7 +18,6 @@ namespace LeaderEngine {
 	{
 		//luabridge::getGlobalNamespace()
 		Init();
-
 	}
 
 	Application::~Application()
@@ -51,10 +50,10 @@ namespace LeaderEngine {
 		sf::Clock clock;
 		sf::Event event;
 
-
 		while (window.isOpen())
 		{
-			
+			sf::Time time = clock.getElapsedTime();
+
 			while (window.pollEvent(event))
 			{
 				switch (event.type)
@@ -78,7 +77,6 @@ namespace LeaderEngine {
 				}
 			}
 
-			sf::Time time = clock.getElapsedTime();
 
 			window.clear(sf::Color::Black);
 			EntityManager::GetInstance().draw(window, sf::RenderStates::Default);

@@ -24,8 +24,18 @@ namespace LeaderEngine
 
 
 			if (!spriteComp->isAnimating)
+			{
+				std::cout << spriteComp->GetAnimationName() << std::endl;
+				//const sf::Texture* texture = rs.GetAnimation(spriteComp->GetAnimationName())[0].texture;
+
+				if (!rs.GetAnimation(spriteComp->GetAnimationName()).empty())
+				{
+					sf::Texture t;
+					spriteComp->SetSprite(*rs.GetAnimation(spriteComp->GetAnimationName())[0].texture);
+				}
 				continue;
-			
+			}
+
 			spriteComp->currentFrameTime += deltaTime;
 
 			if (spriteComp->currentFrameTime >= rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].duration)
@@ -41,7 +51,7 @@ namespace LeaderEngine
 					continue;
 				}
 			}
-			
+
 			const auto& frame = rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
 
 			spriteComp->SetSprite(*frame.texture);
