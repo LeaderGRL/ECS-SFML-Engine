@@ -28,7 +28,7 @@ namespace LeaderEngine {
 		 _sprite.setScale(size.x / _sprite.getLocalBounds().width, size.y / _sprite.getLocalBounds().height);
 	}
 
-	void Sprite2DComponent::SetSprite(sf::Texture& texture)
+	void Sprite2DComponent::SetSprite(const sf::Texture& texture)
 	{
 		_sprite.setTexture(texture);
 	}
@@ -43,6 +43,11 @@ namespace LeaderEngine {
 		return _animationName;
 	}
 
+	std::string& Sprite2DComponent::GetTextureName()
+	{
+		return _textureName;
+	}
+
 	void Sprite2DComponent::PlayAnimation(const std::string& animationName, bool loop)
 	{
 		/*ResourceManager rs = ResourceManager::GetInstance();*/
@@ -52,7 +57,7 @@ namespace LeaderEngine {
 		
 		const auto& animationFrames = ResourceManager::GetInstance().GetAnimation(animationName);
 		if (!animationFrames.empty()) {
-			_sprite.setTexture(*animationFrames.front().texture); // Set the first frame
+			//_sprite.setTexture(*animationFrames.front().texture); // Set the first frame
 		}
 		else {
 			std::cerr << "Error: No frames for animation named " << animationName << std::endl;

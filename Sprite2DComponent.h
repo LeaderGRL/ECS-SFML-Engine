@@ -13,6 +13,7 @@ namespace LeaderEngine
 			sf::Sprite _sprite;
 			sf::Vector2f _size;
 			std::string _animationName;
+			std::string _textureName;
 			
 		protected :
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -30,9 +31,10 @@ namespace LeaderEngine
 			void StopAnimation(const std::string& animationName);
 			void Update(float deltaTime) override;
 			void SetSize(sf::Vector2f size);
-			void SetSprite(sf::Texture& texture);
+			void SetSprite(const sf::Texture& texture);
 			sf::Sprite& GetSprite();
 			std::string& GetAnimationName();
+			std::string& GetTextureName();
 			//COMPONENT_TYPE GetType() const override;
 	};
 }

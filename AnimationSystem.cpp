@@ -22,26 +22,25 @@ namespace LeaderEngine
 			if (!spriteComp)
 				continue;
 
-
 			if (!spriteComp->isAnimating)
 			{
-				std::cout << spriteComp->GetAnimationName() << std::endl;
 				//const sf::Texture* texture = rs.GetAnimation(spriteComp->GetAnimationName())[0].texture;
 
-				if (!rs.GetAnimation(spriteComp->GetAnimationName()).empty())
+				if (!ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName()).empty())
 				{
 					sf::Texture t;
-					spriteComp->SetSprite(*rs.GetAnimation(spriteComp->GetAnimationName())[0].texture);
+					spriteComp->currentFrameIndex = 0;
+					spriteComp->GetSprite().setTextureRect(ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].textureRect);
 				}
 				continue;
 			}
 
 			spriteComp->currentFrameTime += deltaTime;
 
-			if (spriteComp->currentFrameTime >= rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].duration)
+			if (spriteComp->currentFrameTime >= ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].duration)
 				spriteComp->currentFrameIndex++; // Next animation frame
 
-			if (spriteComp->currentFrameIndex >= rs.GetAnimation(spriteComp->GetAnimationName()).size())
+			if (spriteComp->currentFrameIndex >= ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName()).size())
 			{
 				if (spriteComp->shouldLoop)
 					spriteComp->currentFrameIndex = 0; // Restart animation
@@ -52,7 +51,7 @@ namespace LeaderEngine
 				}
 			}
 
-			const auto& frame = rs.GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
+			const auto& frame = ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
 
 			spriteComp->SetSprite(*frame.texture);
 			spriteComp->GetSprite().setTextureRect(frame.textureRect);

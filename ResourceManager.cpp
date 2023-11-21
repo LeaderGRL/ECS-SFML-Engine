@@ -50,6 +50,7 @@ namespace LeaderEngine
 			return it->second;
 		}
 		std::cout << "Fail to find texture with id " << id << std::endl;
+
 		return placeholderTexture;
 		
 		//return _textures.at(id);
@@ -105,6 +106,7 @@ namespace LeaderEngine
 				frameData.texture = &_textures[textureId];
 				frameData.textureRect = sf::IntRect(frame["x"].as<int>(), frame["y"].as<int>(), frame["width"].as<int>(), frame["height"].as<int>());
 				frameData.duration = frame["duration"].as<float>();
+				frameData.textureId = textureId;
 
 				frames.push_back(frameData);
 			}
