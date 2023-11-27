@@ -19,17 +19,17 @@ namespace LeaderEngine
 		//luabridge::LuaRef update = luabridge::getGlobal(LuaAPI::GetInstance().GetLuaState(), "Update"); // get update function
 		//luabridge::LuaResult res = update(deltaTime); // Call update function
 
-		//if (_luaObject.isTable())
-		//{
-		//	luabridge::LuaRef update = _luaObject["Update"];
-		//	if (update.isFunction())
-		//		std::cout << "iiiiiiiiiiii" << std::endl;
-		//		//luabridge::LuaResult res = update(deltaTime);
-		//} 
-		//else
-		//{
-		//	std::cout << "ttttttttt" << std::endl;
-		//}
+		if (_luaObject.isTable())
+		{
+			luabridge::LuaRef update = _luaObject["Update"];
+			if (update.isFunction())
+				//std::cout << "iiiiiiiiiiii" << std::endl;
+				luabridge::LuaResult res = update(deltaTime);
+		} 
+		else
+		{
+			//std::cout << "ttttttttt" << std::endl;
+		}
 	}
 
 	void ScriptComponent::LoadScript(const char* path)
