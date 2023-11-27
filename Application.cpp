@@ -18,6 +18,7 @@ namespace LeaderEngine {
 	{
 		//luabridge::getGlobalNamespace()
 		Init();
+		Run();
 	}
 
 	Application::~Application()
@@ -32,17 +33,18 @@ namespace LeaderEngine {
 
 	void Application::Init()
 	{
-		LuaAPI::GetInstance().CPP_To_LUA();
-		LuaAPI::GetInstance().LoadScript("Assets/Scripts/Config.lua");
 		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
 
+		LuaAPI::GetInstance().CPP_To_LUA();
+		LuaAPI::GetInstance().LoadScript("Assets/Scripts/Config.lua");
 
+		Entity* bullets = EntityManager::GetInstance().CreateEntity("Rocket");
+		bullets->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Bullets.lua");
 		Entity* weapons = EntityManager::GetInstance().CreateEntity("FighterWeapons");
 		weapons->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Weapons.lua");
 		Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
 		player->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Player.lua"); // Load the script automaticaly
-		Entity* bullets = EntityManager::GetInstance().CreateEntity("Rocket");
-		bullets->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Bullets.lua");
+
 	}  
 	
 	void Application::Run()

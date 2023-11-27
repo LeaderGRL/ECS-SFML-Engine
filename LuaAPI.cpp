@@ -25,16 +25,6 @@ namespace LeaderEngine
 		L = luaL_newstate();
 		luaL_openlibs(L);
 
-		//luabridge::getGlobalNamespace(L)
-		//	.beginClass<Entity>("Entity")
-		//	.addConstructor<void(*) (void)>()
-		//	.addFunction("GetId", &Entity::GetId)
-		//	.addFunction("AddComponent", static_cast<void (Entity::*)(IComponent*)>(&Entity::AddComponent))
-		//	.addFunction("GetPosition", (&sf::Transformable::getPosition))
-		//	.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
-		//	.addFunction("Move", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::move))
-		//	.endClass();
-
 		luabridge::getGlobalNamespace(L)
 			.beginClass<Entity>("Entity")
 			.addConstructor<void(*) (void)>()
