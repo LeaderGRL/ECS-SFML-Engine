@@ -33,12 +33,13 @@ namespace LeaderEngine
 			{
 				luabridge::Result itemsPushed = luabridge::Stack<sf::Event>::push(LuaAPI::GetInstance().GetLuaState(), e); // Push the event onto the lua stack
 
-				if (lua_pcall(LuaAPI::GetInstance().GetLuaState(), 1, 0, 0) != LUA_OK) {
-					// Handle error, pop the error message from the stack
-					const char* error_msg = lua_tostring(LuaAPI::GetInstance().GetLuaState(), -1);
-					std::cerr << "Error calling Lua event handler: " << error_msg << std::endl;
-					lua_pop(LuaAPI::GetInstance().GetLuaState(), 1); // Pop the error message
-				}
+				callback(e);
+				//if (lua_pcall(LuaAPI::GetInstance().GetLuaState(), 1, 0, 0) != LUA_OK) {
+				//	// Handle error, pop the error message from the stack
+				//	const char* error_msg = lua_tostring(LuaAPI::GetInstance().GetLuaState(), -1);
+				//	std::cerr << "Error calling Lua event handler: " << error_msg << std::endl;
+				//	lua_pop(LuaAPI::GetInstance().GetLuaState(), 1); // Pop the error message
+				//}
 			}
 		};
 		
