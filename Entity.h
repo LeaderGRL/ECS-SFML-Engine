@@ -39,7 +39,7 @@ namespace LeaderEngine {
 		
 		int GetId() const;
 		void SetId(int id);
-		void Update(float deltaTime) const; // Update through all the components
+		void Update(int deltaTime) const; // Update through all the components
 		void Start();
 		void Destroy();
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components

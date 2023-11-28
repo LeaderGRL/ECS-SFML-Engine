@@ -29,7 +29,7 @@ namespace LeaderEngine
 			~Sprite2DComponent();
 			void PlayAnimation(const std::string& animationName, bool loop = true);
 			void StopAnimation(const std::string& animationName);
-			void Update(float deltaTime) override;
+			void Update(int deltaTime) override;
 			void SetSize(sf::Vector2f size);
 			void SetSprite(const sf::Texture& texture);
 			sf::Sprite& GetSprite();

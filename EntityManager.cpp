@@ -54,7 +54,7 @@ namespace LeaderEngine
 		}
 	}
 
-	void EntityManager::Update(float deltaTime)
+	void EntityManager::Update(int deltaTime)
 	{
 		_collisionSystem.CheckCollisions(_entities);
 		_animationSystem.Update(_entities, deltaTime);

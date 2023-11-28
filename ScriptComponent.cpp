@@ -14,7 +14,7 @@ namespace LeaderEngine
 		LoadScript(path);
 	}
 
-	void ScriptComponent::Update(float deltaTime)
+	void ScriptComponent::Update(int deltaTime)
 	{
 		//luabridge::LuaRef update = luabridge::getGlobal(LuaAPI::GetInstance().GetLuaState(), "Update"); // get update function
 		//luabridge::LuaResult res = update(deltaTime); // Call update function
@@ -23,8 +23,14 @@ namespace LeaderEngine
 		{
 			luabridge::LuaRef update = _luaObject["Update"];
 			if (update.isFunction())
-				//std::cout << "iiiiiiiiiiii" << std::endl;
+			{
 				luabridge::LuaResult res = update(deltaTime);
+
+				std::cout << deltaTime << std::endl;
+				if (!res.wasOk())
+					std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
+			}
+				
 		} 
 		else
 		{

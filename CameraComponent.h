@@ -32,7 +32,7 @@ namespace LeaderEngine
 		float getZoom();
 		void setZoom(float zoom);
 
-		void Update(float deltaTime) override;
+		void Update(int deltaTime) override;
 
 		COMPONENT_TYPE GetType() const override;
 	};

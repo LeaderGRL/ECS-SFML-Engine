@@ -30,7 +30,7 @@ namespace LeaderEngine
 			Entity* GetEntity(const std::string& name);
 			const std::unordered_map<std::string, std::unique_ptr<Entity>>& GetEntities() const;
 			void draw(sf::RenderTarget& target, sf::RenderStates states);
-			void Update(float deltaTime);
+			void Update(int deltaTime);
 
 			
 	};

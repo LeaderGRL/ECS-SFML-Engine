@@ -18,7 +18,7 @@ namespace LeaderEngine
 			//ScriptComponent();
 			ScriptComponent(const char* path);
 
-			void Update(float deltaTime) override;
+			void Update(int deltaTime) override;
 			void LoadScript(const char* path);
 			COMPONENT_TYPE GetType() const override;
 
