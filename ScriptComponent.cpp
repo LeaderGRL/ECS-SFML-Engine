@@ -19,23 +19,24 @@ namespace LeaderEngine
 		//luabridge::LuaRef update = luabridge::getGlobal(LuaAPI::GetInstance().GetLuaState(), "Update"); // get update function
 		//luabridge::LuaResult res = update(deltaTime); // Call update function
 
-		if (_luaObject.isTable())
+		if (!_luaObject.isTable())
 		{
-			luabridge::LuaRef update = _luaObject["Update"];
-			if (update.isFunction())
-			{
-				luabridge::LuaResult res = update(deltaTime);
-
-				std::cout << deltaTime << std::endl;
-				if (!res.wasOk())
-					std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
-			}
-				
-		} 
-		else
-		{
-			//std::cout << "ttttttttt" << std::endl;
+			return;
 		}
+
+		const luabridge::LuaRef& update = _luaObject["Update"];
+		if (!update.isFunction())
+		{
+			return;
+		}
+
+		//luabridge::Result itemsPushed = luabridge::Stack<int>::push(LuaAPI::GetInstance().GetLuaState(), deltaTime); // Push the event onto the lua stack
+
+		if (const luabridge::LuaResult res = update(NULL, 100); !res.wasOk()) // for a weird reason, the first parameter in lua is the second in C++ ??
+			std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
+
+		//if (!res.wasOk())
+		//	std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
 	}
 
 	void ScriptComponent::LoadScript(const char* path)
