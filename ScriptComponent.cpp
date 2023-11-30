@@ -30,9 +30,10 @@ namespace LeaderEngine
 			return;
 		}
 
-		//luabridge::Result itemsPushed = luabridge::Stack<int>::push(LuaAPI::GetInstance().GetLuaState(), deltaTime); // Push the event onto the lua stack
 
-		if (const luabridge::LuaResult res = update(NULL, 100); !res.wasOk()) // for a weird reason, the first parameter in lua is the second in C++ ??
+		// In lua, a function set like Object:Function is actually Object.Function(Object)
+		// So we need to pass the object as the first parameter
+		if (const luabridge::LuaResult res = update(_luaObject, deltaTime); !res.wasOk()) 
 			std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
 
 		//if (!res.wasOk())
