@@ -16,9 +16,6 @@ namespace LeaderEngine
 
 	void ScriptComponent::Update(int deltaTime)
 	{
-		//luabridge::LuaRef update = luabridge::getGlobal(LuaAPI::GetInstance().GetLuaState(), "Update"); // get update function
-		//luabridge::LuaResult res = update(deltaTime); // Call update function
-
 		if (!_luaObject.isTable())
 		{
 			return;
@@ -30,14 +27,11 @@ namespace LeaderEngine
 			return;
 		}
 
-
 		// In lua, a function set like Object:Function is actually Object.Function(Object)
 		// So we need to pass the object as the first parameter
-		if (const luabridge::LuaResult res = update(_luaObject, deltaTime); !res.wasOk()) 
+		if (const luabridge::LuaResult res = update(_luaObject, deltaTime); !res.wasOk()) // init statement
 			std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
 
-		//if (!res.wasOk())
-		//	std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
 	}
 
 	void ScriptComponent::LoadScript(const char* path)

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "LuaAPI.h"
 
+#include "CameraComponent.h"
+
 namespace LeaderEngine 
 {	
 	LuaAPI::LuaAPI()
@@ -69,6 +71,16 @@ namespace LeaderEngine
 			.addFunction("PlayAnimation", &Sprite2DComponent::PlayAnimation)
 			.addFunction("StopAnimation", &Sprite2DComponent::StopAnimation)
 			.endClass()
+			.deriveClass<CameraComponent, IComponent>("CameraComponent")
+			.addFunction("SetView", &CameraComponent::setView)
+			.addFunction("GetView", CameraComponent::getView)
+			.addFunction("SetSize", CameraComponent::setSize)
+			.addFunction("GetSize", CameraComponent::getSize)
+			.addFunction("SetZoom", CameraComponent::setZoom)
+			.addFunction("GetZoom", CameraComponent::getZoom)
+			.addFunction("SetRotation", CameraComponent::setRotation)
+			.addFunction("GetRotation", CameraComponent::getRotation)
+			.endClass()
 			.deriveClass<ColliderComponent, IComponent>("ColliderComponent")
 			.endClass()
 			.deriveClass<BoxColliderComponent, ColliderComponent>("BoxColliderComponent")
@@ -118,6 +130,7 @@ namespace LeaderEngine
 			.addVariable("SPRITE2D", COMPONENT_TYPE::SPRITE2D)
 			.addVariable("BOX_COLLIDER", COMPONENT_TYPE::BOX_COLLIDER)
 			.addVariable("ANIMATION", COMPONENT_TYPE::ANIMATION)
+			.addVariable("CAMERA", COMPONENT_TYPE::CAMERA)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)
