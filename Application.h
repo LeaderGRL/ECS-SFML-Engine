@@ -11,7 +11,7 @@ namespace LeaderEngine {
 	class Application
 	{
 		private:
-			sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(800, 600), "ECS Application");
+			sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(800, 800), "ECS Application");
 			void Init();
 			std::vector<Entity> entities;
 		protected :
