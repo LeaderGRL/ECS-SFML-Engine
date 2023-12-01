@@ -5,6 +5,7 @@
 #include <typeinfo>
 
 #include "BoxColliderComponent.h"
+#include "CameraComponent.h"
 #include "LuaAPI.h"
 
 namespace LeaderEngine {
@@ -79,6 +80,8 @@ namespace LeaderEngine {
 		}
 	}
 
+	//--------------------------- TO REFACTOR ---------------------------//
+
 	void Entity::AddComponent(int type)
 	{
 		COMPONENT_TYPE c_type = static_cast<COMPONENT_TYPE>(type);
@@ -89,6 +92,8 @@ namespace LeaderEngine {
 			AddComponent<BoxColliderComponent>(sf::Vector2f(0,0));
 		if (c_type == COMPONENT_TYPE::ANIMATION)
 			AddComponent<Sprite2DComponent>();
+		if (c_type == COMPONENT_TYPE::CAMERA)
+			AddComponent<CameraComponent>();
 	}
 
 	luabridge::LuaRef Entity::GetComponent(int type)
@@ -124,8 +129,19 @@ namespace LeaderEngine {
 				}
 			}
 
+		if (type_c == COMPONENT_TYPE::CAMERA)
+			for (const auto& comp : _components)
+			{
+				if (CameraComponent* camComp = dynamic_cast<CameraComponent*>(comp.get()))
+				{
+					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), camComp);
+				}
+			}
+
 		return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState());
 	}
+
+	// -------------------------------------------------------------------- //
 
 	//void Entity::AddComponent(IComponent* component)
 	//{

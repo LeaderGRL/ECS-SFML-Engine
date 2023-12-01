@@ -8,7 +8,7 @@ namespace LeaderEngine
 {
 	CameraComponent::CameraComponent()
 	{
-		
+
 	}
 
 	CameraComponent::~CameraComponent()
@@ -18,60 +18,62 @@ namespace LeaderEngine
 	
 	sf::View CameraComponent::getView()
 	{
-		return view;
+		return _view;
 	}
 	
-	void CameraComponent::setView(sf::View view)
+	void CameraComponent::setView(const sf::View& view)
 	{
-		this->view = view;
+		this->_view = view;
 	}
 	
 	sf::Vector2f CameraComponent::getPosition()
 	{
-		return position;
+		return _position;
 	}
 	
 	void CameraComponent::setPosition(sf::Vector2f position)
 	{
-		this->position = position;
+		this->_position = position;
 	}
 	
 	sf::Vector2f CameraComponent::getSize()
 	{
-		return sf::Vector2f();
+		return _size;
 	}
 	
-	void CameraComponent::setSize(sf::Vector2f size)
+	void CameraComponent::setSize(const sf::Vector2f& size)
 	{
-		this->size = size;
+		this->_size = size;
 	}
 	
 	float CameraComponent::getRotation()
 	{
-		return rotation;
+		return _rotation;
 	}
 	
 	void CameraComponent::setRotation(float rotation)
 	{
-		this->rotation = rotation;
+		this->_rotation = rotation;
 	}
 	
 	float CameraComponent::getZoom()
 	{
-		return zoom;
+		return _zoom;
 	}
 	
 	void CameraComponent::setZoom(float zoom)
 	{
-		this->zoom = zoom;
+		this->_zoom = zoom;
 	}
 	
 	void CameraComponent::Update(int deltaTime)
 	{
-		view.setCenter(position);
-		view.setRotation(rotation);
-		view.setSize(size);
-		view.zoom(zoom);
+		_view.setCenter(_position);
+		_view.setRotation(_rotation);
+		_view.setSize(_size);
+		_view.zoom(_zoom);
+		std::cout << _size.x << std::endl;
+		std::cout << _view.getSize().x << std::endl;
 	}
 	
 	COMPONENT_TYPE CameraComponent::GetType() const

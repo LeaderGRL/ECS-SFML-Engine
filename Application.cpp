@@ -47,6 +47,8 @@ namespace LeaderEngine {
 		Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
 		player->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Player.lua"); // Load the script automaticaly
 
+		window.setView(camera->GetComponent<CameraComponent>()->getView());
+
 	}  
 	
 	void Application::Run()

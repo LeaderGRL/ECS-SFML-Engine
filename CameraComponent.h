@@ -7,24 +7,25 @@ namespace LeaderEngine
 	class CameraComponent : public IComponent
 	{
 	private :
-		sf::View view;
-		sf::Vector2f position;
-		sf::Vector2f size;
-		float rotation;
-		float zoom;
+		sf::View _view;
+		sf::Vector2f _position;
+		sf::Vector2f _size;
+		float _rotation;
+		float _zoom;
 
 	public:
 		CameraComponent();
+		//CameraComponent(sf::FloatRect);
 		~CameraComponent();
 
 		sf::View getView();
-		void setView(sf::View view);
+		void setView(const sf::View& view);
 
 		sf::Vector2f getPosition();
 		void setPosition(sf::Vector2f position);
 
 		sf::Vector2f getSize();
-		void setSize(sf::Vector2f size);
+		void setSize(const sf::Vector2f& size);
 
 		float getRotation();
 		void setRotation(float rotation);
