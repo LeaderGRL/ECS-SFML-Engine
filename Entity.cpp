@@ -48,7 +48,7 @@ namespace LeaderEngine {
 		Entity::_id = id;
 	}
 
-	void Entity::Update(int deltaTime) const // WARNING : Check if the "const" cannot be a problem in the future
+	void Entity::Update(float deltaTime) const // WARNING : Check if the "const" cannot be a problem in the future
 	{
 		for (const auto& comp : _components)
 		{

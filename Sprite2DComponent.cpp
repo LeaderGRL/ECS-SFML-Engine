@@ -18,7 +18,7 @@ namespace LeaderEngine {
 		
 	}
 
-	void Sprite2DComponent::Update(int deltaTime)
+	void Sprite2DComponent::Update(float deltaTime)
 	{
 
 	}

@@ -59,6 +59,7 @@ namespace LeaderEngine {
 		while (window.isOpen())
 		{
 			sf::Time time = clock.getElapsedTime();
+			window.setView(EntityManager::GetInstance().GetEntity("MainCamera")->GetComponent<CameraComponent>()->getView());
 
 			while (window.pollEvent(event))
 			{
@@ -83,10 +84,9 @@ namespace LeaderEngine {
 				}
 			}
 
-
 			window.clear(sf::Color::Black);
 			EntityManager::GetInstance().draw(window, sf::RenderStates::Default);
-			EntityManager::GetInstance().Update(time.asMilliseconds());
+			EntityManager::GetInstance().Update(time.asSeconds());
 			window.display();
 		}
 	}

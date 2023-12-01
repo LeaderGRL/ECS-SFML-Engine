@@ -14,7 +14,7 @@ namespace LeaderEngine
 		LoadScript(path);
 	}
 
-	void ScriptComponent::Update(int deltaTime)
+	void ScriptComponent::Update(float deltaTime)
 	{
 		if (!_luaObject.isTable())
 		{
