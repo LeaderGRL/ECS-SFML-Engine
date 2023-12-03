@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LeaderEngine::LuaAPI" Collapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAIAAACAAQCAABBAAAAAAAJAAgAAQAAAA=</HashCode>
+      <FileName>LuaAPI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::Entity" Collapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAQIACSIIAAQAAJABAACADBAAAAABAAggAIAACA=</HashCode>
+      <FileName>Entity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::Application" Collapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAACAQAIAAACAACAAAI=</HashCode>
+      <FileName>Application.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::Utils" Collapsed="true">
+    <Position X="15" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::BoxColliderComponent" Collapsed="true">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAGAAAIYAAAAAAAAAACAAAAAAAIAAAA=</HashCode>
+      <FileName>BoxColliderComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::CameraComponent" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAIICQAIABIAgQAAAAAAACCBAAAAEAACAAgAIAAAA=</HashCode>
+      <FileName>CameraComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::ColliderComponent" Collapsed="true">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAABAAAAAAAABAACAAAAAAAAAAAA=</HashCode>
+      <FileName>ColliderComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::IComponent" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>IComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::IDrawableComponent" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>IDrawableComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::ScriptComponent" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAAAAAAAAAEAAAAAAACAAIAAAAAAEABAAAAAAAAAA=</HashCode>
+      <FileName>ScriptComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::Sprite2DComponent" Collapsed="true">
+    <Position X="5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAAQAJEAQAIIIIAACAIACgAgAAAAEAACIAAAA=</HashCode>
+      <FileName>Sprite2DComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::AnimationSystem" Collapsed="true">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAIAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>AnimationSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::CollisionSystem" Collapsed="true">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAEAAAAAAAAAAAAAAABAABCABAAAAAAAAAA=</HashCode>
+      <FileName>CollisionSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::RenderSystem" Collapsed="true">
+    <Position X="11.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>RenderSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::EventManager" Collapsed="true">
+    <Position X="13.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABhAAAAAAAAAAAAAAAAABQEAgAAAACAgAAAAAAA=</HashCode>
+      <FileName>EventManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::Manager" Collapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Manager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::ResourceManager" Collapsed="true">
+    <Position X="13.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAAAQAAAgAAAAAAEgABBAAAAAAAAAAgAAAIAAA=</HashCode>
+      <FileName>ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeaderEngine::EntityManager" Collapsed="true">
+    <Position X="11.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAAIAQAAABIBAAAABAQAAQAAAAAgAAACAAA=</HashCode>
+      <FileName>EntityManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="LeaderEngine::AnimationFrame" Collapsed="true">
+    <Position X="9.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAhAAAAAAQAAAAAA=</HashCode>
+      <FileName>ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="LeaderEngine::COLLIDER_TYPE" Collapsed="true">
+    <Position X="9.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAEAACAA=</HashCode>
+      <FileName>COLLIDER_TYPE.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LeaderEngine::COMPONENT_TYPE" Collapsed="true">
+    <Position X="11.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAkIAAAAACQAAACEAAAAAIAAAAAACAY=</HashCode>
+      <FileName>COMPONENT_TYPE.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LeaderEngine::INPUT_EVENT" Collapsed="true">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIABBgAAA=</HashCode>
+      <FileName>INPUT_EVENT.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

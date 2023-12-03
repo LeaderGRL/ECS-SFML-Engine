@@ -58,7 +58,8 @@ namespace LeaderEngine {
 
 		while (window.isOpen())
 		{
-			sf::Time time = clock.getElapsedTime();
+			//sf::Time time = clock.getElapsedTime();
+			sf::Time time = clock.restart();
 			window.setView(EntityManager::GetInstance().GetEntity("MainCamera")->GetComponent<CameraComponent>()->getView());
 
 			while (window.pollEvent(event))
