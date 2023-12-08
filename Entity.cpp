@@ -7,6 +7,7 @@
 #include "BoxColliderComponent.h"
 #include "CameraComponent.h"
 #include "LuaAPI.h"
+#include "ScriptComponent.h"
 
 namespace LeaderEngine {
 	Entity::Entity()
@@ -94,6 +95,8 @@ namespace LeaderEngine {
 			AddComponent<Sprite2DComponent>();
 		if (c_type == COMPONENT_TYPE::CAMERA)
 			AddComponent<CameraComponent>();
+		if (c_type == COMPONENT_TYPE::SCRIPT)
+			AddComponent<ScriptComponent>();
 	}
 
 	luabridge::LuaRef Entity::GetComponent(int type)
@@ -135,6 +138,14 @@ namespace LeaderEngine {
 				if (CameraComponent* camComp = dynamic_cast<CameraComponent*>(comp.get()))
 				{
 					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), camComp);
+				}
+			}
+		if (type_c == COMPONENT_TYPE::SCRIPT)
+			for (const auto& comp : _components)
+			{
+				if (ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp.get()))
+				{
+					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), scriptComp);
 				}
 			}
 

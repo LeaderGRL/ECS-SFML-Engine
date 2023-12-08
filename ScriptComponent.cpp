@@ -4,10 +4,10 @@
 
 namespace LeaderEngine
 {
-	//ScriptComponent::ScriptComponent()
-	//{
+	ScriptComponent::ScriptComponent() : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
+	{
 
-	//}
+	}
 
 	ScriptComponent::ScriptComponent(const char* path) : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
 	{
@@ -36,6 +36,7 @@ namespace LeaderEngine
 
 	void ScriptComponent::LoadScript(const char* path)
 	{
+		std::cout << "test" << std::endl;
 		const int loadScriptStatus = luaL_dofile(LuaAPI::GetInstance().GetLuaState(), path);
 		report_errors(LuaAPI::GetInstance().GetLuaState(), loadScriptStatus);
 	}

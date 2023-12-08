@@ -72,8 +72,6 @@ namespace LeaderEngine
 		_view.setRotation(_rotation);
 		_view.setSize(_size);
 		_view.zoom(_zoom);
-		std::cout << _rotation << std::endl;
-		std::cout << _view.getRotation() << std::endl;
 	}
 	
 	COMPONENT_TYPE CameraComponent::GetType() const

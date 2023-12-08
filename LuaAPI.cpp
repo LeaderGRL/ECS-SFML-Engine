@@ -2,6 +2,7 @@
 #include "LuaAPI.h"
 
 #include "CameraComponent.h"
+#include "ScriptComponent.h"
 
 namespace LeaderEngine 
 {	
@@ -86,6 +87,9 @@ namespace LeaderEngine
 			.deriveClass<BoxColliderComponent, ColliderComponent>("BoxColliderComponent")
 			.addConstructor<void(*) (sf::Vector2f)>()
 			.addFunction("SetSize", &BoxColliderComponent::SetSize)
+			.endClass()
+			.deriveClass<ScriptComponent, IComponent>("ScriptComponent")
+			.addFunction("LoadScript", &ScriptComponent::LoadScript)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
@@ -131,6 +135,7 @@ namespace LeaderEngine
 			.addVariable("BOX_COLLIDER", COMPONENT_TYPE::BOX_COLLIDER)
 			.addVariable("ANIMATION", COMPONENT_TYPE::ANIMATION)
 			.addVariable("CAMERA", COMPONENT_TYPE::CAMERA)
+			.addVariable("SCRIPT", COMPONENT_TYPE::SCRIPT)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)

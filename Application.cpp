@@ -38,10 +38,12 @@ namespace LeaderEngine {
 		LuaAPI::GetInstance().CPP_To_LUA();
 		LuaAPI::GetInstance().LoadScript("Assets/Scripts/Config.lua");
 
+		//Entity* bulletManager = EntityManager::GetInstance().CreateEntity("BulletManager");
+		//bulletManager->AddComponent<ScriptComponent, const char*>("Assets/Scripts/BulletManager.lua");
 		Entity* camera = EntityManager::GetInstance().CreateEntity("MainCamera");
 		camera->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Camera.lua");
-		Entity* bullets = EntityManager::GetInstance().CreateEntity("Rocket");
-		bullets->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Bullets.lua");
+		/*Entity* bullets = EntityManager::GetInstance().CreateEntity("Rocket");
+		bullets->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Bullets.lua");*/
 		Entity* weapons = EntityManager::GetInstance().CreateEntity("FighterWeapons");
 		weapons->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Weapons.lua");
 		Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
