@@ -33,9 +33,12 @@ namespace LeaderEngine
 			.addConstructor<void(*) (void)>()
 			.addFunction("GetId", &Entity::GetId)
 			.addFunction("AddComponent", static_cast<void (Entity::*)(int)>(&Entity::AddComponent))
-			.addFunction("GetComponent", static_cast<luabridge::LuaRef (Entity::*)(int)>(&Entity::GetComponent))
+			.addFunction("GetComponent", static_cast<luabridge::LuaRef(Entity::*)(int)>(&Entity::GetComponent))
 			.addFunction("GetPosition", (&sf::Transformable::getPosition))
 			.addFunction("SetPosition", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::setPosition))
+			.addFunction("SetParent", &Entity::SetParent)
+			.addFunction("GetParent", &Entity::GetParent)
+			.addFunction("AddChild", &Entity::AddChild)
 			.addFunction("Move_F", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::move))
 			.addFunction("Move_V", static_cast<void (sf::Transformable::*)(const sf::Vector2f&)>(&sf::Transformable::move))
 			.endClass();

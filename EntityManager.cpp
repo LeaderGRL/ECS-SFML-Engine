@@ -47,6 +47,18 @@ namespace LeaderEngine
 		return nullptr;
 	}
 
+	const std::string EntityManager::GetName(const Entity* entity)
+	{
+		for (auto it = _entities.begin(); it != _entities.end(); ++it)
+		{
+			if (it->second.get() == entity)
+			{
+				return it->first;
+			}
+		}
+		return "";
+	}
+
 	const std::unordered_map<std::string, std::unique_ptr<Entity>>& EntityManager::GetEntities() const
 	{
 		return _entities;

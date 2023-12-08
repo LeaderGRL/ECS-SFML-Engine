@@ -75,7 +75,6 @@ namespace LeaderEngine {
 		
 	}
 
-
 	void Entity::Update(float deltaTime) const // WARNING : Check if the "const" cannot be a problem in the future
 	{
 		for (const auto& comp : _components)
@@ -84,9 +83,14 @@ namespace LeaderEngine {
 		}
 
 		// Children
-		for (auto it = _children.begin(); it != _children.end(); it++)
-		{
-			it->second->Update(deltaTime);
+		//for (auto it = _children.begin(); it != _children.end(); it++)
+		//{
+		//	//std::cout << "name : " << EntityManager::GetInstance().GetName(it->second.get()) << std::endl;
+		//	it->second->Update(deltaTime);
+		//}
+
+		for (auto& child : _children) {
+			child.second->Update(deltaTime);
 		}
 	}
 
@@ -114,9 +118,14 @@ namespace LeaderEngine {
 		}
 
 		// Children
-		for (auto it = _children.begin(); it != _children.end(); it++)
-		{
-			it->second->draw(target, states);
+		//for (auto it = _children.begin(); it != _children.end(); it++)
+		//{
+		//	//std::cout << "name : " << EntityManager::GetInstance().GetName(this) << std::endl;
+		//	it->second->draw(target, states);
+		//}
+
+		for (auto& child : _children) {
+			child.second->draw(target, states); // recursive call
 		}
 	}
 
