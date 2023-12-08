@@ -82,6 +82,12 @@ namespace LeaderEngine {
 		{
 			comp.get()->Update(deltaTime); // Call all component Update()
 		}
+
+		// Children
+		for (auto it = _children.begin(); it != _children.end(); it++)
+		{
+			it->second->Update(deltaTime);
+		}
 	}
 
 	void Entity::Start()
@@ -105,6 +111,12 @@ namespace LeaderEngine {
 				const IDrawableComponent* drawable = (IDrawableComponent*)comp.get(); // Cast the component to IDrawable component
 				target.draw(*drawable, states); // Draw the drawable component if the cast was successful
 			}
+		}
+
+		// Children
+		for (auto it = _children.begin(); it != _children.end(); it++)
+		{
+			it->second->draw(target, states);
 		}
 	}
 
