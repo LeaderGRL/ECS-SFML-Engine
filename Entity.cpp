@@ -49,6 +49,33 @@ namespace LeaderEngine {
 		Entity::_id = id;
 	}
 
+	void Entity::SetParent(Entity* parent)
+	{
+		_parent = parent;
+	}
+
+	Entity* Entity::GetParent() const
+	{
+		return _parent;
+	}
+
+	Entity* Entity::AddChild(const std::string& name)
+	{
+		std::unique_ptr<Entity> child = std::make_unique<Entity>(name);
+		child->SetParent(this);
+
+		Entity* rawPtr = child.get();
+		_children[name] = std::move(child);
+
+		return rawPtr;
+	}
+
+	void Entity::RemoveChild(const std::string& name)
+	{
+		
+	}
+
+
 	void Entity::Update(float deltaTime) const // WARNING : Check if the "const" cannot be a problem in the future
 	{
 		for (const auto& comp : _components)
