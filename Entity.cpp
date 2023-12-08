@@ -70,6 +70,22 @@ namespace LeaderEngine {
 		return rawPtr;
 	}
 
+	Entity* Entity::GetChild(const std::string& name)
+	{
+		const auto it = _children.find(name);
+		if (it != _children.end())
+		{
+			std::cout << it->first << std::endl;
+			return it->second.get();
+		}
+		return nullptr;
+	}
+
+	std::unordered_map<std::string, std::unique_ptr<Entity>>& Entity::GetChildren()
+	{
+		return _children;
+	}
+
 	void Entity::RemoveChild(const std::string& name)
 	{
 		

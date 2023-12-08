@@ -47,6 +47,8 @@ namespace LeaderEngine {
 			void SetParent(Entity* parent);
 			Entity* GetParent() const;
 			Entity* AddChild(const std::string& name);
+			Entity* GetChild(const std::string& name);
+			std::unordered_map<std::string, std::unique_ptr<Entity>>& GetChildren();
 			void RemoveChild(const std::string& name);
 
 			void Update(float deltaTime) const; // Update through all the components
