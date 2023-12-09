@@ -69,6 +69,10 @@ make
 ./LeaderEngine
 ```
 
+## UML Diagram
+### Components class diagram
+![UML Diagram](https://i.imgur.com/lRh0Ecl.png)
+
 ## Usage
 ### Creating a script
 Go to your game/Assets/Scripts directory and create a new lua file.
