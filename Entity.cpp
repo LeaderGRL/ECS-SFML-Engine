@@ -61,6 +61,8 @@ namespace LeaderEngine {
 
 	Entity* Entity::AddChild(const std::string& name)
 	{
+		//Entity child = EntityManager::GetInstance().CreateEntity(name);
+
 		std::unique_ptr<Entity> child = std::make_unique<Entity>(name);
 		child->SetParent(this);
 
@@ -72,6 +74,7 @@ namespace LeaderEngine {
 
 	Entity* Entity::GetChild(const std::string& name)
 	{
+		std::cout << name << std::endl;
 		const auto it = _children.find(name);
 		if (it != _children.end())
 		{

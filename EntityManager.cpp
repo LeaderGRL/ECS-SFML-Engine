@@ -24,12 +24,6 @@ namespace LeaderEngine
 	
 	Entity* EntityManager::CreateEntity(std::string name)
 	{
-		//int i = 1;
-		//if (GetEntity(name) != nullptr)
-		//{
-		//	name = name + std::to_string(i);
-		//}
-			
 		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(name);
 		Entity* rawPtr = newEntity.get();
 		_entities[name] = std::move(newEntity);
