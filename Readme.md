@@ -73,6 +73,15 @@ make
 ### Components class diagram
 ![UML Diagram](https://i.imgur.com/lRh0Ecl.png)
 
+### Managers class diagram
+![UML Diagram](https://i.imgur.com/5bGtNat.png)
+
+### Systems class diagram
+![UML Diagram](https://i.imgur.com/6x2OqN0.png)
+
+### Entity class diagram
+![UML Diagram](https://i.imgur.com/oRoCPed.png)
+
 ## Usage
 ### Creating a script
 Go to your game/Assets/Scripts directory and create a new lua file.
