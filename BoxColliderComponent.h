@@ -10,6 +10,7 @@ namespace LeaderEngine
 			sf::Vector2f _size;
 
 		public :
+			BoxColliderComponent();
 			BoxColliderComponent(sf::Vector2f size);
 			~BoxColliderComponent();
 

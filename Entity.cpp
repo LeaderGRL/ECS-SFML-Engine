@@ -150,7 +150,7 @@ namespace LeaderEngine {
 
 	//--------------------------- TO REFACTOR ---------------------------//
 
-	void Entity::AddComponent(int type)
+	/*void Entity::AddComponent(int type)
 	{
 		COMPONENT_TYPE c_type = static_cast<COMPONENT_TYPE>(type);
 
@@ -217,7 +217,7 @@ namespace LeaderEngine {
 			}
 
 		return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState());
-	}
+	}*/
 
 	// -------------------------------------------------------------------- //
 

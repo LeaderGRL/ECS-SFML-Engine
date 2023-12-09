@@ -3,6 +3,11 @@
 
 namespace LeaderEngine
 {
+	BoxColliderComponent::BoxColliderComponent()
+	{
+
+	}
+
 	BoxColliderComponent::BoxColliderComponent(sf::Vector2f size)
 	{
 		this->_size = size;
