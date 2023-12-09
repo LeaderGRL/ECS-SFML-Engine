@@ -224,6 +224,12 @@ namespace LeaderEngine
 			//.addProperty("code", static_cast<int>(&sf::Event::KeyEvent::code), false)
 			.endClass();
 
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Rect<float>>("FloatRect")
+			.addConstructor<void(*)(float, float, float, float)>()
+			.addStaticFunction("intersects", &Utils::RectIntersects)
+			.endClass();
+
 		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		//report_errors(L, scriptLoadStatus);
 

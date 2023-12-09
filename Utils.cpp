@@ -15,5 +15,9 @@ namespace LeaderEngine
 	{
 		return static_cast<int>(mouseEvent.button);
 	}
+
+	bool Utils::RectIntersects(const sf::Rect<float>& rect1, const sf::Rect<float>& rect2) {
+		return rect1.intersects(rect2);
+	}
 }
 
