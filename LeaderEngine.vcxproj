@@ -169,12 +169,14 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="INPUT_EVENT.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="NetworkingSystem.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="ScriptComponent.h" />
     <ClInclude Include="Sprite2DComponent.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="SystemManager.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +192,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="LeaderEngine.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="NetworkingSystem.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -201,6 +204,7 @@
     <ClCompile Include="ScriptComponent.cpp" />
     <ClCompile Include="Sprite2DComponent.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>

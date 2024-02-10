@@ -111,6 +111,12 @@
     <ClInclude Include="ScriptComponent.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>Fichiers d%27en-tête\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkingSystem.h">
+      <Filter>Fichiers d%27en-tête\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LeaderEngine.cpp">
@@ -169,6 +175,12 @@
     </ClCompile>
     <ClCompile Include="ScriptComponent.cpp">
       <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemManager.cpp">
+      <Filter>Fichiers sources\System</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkingSystem.cpp">
+      <Filter>Fichiers sources\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
