@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 #include "IComponent.h"
 
 
@@ -41,6 +42,8 @@ namespace LeaderEngine {
 			Entity& operator=(const Entity&) = delete; // delete copy assignment
 			Entity(Entity&&) = default; // use default move constructor
 			Entity& operator=(Entity&&) = default; // use default move assignment
+			sf::Packet& operator<<(sf::Packet& packet, const Entity& entity); // Overload the << operator to send an entity through the network
+			sf::Packet& operator>>(sf::Packet& packet, Entity& entity); // Overload the >> operator to receive an entity through the network
 			
 			int GetId() const;
 			void SetId(int id);
@@ -58,7 +61,6 @@ namespace LeaderEngine {
 			//void AddComponent(IComponent* component);
 			void AddComponent(int type);
 			luabridge::LuaRef GetComponent(int type);
-			int PrintNumber();
 			
 			template<typename T, typename ...Args> 
 			void AddComponent(Args&&... args) // r value reference on n arguments
