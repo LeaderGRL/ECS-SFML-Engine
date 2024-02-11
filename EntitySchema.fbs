@@ -1,0 +1,43 @@
+namespace LeaderEngine;
+
+table vec2
+{
+	x:float;
+	y:float;
+}
+
+table Transform
+{
+	position:vec2;
+	rotation:float;
+	scale:vec2;
+}
+
+table Sprite2DComponent
+{
+	 texture_name:string;
+	 animation_name:string;
+	 is_animating:bool;
+	 should_loop:bool;
+	 current_frame_index:int;
+	 current_frame_time:float;
+	 size:vec2;
+}
+
+table BoxColliderComponent
+{
+	size:vec2;
+}
+
+union Component
+{
+	Sprite2DComponent,
+	BoxColliderComponent
+}
+
+table Entity
+{
+	id:int;
+	transform:Transform;
+	components:[Component];
+}

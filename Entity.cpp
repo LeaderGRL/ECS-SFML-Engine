@@ -237,18 +237,18 @@ namespace LeaderEngine {
 	//	_components.push_back(std::move(component)); // Move component into the vector
 	//}
 
-	sf::Packet& Entity::operator<<(sf::Packet& packet, const Entity& entity)
-	{
-		return packet << _id << getPosition().x << getPosition().y;
-	}
+	//sf::Packet& Entity::operator<<(sf::Packet& packet, const Entity& entity)
+	//{
+	//	return packet << _id << getPosition().x << getPosition().y;
+	//}
 
-	sf::Packet& Entity::operator>>(sf::Packet& packet, Entity& entity)
-	{
-		float x, y;
-		packet >> entity._id >> x >> y;
-		entity.setPosition(x, y);
-		return packet;
-	}
+	//sf::Packet& Entity::operator>>(sf::Packet& packet, Entity& entity)
+	//{
+	//	float x, y;
+	//	packet >> entity._id >> x >> y;
+	//	entity.setPosition(x, y);
+	//	return packet;
+	//}
 
 	int Entity::GetId() const
 	{

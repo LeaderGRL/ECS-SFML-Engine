@@ -37,6 +37,9 @@
     <Filter Include="Fichiers sources\Lua">
       <UniqueIdentifier>{ffac286e-90e6-4453-ad8a-7373bf97820d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Schema">
+      <UniqueIdentifier>{398a7b2b-6b90-4075-b25a-66054ec6b7ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -117,6 +120,9 @@
     <ClInclude Include="NetworkingSystem.h">
       <Filter>Fichiers d%27en-tête\System</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkingComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LeaderEngine.cpp">
@@ -182,8 +188,14 @@
     <ClCompile Include="NetworkingSystem.cpp">
       <Filter>Fichiers sources\System</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkingComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="EntitySchema.fbs">
+      <Filter>Fichiers d%27en-tête\Schema</Filter>
+    </None>
   </ItemGroup>
 </Project>

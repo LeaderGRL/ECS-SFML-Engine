@@ -70,6 +70,7 @@ namespace LeaderEngine
 	{
 		_collisionSystem.CheckCollisions(_entities);
 		_animationSystem.Update(_entities, deltaTime);
+		_networkSystem.Update();
 		for (auto it = _entities.begin(); it != _entities.end(); it++)
 		{
 			it->second->Update(deltaTime);

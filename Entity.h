@@ -24,14 +24,6 @@ namespace LeaderEngine {
 
 		protected :
 			int _id;
-			float _x;
-			float _y;
-			float _width;
-			float _height;
-			float _rotation;
-			sf::Vector2f _position;
-			sf::Vector2f _scale;
-			sf::Vector2f _origin;
 			std::vector<std::shared_ptr<IComponent>> _components;
 		public:
 			void report_errors(lua_State* luaState, int status);
@@ -42,8 +34,8 @@ namespace LeaderEngine {
 			Entity& operator=(const Entity&) = delete; // delete copy assignment
 			Entity(Entity&&) = default; // use default move constructor
 			Entity& operator=(Entity&&) = default; // use default move assignment
-			sf::Packet& operator<<(sf::Packet& packet, const Entity& entity); // Overload the << operator to send an entity through the network
-			sf::Packet& operator>>(sf::Packet& packet, Entity& entity); // Overload the >> operator to receive an entity through the network
+			//sf::Packet& operator<<(sf::Packet& packet, const Entity& entity); // Overload the << operator to send an entity through the network
+			//sf::Packet& operator>>(sf::Packet& packet, Entity& entity); // Overload the >> operator to receive an entity through the network
 			
 			int GetId() const;
 			void SetId(int id);

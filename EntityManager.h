@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "AnimationSystem.h"
 #include "CollisionSystem.h"
+#include "NetworkingSystem.h"
 
 namespace LeaderEngine
 {
@@ -12,6 +13,7 @@ namespace LeaderEngine
 			std::unordered_map<std::string, std::unique_ptr<Entity>> _entities;
 			CollisionSystem _collisionSystem;
 			AnimationSystem _animationSystem;
+			NetworkingSystem _networkSystem;
 			//static EntityManager& instance();
 		protected:
 			
