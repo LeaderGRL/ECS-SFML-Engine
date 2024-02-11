@@ -1,12 +1,18 @@
 #pragma once
+
+#ifndef SPRITE_2D_COMPONENT_H // include guard for Sprite2DComponent.h to avoid multiple definitions
+#define SPRITE_2D_COMPONENT_H
+
 #include <SFML/Graphics.hpp>
 #include "IDrawableComponent.h"
+#include "ISerializable.h"
 #include "ResourceManager.h"
+#include "Sprite2DComponentSchema_generated.h"
 //#include "COMPONENT_TYPE.h"
 
 namespace LeaderEngine
 {
-	class Sprite2DComponent : public IDrawableComponent
+	class Sprite2DComponent : public IDrawableComponent, public ISerializable
 	{
 		private : 
 			sf::Texture _texture;
@@ -35,8 +41,12 @@ namespace LeaderEngine
 			sf::Sprite& GetSprite();
 			std::string& GetAnimationName();
 			std::string& GetTextureName();
-			//COMPONENT_TYPE GetType() const override;
+
+			void Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
+			void Deserialize(const void* buffer) override;
+
 	};
 }
 
 
+#endif // SPRITE_2D_COMPONENT_H

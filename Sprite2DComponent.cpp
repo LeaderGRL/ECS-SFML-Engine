@@ -84,8 +84,27 @@ namespace LeaderEngine {
 		target.draw(_sprite, states);
 	}
 
-	//COMPONENT_TYPE Sprite2DComponent::GetType() const
-	//{
-	//	return COMPONENT_TYPE::DRAWABLE;
-	//}
+
+	void Sprite2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
+	{
+		auto textureName = builder.CreateString(_textureName);
+		auto animationName = builder.CreateString(_animationName);
+
+		auto sprite2DComponent = CreateSprite2DComponentSchema(builder, textureName, animationName, isAnimating, shouldLoop, currentFrameIndex, currentFrameTime, _size.x, _size.y); 
+		builder.Finish(sprite2DComponent); // Serialize the root of the object to the builder
+	}
+
+	void Sprite2DComponent::Deserialize(const void* buffer)
+	{
+		auto sprite2DComponent = GetSprite2DComponentSchema(buffer);
+
+		_textureName = sprite2DComponent->texture_name()->c_str();
+		_animationName = sprite2DComponent->animation_name()->c_str();
+		_size.x = sprite2DComponent->size_x();
+		_size.y = sprite2DComponent->size_y();
+		isAnimating = sprite2DComponent->is_animating();
+		shouldLoop = sprite2DComponent->should_loop();
+		currentFrameIndex = sprite2DComponent->current_frame_index();
+		currentFrameTime = sprite2DComponent->current_frame_time();
+	}
 }

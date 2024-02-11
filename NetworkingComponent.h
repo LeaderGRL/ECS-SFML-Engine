@@ -17,8 +17,8 @@ namespace LeaderEngine
 			
 			void Update(float deltaTime) override;
 
-			void Serialize(flatbuffers::FlatBufferBuilder& builder);
-			void Deserialize(const void* data);
+			//void Serialize();
+			//void Deserialize();
 			
 		 
 	};

@@ -1,0 +1,14 @@
+namespace LeaderEngine;
+
+table Sprite2DComponentSchema {
+    texture_name: string;
+    animation_name: string;
+    is_animating: bool;
+    should_loop: bool;
+    current_frame_index: int;
+    current_frame_time: float;
+    size_x: float;
+    size_y: float;
+}
+
+root_type Sprite2DComponentSchema;

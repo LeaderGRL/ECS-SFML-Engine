@@ -175,6 +175,7 @@
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="ScriptComponent.h" />
+    <ClInclude Include="ISerializable.h" />
     <ClInclude Include="Sprite2DComponent.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="SystemManager.h" />
@@ -212,6 +213,7 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="EntitySchema.fbs" />
+    <None Include="Sprite2DComponentSchema.fbs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

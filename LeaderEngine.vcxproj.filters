@@ -123,6 +123,9 @@
     <ClInclude Include="NetworkingComponent.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ISerializable.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LeaderEngine.cpp">
@@ -195,6 +198,9 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="EntitySchema.fbs">
+      <Filter>Fichiers d%27en-tête\Schema</Filter>
+    </None>
+    <None Include="Sprite2DComponentSchema.fbs">
       <Filter>Fichiers d%27en-tête\Schema</Filter>
     </None>
   </ItemGroup>
