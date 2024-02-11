@@ -53,7 +53,9 @@ namespace LeaderEngine {
 			//void AddComponent(IComponent* component);
 			void AddComponent(int type);
 			luabridge::LuaRef GetComponent(int type);
-			
+
+			std::vector<std::shared_ptr<IComponent>>& GetComponents();
+
 			template<typename T, typename ...Args> 
 			void AddComponent(Args&&... args) // r value reference on n arguments
 			{

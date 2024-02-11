@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "NetworkingSystem.h"
 
+#include "EntityManager.h"
+
 namespace LeaderEngine
 {
 	NetworkingSystem::NetworkingSystem()
@@ -16,12 +18,29 @@ namespace LeaderEngine
 
 	void NetworkingSystem::Update()
 	{
+		flatbuffers::FlatBufferBuilder builder;
+		auto &entities = EntityManager::GetInstance().GetEntities();
 
-		//sf::Packet packet = sf::Packet();
-		//packet << "Hello, world!";
+		for (auto it = entities.begin(); it != entities.end(); ++it)
+		{
+			for (auto& component : it->second->GetComponents())
+			{
+				auto serializable = dynamic_cast<ISerializable*>(component.get());
 
-		//SendPacket(packet, "localhost", 5000);
-		//ReceivePacket();
+				if (serializable)
+				{
+					sf::Packet packet = sf::Packet();
+					serializable->Serialize(builder); // Serialize the component into the flatbuffer builder object
+					auto data = builder.GetBufferPointer(); // Get the pointer to the serialized data
+					auto size = builder.GetSize(); // Get the size of the serialized data
+					packet.append(data, size); // Append the serialized data to the packet
+
+					SendPacket(packet, "localhost", 5000);
+				}
+			}
+		}
+
+		ReceivePacket();
 	}
 
 	void NetworkingSystem::SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
@@ -32,7 +51,6 @@ namespace LeaderEngine
 
 	void NetworkingSystem::ReceivePacket()
 	{
-		char data[100];
 		sf::Packet packet;
 		sf::IpAddress ip;
 		unsigned short port;	
@@ -40,8 +58,6 @@ namespace LeaderEngine
 		{
 			std::cout << "Received packet from " << ip << ":" << port << std::endl;
 			std::cout << "Packet size: " << packet.getDataSize() << std::endl;
-			packet >> data;
-			std::cout << "Packet data: " << data << std::endl;
 
 		}
 	}

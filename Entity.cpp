@@ -148,6 +148,11 @@ namespace LeaderEngine {
 		}
 	}
 
+	std::vector<std::shared_ptr<IComponent>>& Entity::GetComponents()
+	{
+		 return _components;
+	}
+
 	//--------------------------- TO REFACTOR ---------------------------//
 
 	/*void Entity::AddComponent(int type)
