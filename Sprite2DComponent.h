@@ -38,9 +38,11 @@ namespace LeaderEngine
 			void Update(float deltaTime) override;
 			void SetSize(sf::Vector2f size);
 			void SetSprite(const sf::Texture& texture);
+			void SetSpriteByName(const std::string& textureName); // Textures are already loaded in ResourceManager
 			sf::Sprite& GetSprite();
-			std::string& GetAnimationName();
+			std::string& GetAnimationName() ;
 			std::string& GetTextureName();
+			sf::Vector2f GetSize();
 
 			void Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
 			void Deserialize(const void* buffer) override;

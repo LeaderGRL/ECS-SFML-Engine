@@ -30,7 +30,14 @@ namespace LeaderEngine {
 
 	void Sprite2DComponent::SetSprite(const sf::Texture& texture)
 	{
+		_texture = texture;
 		_sprite.setTexture(texture);
+	}
+
+	void Sprite2DComponent::SetSpriteByName(const std::string& textureName)
+	{
+		_textureName = textureName;
+		_sprite.setTexture(ResourceManager::GetInstance().getTexture(textureName));
 	}
 
 	sf::Sprite& Sprite2DComponent::GetSprite()
@@ -38,14 +45,19 @@ namespace LeaderEngine {
 		return _sprite;
 	}
 
-	std::string& Sprite2DComponent::GetAnimationName()
+	std::string& Sprite2DComponent::GetAnimationName() 
 	{
 		return _animationName;
 	}
 
-	std::string& Sprite2DComponent::GetTextureName()
+	std::string& Sprite2DComponent::GetTextureName() 
 	{
 		return _textureName;
+	}
+
+	sf::Vector2f Sprite2DComponent::GetSize()  
+	{
+		return _size;
 	}
 
 	void Sprite2DComponent::PlayAnimation(const std::string& animationName, bool loop)
@@ -87,24 +99,35 @@ namespace LeaderEngine {
 
 	void Sprite2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
-		auto textureName = builder.CreateString(_textureName);
-		auto animationName = builder.CreateString(_animationName);
+		const auto textureName = builder.CreateString(_textureName);
+		const auto animationName = builder.CreateString(_animationName);
 
-		auto sprite2DComponent = CreateSprite2DComponentSchema(builder, textureName, animationName, isAnimating, shouldLoop, currentFrameIndex, currentFrameTime, _size.x, _size.y); 
+		const auto sprite2DComponent = CreateSprite2DComponentSchema(builder, textureName, animationName, isAnimating, shouldLoop, currentFrameIndex, currentFrameTime, ResourceManager::GetInstance().GetTextureWidth(_textureName), ResourceManager::GetInstance().GetTextureHeight(_textureName)); 
 		builder.Finish(sprite2DComponent); // Serialize the root of the object to the builder
 	}
 
 	void Sprite2DComponent::Deserialize(const void* buffer)
 	{
-		auto sprite2DComponent = GetSprite2DComponentSchema(buffer);
 
-		_textureName = sprite2DComponent->texture_name()->c_str();
-		_animationName = sprite2DComponent->animation_name()->c_str();
-		_size.x = sprite2DComponent->size_x();
-		_size.y = sprite2DComponent->size_y();
-		isAnimating = sprite2DComponent->is_animating();
-		shouldLoop = sprite2DComponent->should_loop();
-		currentFrameIndex = sprite2DComponent->current_frame_index();
-		currentFrameTime = sprite2DComponent->current_frame_time();
+		flatbuffers::Verifier verifier((const uint8_t*)buffer, 1024); // Create a verifier object to verify the buffer
+
+		const auto* sprite2DComponent = GetSprite2DComponentSchema(buffer);
+
+		//_textureName = sprite2DComponent->texture_name()->c_str();
+		//_animationName = sprite2DComponent->animation_name()->c_str();
+		//isAnimating = sprite2DComponent->is_animating();
+		//shouldLoop = sprite2DComponent->should_loop();
+		//currentFrameIndex = sprite2DComponent->current_frame_index();
+		//currentFrameTime = sprite2DComponent->current_frame_time();
+		//_size.x = sprite2DComponent->size_x();
+		//_size.y = sprite2DComponent->size_y();
+
+		//std::cout << "Deserialized Sprite2DComponent" << std::endl;
+		std::cout << "Texture Name: " << sprite2DComponent->texture_name()->c_str() << std::endl;
+		std::cout << "Animation Name: " << sprite2DComponent->animation_name()->c_str()<< std::endl;
+		std::cout << "Size: " << sprite2DComponent->size_x() << ", " << sprite2DComponent->size_y() << std::endl;
+		std::cout << "Is Animating: " << sprite2DComponent->is_animating() << std::endl;
+		std::cout << "Should Loop: " << sprite2DComponent->should_loop() << std::endl;
+
 	}
 }

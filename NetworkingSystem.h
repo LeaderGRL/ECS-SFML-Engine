@@ -10,6 +10,7 @@ namespace LeaderEngine
 			sf::IpAddress ip;
 			unsigned short port;
 		   	sf::Packet packet;
+			bool isHost = false;
 
 
 		public:

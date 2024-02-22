@@ -1,16 +1,12 @@
 #include "pch.h"
 #include "Application.h"
-#include "Sprite2DComponent.h"
 #include "Entity.h"
 #include "EntityManager.h"
 #include "CameraComponent.h"
 #include <SFML/Window.hpp>
-#include <iostream>
 #include <filesystem>
-#include "BoxColliderComponent.h"
 #include "LuaAPI.h"
 #include "ScriptComponent.h"
-//#include <LuaBridge/LuaBridge.h>
 
 namespace LeaderEngine {
 

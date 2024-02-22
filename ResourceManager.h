@@ -27,6 +27,12 @@ namespace LeaderEngine
 		void LoadResource(const std::string path);
 		const sf::Texture& getTexture(const std::string& id) const;
 		const std::vector<AnimationFrame>& GetAnimation(const std::string& id) const;
+		const std::string& GetTextureName(const sf::Texture& texture) const;
+		const std::string& GetTextureName(const sf::Texture* texture) const;
+		const std::string& GetAnimationName(const std::vector<AnimationFrame>& animation) const;
+		unsigned int GetTextureWidth(const std::string& textureName) const;
+		unsigned int GetTextureHeight(const std::string& textureName) const;
+		sf::Vector2u GetTextureSize(const std::string& textureName) const;
 		//sf::Sprite& getSprite(const std::string& id);
 
 

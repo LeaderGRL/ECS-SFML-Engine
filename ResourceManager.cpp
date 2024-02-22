@@ -67,10 +67,69 @@ namespace LeaderEngine
 		return std::vector<AnimationFrame>(); // return empty vector if not found
 	}
 
-	//sf::Sprite& ResourceManager::getSprite(const std::string& id)
-	//{
-	//	// TODO: insert return statement here
-	//}
+	const std::string& ResourceManager::GetTextureName(const sf::Texture& texture) const
+	{
+		auto it = std::find_if(_textures.begin(), _textures.end(), [&texture](const std::pair<std::string, sf::Texture>& pair) // Find the texture with the same address
+		{
+			return &pair.second == &texture;
+		});
+
+		return it->first;
+	}
+
+	const std::string& ResourceManager::GetTextureName(const sf::Texture* texture) const
+	{
+		auto it = std::find_if(_textures.begin(), _textures.end(), [&texture](const std::pair<std::string, sf::Texture>& pair) // Find the texture with the same address
+		{
+			return &pair.second == texture;
+		});
+
+		return it->first;
+	}
+
+	const std::string& ResourceManager::GetAnimationName(const std::vector<AnimationFrame>& animation) const
+	{
+		auto it = std::find_if(_animations.begin(), _animations.end(), [&animation](const std::pair<std::string, std::vector<AnimationFrame>>& pair) // Find the animation with the same address
+		{
+			return &pair.second == &animation;
+		});
+
+		return it->first;
+	}
+
+	unsigned int ResourceManager::GetTextureWidth(const std::string& textureName) const
+	{
+		const auto it = _textures.find(textureName);
+		if (it != _textures.end())
+		{
+			return it->second.getSize().x;
+		}
+
+		return 0;
+	
+	}
+
+	unsigned int ResourceManager::GetTextureHeight(const std::string& textureName) const
+	{
+		const auto it = _textures.find(textureName);
+		if (it != _textures.end())
+		{
+			return it->second.getSize().y;
+		}
+
+		return 0;
+	}
+
+	sf::Vector2u ResourceManager::GetTextureSize(const std::string& textureName) const
+	{
+		const auto it = _textures.find(textureName);
+		if (it != _textures.end())
+		{
+						return it->second.getSize();
+		}
+
+		return sf::Vector2u(0, 0);
+	}
 
 	void ResourceManager::LoadTextures(const YAML::Node& textureNode)
 	{

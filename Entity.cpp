@@ -36,7 +36,6 @@ namespace LeaderEngine {
 
 	Entity::~Entity()
 	{
-		
 	}
 
 	Entity::Entity(std::string name)

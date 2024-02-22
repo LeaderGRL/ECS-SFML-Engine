@@ -14,7 +14,6 @@
 #include "lua.hpp"
 #include "luabridge3/LuaBridge/LuaBridge.h"
 
-
 namespace LeaderEngine {
 	class Entity : public sf::Drawable, public sf::Transformable
 	{

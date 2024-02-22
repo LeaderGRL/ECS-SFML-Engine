@@ -79,6 +79,7 @@ namespace LeaderEngine
 			.deriveClass<Sprite2DComponent, IDrawableComponent>("Sprite2DComponent")
 			.addConstructor<void(*) (void)>()
 			.addFunction("SetSprite", &Sprite2DComponent::SetSprite)
+			.addFunction("SetSpriteByName", &Sprite2DComponent::SetSpriteByName)
 			.addFunction("GetSprite", &Sprite2DComponent::GetSprite)
 			.addFunction("SetSize", &Sprite2DComponent::SetSize)
 			.addFunction("PlayAnimation", &Sprite2DComponent::PlayAnimation)

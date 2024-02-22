@@ -9,7 +9,12 @@ namespace LeaderEngine
 	{
 		socket.bind(5000);
 		socket.setBlocking(false);
-		 
+
+		if ( sf::IpAddress::getLocalAddress().toString() == "192.168.69.11" )
+		{
+			isHost = true;
+		}
+		
 	}
 
 	NetworkingSystem::~NetworkingSystem()
@@ -19,13 +24,13 @@ namespace LeaderEngine
 	void NetworkingSystem::Update()
 	{
 		flatbuffers::FlatBufferBuilder builder;
-		auto &entities = EntityManager::GetInstance().GetEntities();
+		auto &entities = EntityManager::GetInstance().GetEntities(); // Reference to the entities map in the entity manager
 
-		for (auto it = entities.begin(); it != entities.end(); ++it)
+		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
-			for (auto& component : it->second->GetComponents())
+			for (auto& component : it->second->GetComponents()) // Iterate through the components of the entity
 			{
-				auto serializable = dynamic_cast<ISerializable*>(component.get());
+				auto serializable = dynamic_cast<ISerializable*>(component.get()); // Try to cast the component to ISerializable
 
 				if (serializable)
 				{
@@ -35,7 +40,8 @@ namespace LeaderEngine
 					auto size = builder.GetSize(); // Get the size of the serialized data
 					packet.append(data, size); // Append the serialized data to the packet
 
-					SendPacket(packet, "localhost", 5000);
+					if (!isHost)
+						SendPacket(packet, "192.168.69.11", 5000);
 				}
 			}
 		}
@@ -58,7 +64,29 @@ namespace LeaderEngine
 		{
 			std::cout << "Received packet from " << ip << ":" << port << std::endl;
 			std::cout << "Packet size: " << packet.getDataSize() << std::endl;
+			
+			// TODO :
+			// Get entity id from packet
+			// Get Component type from packet
 
+
+			std::vector<uint8_t> data(packet.getDataSize()); // Create a vector to store the data from the packet
+			memcpy(data.data(), packet.getData(), packet.getDataSize()); // Copy the data from the packet to the vector
+
+			auto &entities = EntityManager::GetInstance().GetEntities();
+
+			for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
+			{
+				for (auto& component : it->second->GetComponents()) // Iterate through the components of the entity
+				{
+					auto serializable = dynamic_cast<ISerializable*>(component.get()); // Try to cast the component to ISerializable
+
+					if (serializable)
+					{
+						serializable->Deserialize(data.data()); // Deserialize the data into the component
+					}
+				}
+			}
 		}
 	}
 

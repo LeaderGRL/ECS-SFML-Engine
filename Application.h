@@ -1,10 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include "Entity.h"
-#include "EntityManager.h"
-#include "ResourceManager.h"
-#include "CollisionSystem.h"
 #include "EventManager.h"
 
 namespace LeaderEngine {
