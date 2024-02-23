@@ -126,6 +126,9 @@
     <ClInclude Include="ISerializable.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Animation2DComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LeaderEngine.cpp">
@@ -194,6 +197,9 @@
     <ClCompile Include="NetworkingComponent.cpp">
       <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Animation2DComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -201,6 +207,9 @@
       <Filter>Fichiers d%27en-tête\Schema</Filter>
     </None>
     <None Include="Sprite2DComponentSchema.fbs">
+      <Filter>Fichiers d%27en-tête\Schema</Filter>
+    </None>
+    <None Include="Animation2DComponentSchema.fbs">
       <Filter>Fichiers d%27en-tête\Schema</Filter>
     </None>
   </ItemGroup>

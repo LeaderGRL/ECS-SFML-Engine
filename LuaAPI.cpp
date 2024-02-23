@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "LuaAPI.h"
 
-#include "CameraComponent.h"
-#include "ScriptComponent.h"
+
 
 namespace LeaderEngine 
 {	
@@ -34,6 +33,9 @@ namespace LeaderEngine
 			.addFunction("GetId", &Entity::GetId)
 			.addFunction("AddSprite2DComponent", &Entity::AddComponent<Sprite2DComponent>)
 			.addFunction("GetSprite2DComponent", &Entity::GetComponent<Sprite2DComponent>)
+			.addFunction("AddAnimation2DComponent", &Entity::AddComponent<Animation2DComponent>)
+			.addFunction("GetAnimation2DComponent", &Entity::GetComponent<Animation2DComponent>)
+			.addFunction("AddAnimation2DComponent", &Entity::AddComponent<Animation2DComponent(std::string name, bool loop)>)
 			.addFunction("AddScriptComponent", &Entity::AddComponent<ScriptComponent>)
 			.addFunction("GetScriptComponent", &Entity::GetComponent<ScriptComponent>)
 			.addFunction("AddCameraComponent", &Entity::AddComponent<CameraComponent>)
@@ -82,8 +84,8 @@ namespace LeaderEngine
 			.addFunction("SetSpriteByName", &Sprite2DComponent::SetSpriteByName)
 			.addFunction("GetSprite", &Sprite2DComponent::GetSprite)
 			.addFunction("SetSize", &Sprite2DComponent::SetSize)
-			.addFunction("PlayAnimation", &Sprite2DComponent::PlayAnimation)
-			.addFunction("StopAnimation", &Sprite2DComponent::StopAnimation)
+			//.addFunction("PlayAnimation", &Sprite2DComponent::PlayAnimation)
+			//.addFunction("StopAnimation", &Sprite2DComponent::StopAnimation)
 			.endClass()
 			.deriveClass<CameraComponent, IComponent>("CameraComponent")
 			.addFunction("SetView", &CameraComponent::setView)
@@ -103,7 +105,16 @@ namespace LeaderEngine
 			.endClass()
 			.deriveClass<ScriptComponent, IComponent>("ScriptComponent")
 			.addFunction("LoadScript", &ScriptComponent::LoadScript)
+			.endClass()
+			.deriveClass<Animation2DComponent, Sprite2DComponent>("Animation2DComponent")
+			.addConstructor<void(*) (void)>()
+			.addConstructor<void(*) (const std::string&, bool)>()
+			.addFunction("PlayAnimation", &Animation2DComponent::PlayAnimation)
+			.addFunction("StopAnimation", &Animation2DComponent::StopAnimation)
+			.addFunction("GetAnimationName", &Animation2DComponent::GetAnimationName)
+			.addFunction("SetAnimationName", &Animation2DComponent::SetAnimationName)
 			.endClass();
+
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<ResourceManager>("ResourceManager")

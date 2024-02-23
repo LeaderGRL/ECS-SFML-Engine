@@ -1,0 +1,8 @@
+namespace LeaderEngine;
+
+table Animation2DComponentSchema {
+    animation_name: string;
+    should_loop: bool;
+}
+
+root_type Animation2DComponentSchema;

@@ -8,6 +8,9 @@
 #include "BoxColliderComponent.h"
 #include "EventManager.h"
 #include "Utils.h"
+#include "CameraComponent.h"
+#include "ScriptComponent.h"
+#include "Animation2DComponent.h"
 
 namespace LeaderEngine
 {

@@ -18,29 +18,23 @@ namespace LeaderEngine
 			sf::Texture _texture;
 			sf::Sprite _sprite;
 			sf::Vector2f _size;
-			std::string _animationName;
 			std::string _textureName;
 			
 		protected :
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 		public :
-			bool isAnimating = false;
-			bool shouldLoop = true;
-			int currentFrameIndex = 0;
-			float currentFrameTime = 0;
+
 			
 			Sprite2DComponent();
 			Sprite2DComponent(const sf::Texture& texture);
 			~Sprite2DComponent();
-			void PlayAnimation(const std::string& animationName, bool loop = true);
-			void StopAnimation(const std::string& animationName);
+			
 			void Update(float deltaTime) override;
 			void SetSize(sf::Vector2f size);
 			void SetSprite(const sf::Texture& texture);
 			void SetSpriteByName(const std::string& textureName); // Textures are already loaded in ResourceManager
 			sf::Sprite& GetSprite();
-			std::string& GetAnimationName() ;
 			std::string& GetTextureName();
 			sf::Vector2f GetSize();
 

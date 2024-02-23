@@ -24,11 +24,7 @@ struct Sprite2DComponentSchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::
     VT_TEXTURE_NAME = 4,
     VT_ANIMATION_NAME = 6,
     VT_IS_ANIMATING = 8,
-    VT_SHOULD_LOOP = 10,
-    VT_CURRENT_FRAME_INDEX = 12,
-    VT_CURRENT_FRAME_TIME = 14,
-    VT_SIZE_X = 16,
-    VT_SIZE_Y = 18
+    VT_SHOULD_LOOP = 10
   };
   const ::flatbuffers::String *texture_name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_TEXTURE_NAME);
@@ -42,18 +38,6 @@ struct Sprite2DComponentSchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::
   bool should_loop() const {
     return GetField<uint8_t>(VT_SHOULD_LOOP, 0) != 0;
   }
-  int32_t current_frame_index() const {
-    return GetField<int32_t>(VT_CURRENT_FRAME_INDEX, 0);
-  }
-  float current_frame_time() const {
-    return GetField<float>(VT_CURRENT_FRAME_TIME, 0.0f);
-  }
-  float size_x() const {
-    return GetField<float>(VT_SIZE_X, 0.0f);
-  }
-  float size_y() const {
-    return GetField<float>(VT_SIZE_Y, 0.0f);
-  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_TEXTURE_NAME) &&
@@ -62,10 +46,6 @@ struct Sprite2DComponentSchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::
            verifier.VerifyString(animation_name()) &&
            VerifyField<uint8_t>(verifier, VT_IS_ANIMATING, 1) &&
            VerifyField<uint8_t>(verifier, VT_SHOULD_LOOP, 1) &&
-           VerifyField<int32_t>(verifier, VT_CURRENT_FRAME_INDEX, 4) &&
-           VerifyField<float>(verifier, VT_CURRENT_FRAME_TIME, 4) &&
-           VerifyField<float>(verifier, VT_SIZE_X, 4) &&
-           VerifyField<float>(verifier, VT_SIZE_Y, 4) &&
            verifier.EndTable();
   }
 };
@@ -86,18 +66,6 @@ struct Sprite2DComponentSchemaBuilder {
   void add_should_loop(bool should_loop) {
     fbb_.AddElement<uint8_t>(Sprite2DComponentSchema::VT_SHOULD_LOOP, static_cast<uint8_t>(should_loop), 0);
   }
-  void add_current_frame_index(int32_t current_frame_index) {
-    fbb_.AddElement<int32_t>(Sprite2DComponentSchema::VT_CURRENT_FRAME_INDEX, current_frame_index, 0);
-  }
-  void add_current_frame_time(float current_frame_time) {
-    fbb_.AddElement<float>(Sprite2DComponentSchema::VT_CURRENT_FRAME_TIME, current_frame_time, 0.0f);
-  }
-  void add_size_x(float size_x) {
-    fbb_.AddElement<float>(Sprite2DComponentSchema::VT_SIZE_X, size_x, 0.0f);
-  }
-  void add_size_y(float size_y) {
-    fbb_.AddElement<float>(Sprite2DComponentSchema::VT_SIZE_Y, size_y, 0.0f);
-  }
   explicit Sprite2DComponentSchemaBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -114,16 +82,8 @@ inline ::flatbuffers::Offset<Sprite2DComponentSchema> CreateSprite2DComponentSch
     ::flatbuffers::Offset<::flatbuffers::String> texture_name = 0,
     ::flatbuffers::Offset<::flatbuffers::String> animation_name = 0,
     bool is_animating = false,
-    bool should_loop = false,
-    int32_t current_frame_index = 0,
-    float current_frame_time = 0.0f,
-    float size_x = 0.0f,
-    float size_y = 0.0f) {
+    bool should_loop = false) {
   Sprite2DComponentSchemaBuilder builder_(_fbb);
-  builder_.add_size_y(size_y);
-  builder_.add_size_x(size_x);
-  builder_.add_current_frame_time(current_frame_time);
-  builder_.add_current_frame_index(current_frame_index);
   builder_.add_animation_name(animation_name);
   builder_.add_texture_name(texture_name);
   builder_.add_should_loop(should_loop);
@@ -136,11 +96,7 @@ inline ::flatbuffers::Offset<Sprite2DComponentSchema> CreateSprite2DComponentSch
     const char *texture_name = nullptr,
     const char *animation_name = nullptr,
     bool is_animating = false,
-    bool should_loop = false,
-    int32_t current_frame_index = 0,
-    float current_frame_time = 0.0f,
-    float size_x = 0.0f,
-    float size_y = 0.0f) {
+    bool should_loop = false) {
   auto texture_name__ = texture_name ? _fbb.CreateString(texture_name) : 0;
   auto animation_name__ = animation_name ? _fbb.CreateString(animation_name) : 0;
   return LeaderEngine::CreateSprite2DComponentSchema(
@@ -148,11 +104,7 @@ inline ::flatbuffers::Offset<Sprite2DComponentSchema> CreateSprite2DComponentSch
       texture_name__,
       animation_name__,
       is_animating,
-      should_loop,
-      current_frame_index,
-      current_frame_time,
-      size_x,
-      size_y);
+      should_loop);
 }
 
 inline const LeaderEngine::Sprite2DComponentSchema *GetSprite2DComponentSchema(const void *buf) {

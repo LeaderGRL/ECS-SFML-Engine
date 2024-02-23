@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AComponent.h" />
+    <ClInclude Include="Animation2DComponent.h" />
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="BoxColliderComponent.h" />
     <ClInclude Include="CameraComponent.h" />
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AComponent.cpp" />
+    <ClCompile Include="Animation2DComponent.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="BoxColliderComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -225,6 +227,7 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animation2DComponentSchema.fbs" />
     <None Include="ClassDiagram.cd" />
     <None Include="EntitySchema.fbs" />
     <None Include="Sprite2DComponentSchema.fbs" />

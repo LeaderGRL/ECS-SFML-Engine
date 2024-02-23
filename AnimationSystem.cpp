@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "AnimationSystem.h"
 
+#include "Animation2DComponent.h"
+
 namespace LeaderEngine
 {
 	AnimationSystem::AnimationSystem()
@@ -33,44 +35,44 @@ namespace LeaderEngine
 
 	void AnimationSystem::UpdateAnimation(Entity* entity, float deltaTime)
 	{
-		Sprite2DComponent* spriteComp = entity->GetComponent<Sprite2DComponent>();
+		Animation2DComponent* animationComp = entity->GetComponent<Animation2DComponent>();
 
-		if (!spriteComp)
+		if (!animationComp)
 			return;
 
-		if (!spriteComp->isAnimating)
-		{
-			//const sf::Texture* texture = rs.GetAnimation(spriteComp->GetAnimationName())[0].texture;
+		//if (!animationComp->isAnimating)
+		//{
+		//	//const sf::Texture* texture = rs.GetAnimation(spriteComp->GetAnimationName())[0].texture;
 
-			if (!ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName()).empty())
-			{
-				sf::Texture t;
-				spriteComp->currentFrameIndex = 0;
-				spriteComp->GetSprite().setTextureRect(ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].textureRect);
-			}
-			return;
-		}
+		//	if (!ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName()).empty())
+		//	{
+		//		sf::Texture t;
+		//		animationComp->currentFrameIndex = 0;
+		//		animationComp->GetSprite().setTextureRect(ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex].textureRect);
+		//	}
+		//	return;
+		//}
 
-		spriteComp->currentFrameTime += deltaTime;
+		animationComp->currentFrameTime += deltaTime;
 
-		if (spriteComp->currentFrameTime >= ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex].duration)
-			spriteComp->currentFrameIndex++; // Next animation frame
+		//if (animationComp->currentFrameTime >= ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex].duration)
+		//	animationComp->currentFrameIndex++; // Next animation frame
 
-		if (spriteComp->currentFrameIndex >= ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName()).size())
-		{
-			if (spriteComp->shouldLoop)
-				spriteComp->currentFrameIndex = 0; // Restart animation
-			else
-			{
-				spriteComp->isAnimating = false; // End of animation
-				return;
-			}
-		}
+		//if (animationComp->currentFrameIndex >= ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName()).size())
+		//{
+		//	if (animationComp->shouldLoop)
+		//		animationComp->currentFrameIndex = 0; // Restart animation
+		//	//else
+		//	//{
+		//	//	animationComp->isAnimating = false; // End of animation
+		//	//	return;
+		//	//}
+		//}
 
-		const auto& frame = ResourceManager::GetInstance().GetAnimation(spriteComp->GetAnimationName())[spriteComp->currentFrameIndex];
+		//const auto& frame = ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex];
 
-		spriteComp->SetSprite(*frame.texture);
-		spriteComp->GetSprite().setTextureRect(frame.textureRect);
+		//animationComp->SetSprite(*frame.texture);
+		//animationComp->GetSprite().setTextureRect(frame.textureRect);
 	}
 
 }
