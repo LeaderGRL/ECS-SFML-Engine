@@ -40,39 +40,39 @@ namespace LeaderEngine
 		if (!animationComp)
 			return;
 
-		//if (!animationComp->isAnimating)
-		//{
-		//	//const sf::Texture* texture = rs.GetAnimation(spriteComp->GetAnimationName())[0].texture;
+		if (!animationComp->isAnimating)
+		{
+			//const sf::Texture* texture = rs.GetAnimation(spriteComp->GetAnimationName())[0].texture;
 
-		//	if (!ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName()).empty())
-		//	{
-		//		sf::Texture t;
-		//		animationComp->currentFrameIndex = 0;
-		//		animationComp->GetSprite().setTextureRect(ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex].textureRect);
-		//	}
-		//	return;
-		//}
+			if (!ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName()).empty())
+			{
+				sf::Texture t;
+				animationComp->currentFrameIndex = 0;
+				animationComp->GetSprite().setTextureRect(ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex].textureRect);
+			}
+			return;
+		}
 
 		animationComp->currentFrameTime += deltaTime;
 
-		//if (animationComp->currentFrameTime >= ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex].duration)
-		//	animationComp->currentFrameIndex++; // Next animation frame
+		if (animationComp->currentFrameTime >= ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex].duration)
+			animationComp->currentFrameIndex++; // Next animation frame
 
-		//if (animationComp->currentFrameIndex >= ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName()).size())
-		//{
-		//	if (animationComp->shouldLoop)
-		//		animationComp->currentFrameIndex = 0; // Restart animation
-		//	//else
-		//	//{
-		//	//	animationComp->isAnimating = false; // End of animation
-		//	//	return;
-		//	//}
-		//}
+		if (animationComp->currentFrameIndex >= ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName()).size())
+		{
+			if (animationComp->shouldLoop)
+				animationComp->currentFrameIndex = 0; // Restart animation
+			else
+			{
+				animationComp->isAnimating = false; // End of animation
+				return;
+			}
+		}
 
-		//const auto& frame = ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex];
+		const auto& frame = ResourceManager::GetInstance().GetAnimation(animationComp->GetAnimationName())[animationComp->currentFrameIndex];
 
-		//animationComp->SetSprite(*frame.texture);
-		//animationComp->GetSprite().setTextureRect(frame.textureRect);
+		animationComp->SetSprite(*frame.texture);
+		animationComp->GetSprite().setTextureRect(frame.textureRect);
 	}
 
 }

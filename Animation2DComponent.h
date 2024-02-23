@@ -11,9 +11,10 @@ namespace LeaderEngine
 
 		public:
 			Animation2DComponent();
-			Animation2DComponent(const std::string& animationName, bool loop);
+			Animation2DComponent(const std::string& animationName, bool loop, bool isAnimation = true);
 			~Animation2DComponent();
 
+			bool isAnimating = false;
 			bool shouldLoop = true;
 			int currentFrameIndex = 0;
 			float currentFrameTime = 0;

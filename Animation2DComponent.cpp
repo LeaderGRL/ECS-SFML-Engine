@@ -7,10 +7,11 @@ namespace  LeaderEngine
 	{
 	}
 
-	Animation2DComponent::Animation2DComponent(const std::string& animationName, bool loop)
+	Animation2DComponent::Animation2DComponent(const std::string& animationName, bool loop, bool animating)
 	{
 		_animationName = animationName;
 		shouldLoop = loop;
+		isAnimating = animating;
 
 		std::cout << "name anim : " << _animationName << std::endl;
 	}
@@ -21,11 +22,13 @@ namespace  LeaderEngine
 
 	void Animation2DComponent::PlayAnimation(bool loop)
 	{
+		isAnimating = true;
 		shouldLoop = loop;
 	}
 
 	void Animation2DComponent::StopAnimation()
 	{
+		isAnimating = false;
 		shouldLoop = false;
 	}
 
