@@ -35,7 +35,10 @@ namespace LeaderEngine
 			.addFunction("GetSprite2DComponent", &Entity::GetComponent<Sprite2DComponent>)
 			.addFunction("AddAnimation2DComponent", &Entity::AddComponent<Animation2DComponent>)
 			.addFunction("GetAnimation2DComponent", &Entity::GetComponent<Animation2DComponent>)
-			.addFunction("AddAnimation2DComponent", &Entity::AddComponent<Animation2DComponent(std::string name, bool loop)>)
+			//.addFunction("AddAnimation2DComponent", &Entity::AddComponent<Animation2DComponent(std::string name, bool loop)>)
+			.addFunction("AddAnimation2DComponent", [](Entity* entity, const std::string& name, bool loop) { // Lambda function to add Animation2DComponent with parameters
+				entity->AddComponent<Animation2DComponent>(name, loop);
+			})
 			.addFunction("AddScriptComponent", &Entity::AddComponent<ScriptComponent>)
 			.addFunction("GetScriptComponent", &Entity::GetComponent<ScriptComponent>)
 			.addFunction("AddCameraComponent", &Entity::AddComponent<CameraComponent>)
