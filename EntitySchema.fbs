@@ -16,12 +16,13 @@ table Transform
 table Sprite2DComponent
 {
 	 texture_name:string;
-	 animation_name:string;
-	 is_animating:bool;
-	 should_loop:bool;
-	 current_frame_index:int;
-	 current_frame_time:float;
-	 size:vec2;
+}
+
+table Animation2DComponent
+{
+	animation_name: string;
+    should_loop: bool;
+	is_animating: bool;
 }
 
 table BoxColliderComponent

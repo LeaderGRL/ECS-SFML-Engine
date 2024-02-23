@@ -22,7 +22,8 @@ struct Animation2DComponentSchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffer
   typedef Animation2DComponentSchemaBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ANIMATION_NAME = 4,
-    VT_SHOULD_LOOP = 6
+    VT_SHOULD_LOOP = 6,
+    VT_IS_ANIMATING = 8
   };
   const ::flatbuffers::String *animation_name() const {
     return GetPointer<const ::flatbuffers::String *>(VT_ANIMATION_NAME);
@@ -30,11 +31,15 @@ struct Animation2DComponentSchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffer
   bool should_loop() const {
     return GetField<uint8_t>(VT_SHOULD_LOOP, 0) != 0;
   }
+  bool is_animating() const {
+    return GetField<uint8_t>(VT_IS_ANIMATING, 0) != 0;
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_ANIMATION_NAME) &&
            verifier.VerifyString(animation_name()) &&
            VerifyField<uint8_t>(verifier, VT_SHOULD_LOOP, 1) &&
+           VerifyField<uint8_t>(verifier, VT_IS_ANIMATING, 1) &&
            verifier.EndTable();
   }
 };
@@ -48,6 +53,9 @@ struct Animation2DComponentSchemaBuilder {
   }
   void add_should_loop(bool should_loop) {
     fbb_.AddElement<uint8_t>(Animation2DComponentSchema::VT_SHOULD_LOOP, static_cast<uint8_t>(should_loop), 0);
+  }
+  void add_is_animating(bool is_animating) {
+    fbb_.AddElement<uint8_t>(Animation2DComponentSchema::VT_IS_ANIMATING, static_cast<uint8_t>(is_animating), 0);
   }
   explicit Animation2DComponentSchemaBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -63,9 +71,11 @@ struct Animation2DComponentSchemaBuilder {
 inline ::flatbuffers::Offset<Animation2DComponentSchema> CreateAnimation2DComponentSchema(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::String> animation_name = 0,
-    bool should_loop = false) {
+    bool should_loop = false,
+    bool is_animating = false) {
   Animation2DComponentSchemaBuilder builder_(_fbb);
   builder_.add_animation_name(animation_name);
+  builder_.add_is_animating(is_animating);
   builder_.add_should_loop(should_loop);
   return builder_.Finish();
 }
@@ -73,12 +83,14 @@ inline ::flatbuffers::Offset<Animation2DComponentSchema> CreateAnimation2DCompon
 inline ::flatbuffers::Offset<Animation2DComponentSchema> CreateAnimation2DComponentSchemaDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const char *animation_name = nullptr,
-    bool should_loop = false) {
+    bool should_loop = false,
+    bool is_animating = false) {
   auto animation_name__ = animation_name ? _fbb.CreateString(animation_name) : 0;
   return LeaderEngine::CreateAnimation2DComponentSchema(
       _fbb,
       animation_name__,
-      should_loop);
+      should_loop,
+      is_animating);
 }
 
 inline const LeaderEngine::Animation2DComponentSchema *GetAnimation2DComponentSchema(const void *buf) {

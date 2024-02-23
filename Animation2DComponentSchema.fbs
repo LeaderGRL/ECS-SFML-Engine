@@ -3,6 +3,7 @@ namespace LeaderEngine;
 table Animation2DComponentSchema {
     animation_name: string;
     should_loop: bool;
+    is_animating: bool;
 }
 
 root_type Animation2DComponentSchema;

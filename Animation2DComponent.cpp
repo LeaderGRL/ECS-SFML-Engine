@@ -12,8 +12,6 @@ namespace  LeaderEngine
 		_animationName = animationName;
 		shouldLoop = loop;
 		isAnimating = animating;
-
-		std::cout << "name anim : " << _animationName << std::endl;
 	}
 
 	Animation2DComponent::~Animation2DComponent()
@@ -46,7 +44,7 @@ namespace  LeaderEngine
 	{
 		const auto animationName = builder.CreateString(_animationName);
 		
-		const auto animation2DComponent = CreateAnimation2DComponentSchema(builder, animationName, shouldLoop);
+		const auto animation2DComponent = CreateAnimation2DComponentSchema(builder, animationName, shouldLoop, isAnimating);
 		builder.Finish(animation2DComponent);
 	}
 
@@ -55,6 +53,7 @@ namespace  LeaderEngine
 		const auto animation2DComponent = GetAnimation2DComponentSchema(buffer);
 		_animationName = animation2DComponent->animation_name()->c_str();
 		shouldLoop = animation2DComponent->should_loop();
+		isAnimating = animation2DComponent->is_animating();
 	}
 
 }
