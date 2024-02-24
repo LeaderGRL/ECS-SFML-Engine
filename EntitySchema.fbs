@@ -1,6 +1,6 @@
 namespace LeaderEngine;
 
-table vec2
+table Vec2
 {
 	x:float;
 	y:float;
@@ -8,9 +8,9 @@ table vec2
 
 table Transform
 {
-	position:vec2;
+	position:Vec2;
 	rotation:float;
-	scale:vec2;
+	scale:Vec2;
 }
 
 table Sprite2DComponent
@@ -25,20 +25,17 @@ table Animation2DComponent
 	is_animating: bool;
 }
 
-table BoxColliderComponent
-{
-	size:vec2;
-}
-
 union Component
 {
 	Sprite2DComponent,
-	BoxColliderComponent
+	Animation2DComponent,
 }
 
-table Entity
+table EntitySchema
 {
 	id:int;
 	transform:Transform;
 	components:[Component];
 }
+
+root_type EntitySchema;

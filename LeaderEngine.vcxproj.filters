@@ -212,5 +212,8 @@
     <None Include="Animation2DComponentSchema.fbs">
       <Filter>Fichiers d%27en-tête\Schema</Filter>
     </None>
+    <None Include="TransformSchema.fbs">
+      <Filter>Fichiers d%27en-tête\Schema</Filter>
+    </None>
   </ItemGroup>
 </Project>

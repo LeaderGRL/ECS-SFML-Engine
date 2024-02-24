@@ -1,0 +1,16 @@
+namespace LeaderEngine;
+
+table vec2
+{
+	x:float;
+	y:float;
+}
+
+table TransformSchema
+{
+	position:vec2;
+	rotation:float;
+	scale:vec2;
+}
+
+root_type TransformSchema;

@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include "IComponent.h"
+#include "EntitySchema_generated.h"
+# include "TransformSchema_generated.h"
 
 
 //extern "C"
@@ -11,11 +13,12 @@
 //	#include "lauxlib.h"
 //}
 
+#include "ISerializable.h"
 #include "lua.hpp"
 #include "luabridge3/LuaBridge/LuaBridge.h"
 
 namespace LeaderEngine {
-	class Entity : public sf::Drawable, public sf::Transformable
+	class Entity : public sf::Drawable, public sf::Transformable, public ISerializable //public sf::NonCopyable
 	{
 		private :
 			Entity* _parent = nullptr;  // Pointer to the parent entity
@@ -33,8 +36,6 @@ namespace LeaderEngine {
 			Entity& operator=(const Entity&) = delete; // delete copy assignment
 			Entity(Entity&&) = default; // use default move constructor
 			Entity& operator=(Entity&&) = default; // use default move assignment
-			//sf::Packet& operator<<(sf::Packet& packet, const Entity& entity); // Overload the << operator to send an entity through the network
-			//sf::Packet& operator>>(sf::Packet& packet, Entity& entity); // Overload the >> operator to receive an entity through the network
 			
 			int GetId() const;
 			void SetId(int id);
@@ -49,11 +50,13 @@ namespace LeaderEngine {
 			void Start();
 			void Destroy();
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
-			//void AddComponent(IComponent* component);
+
 			void AddComponent(int type);
 			luabridge::LuaRef GetComponent(int type);
-
 			std::vector<std::shared_ptr<IComponent>>& GetComponents();
+
+			void Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
+			void Deserialize(const void* buffer) override;
 
 			template<typename T, typename ...Args> 
 			void AddComponent(Args&&... args) // r value reference on n arguments

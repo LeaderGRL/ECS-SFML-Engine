@@ -152,6 +152,31 @@ namespace LeaderEngine {
 		 return _components;
 	}
 
+	void Entity::Serialize(flatbuffers::FlatBufferBuilder& builder) const
+	{
+		const std::vector<flatbuffers::Offset<flatbuffers::Table>> components; // Create a vector of components offsets to know where to find table in the buffer
+		for (const auto& comp : _components)
+		{
+			if (const auto serializable = dynamic_cast<ISerializable*>(comp.get()))
+			{
+				serializable->Serialize(builder); // Serialize the component
+				components.push_back(serializable->Serialize(builder)); // Add the component offset to the vector
+			}
+
+			/*if (serializable)
+				comp.get()->Serialize(builder);*/
+		}
+
+		const auto componentsOffset = builder.CreateVector(components);
+
+		
+		const auto transform = CreateTransformSchema(builder, getPosition().x, getPosition().y, getRotation(), getScale().x, getScale().y);
+		const auto entity = CreateEntitySchema(builder, _id, transform, componentsOffset);
+		builder.Finish(entity);
+
+
+	}
+
 	//--------------------------- TO REFACTOR ---------------------------//
 
 	/*void Entity::AddComponent(int type)

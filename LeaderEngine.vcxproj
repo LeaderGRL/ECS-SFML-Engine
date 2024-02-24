@@ -231,6 +231,7 @@
     <None Include="ClassDiagram.cd" />
     <None Include="EntitySchema.fbs" />
     <None Include="Sprite2DComponentSchema.fbs" />
+    <None Include="TransformSchema.fbs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
