@@ -1,40 +1,19 @@
+include "TransformSchema.fbs";
+include "Sprite2DComponentSchema.fbs";
+include "Animation2DComponentSchema.fbs";
+
 namespace LeaderEngine;
-
-table Vec2
-{
-	x:float;
-	y:float;
-}
-
-table Transform
-{
-	position:Vec2;
-	rotation:float;
-	scale:Vec2;
-}
-
-table Sprite2DComponent
-{
-	 texture_name:string;
-}
-
-table Animation2DComponent
-{
-	animation_name: string;
-    should_loop: bool;
-	is_animating: bool;
-}
 
 union Component
 {
-	Sprite2DComponent,
-	Animation2DComponent,
+	Sprite2DComponentSchema,
+	Animation2DComponentSchema,
 }
 
 table EntitySchema
 {
 	id:int;
-	transform:Transform;
+	transform:TransformSchema;
 	components:[Component];
 }
 

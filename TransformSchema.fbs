@@ -1,6 +1,6 @@
 namespace LeaderEngine;
 
-table vec2
+struct vec2
 {
 	x:float;
 	y:float;

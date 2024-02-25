@@ -40,12 +40,14 @@ namespace  LeaderEngine
 		_animationName = animationName;
 	}
 
-	void Animation2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
+	flatbuffers::Offset<void> Animation2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
 		const auto animationName = builder.CreateString(_animationName);
 		
 		const auto animation2DComponent = CreateAnimation2DComponentSchema(builder, animationName, shouldLoop, isAnimating);
 		builder.Finish(animation2DComponent);
+
+		return  animation2DComponent.Union();
 	}
 
 	void Animation2DComponent::Deserialize(const void* buffer)

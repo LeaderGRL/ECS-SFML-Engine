@@ -38,7 +38,7 @@ namespace LeaderEngine
 			std::string& GetTextureName();
 			sf::Vector2f GetSize();
 
-			void Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
+			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
 			void Deserialize(const void* buffer) override;
 
 	};

@@ -55,7 +55,7 @@ namespace LeaderEngine {
 			luabridge::LuaRef GetComponent(int type);
 			std::vector<std::shared_ptr<IComponent>>& GetComponents();
 
-			void Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
+			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
 			void Deserialize(const void* buffer) override;
 
 			template<typename T, typename ...Args> 

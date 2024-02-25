@@ -152,29 +152,30 @@ namespace LeaderEngine {
 		 return _components;
 	}
 
-	void Entity::Serialize(flatbuffers::FlatBufferBuilder& builder) const
+	flatbuffers::Offset<void> Entity::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
-		const std::vector<flatbuffers::Offset<flatbuffers::Table>> components; // Create a vector of components offsets to know where to find table in the buffer
+		std::vector<flatbuffers::Offset<Component>> components; // Create a vector of components offsets to know where to find table in the buffer
 		for (const auto& comp : _components)
 		{
 			if (const auto serializable = dynamic_cast<ISerializable*>(comp.get()))
 			{
-				serializable->Serialize(builder); // Serialize the component
-				components.push_back(serializable->Serialize(builder)); // Add the component offset to the vector
+				auto compnentOffset = serializable->Serialize(builder); // Serialize the component
+				components.push_back(compnentOffset); // Add the offset of the component to the vector
 			}
 
 			/*if (serializable)
 				comp.get()->Serialize(builder);*/
 		}
 
-		const auto componentsOffset = builder.CreateVector(components);
+		const auto position = vec2(getPosition().x, getPosition().y);
+		const auto scale = vec2(getScale().x, getScale().y);
+		auto componentsOffset = builder.CreateVector(components);
 
-		
-		const auto transform = CreateTransformSchema(builder, getPosition().x, getPosition().y, getRotation(), getScale().x, getScale().y);
+		const auto transform = CreateTransformSchema(builder, &position, getRotation(), &scale);
 		const auto entity = CreateEntitySchema(builder, _id, transform, componentsOffset);
 		builder.Finish(entity);
 
-
+		return { entity.o };
 	}
 
 	//--------------------------- TO REFACTOR ---------------------------//

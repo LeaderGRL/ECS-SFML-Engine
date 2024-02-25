@@ -16,61 +16,32 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 23 &&
 namespace LeaderEngine {
 
 struct vec2;
-struct vec2Builder;
 
 struct TransformSchema;
 struct TransformSchemaBuilder;
 
-struct vec2 FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef vec2Builder Builder;
-  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_X = 4,
-    VT_Y = 6
-  };
+FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) vec2 FLATBUFFERS_FINAL_CLASS {
+ private:
+  float x_;
+  float y_;
+
+ public:
+  vec2()
+      : x_(0),
+        y_(0) {
+  }
+  vec2(float _x, float _y)
+      : x_(::flatbuffers::EndianScalar(_x)),
+        y_(::flatbuffers::EndianScalar(_y)) {
+  }
   float x() const {
-    return GetField<float>(VT_X, 0.0f);
+    return ::flatbuffers::EndianScalar(x_);
   }
   float y() const {
-    return GetField<float>(VT_Y, 0.0f);
-  }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<float>(verifier, VT_X, 4) &&
-           VerifyField<float>(verifier, VT_Y, 4) &&
-           verifier.EndTable();
+    return ::flatbuffers::EndianScalar(y_);
   }
 };
-
-struct vec2Builder {
-  typedef vec2 Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_x(float x) {
-    fbb_.AddElement<float>(vec2::VT_X, x, 0.0f);
-  }
-  void add_y(float y) {
-    fbb_.AddElement<float>(vec2::VT_Y, y, 0.0f);
-  }
-  explicit vec2Builder(::flatbuffers::FlatBufferBuilder &_fbb)
-        : fbb_(_fbb) {
-    start_ = fbb_.StartTable();
-  }
-  ::flatbuffers::Offset<vec2> Finish() {
-    const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<vec2>(end);
-    return o;
-  }
-};
-
-inline ::flatbuffers::Offset<vec2> Createvec2(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    float x = 0.0f,
-    float y = 0.0f) {
-  vec2Builder builder_(_fbb);
-  builder_.add_y(y);
-  builder_.add_x(x);
-  return builder_.Finish();
-}
+FLATBUFFERS_STRUCT_END(vec2, 8);
 
 struct TransformSchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef TransformSchemaBuilder Builder;
@@ -80,21 +51,19 @@ struct TransformSchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     VT_SCALE = 8
   };
   const LeaderEngine::vec2 *position() const {
-    return GetPointer<const LeaderEngine::vec2 *>(VT_POSITION);
+    return GetStruct<const LeaderEngine::vec2 *>(VT_POSITION);
   }
   float rotation() const {
     return GetField<float>(VT_ROTATION, 0.0f);
   }
   const LeaderEngine::vec2 *scale() const {
-    return GetPointer<const LeaderEngine::vec2 *>(VT_SCALE);
+    return GetStruct<const LeaderEngine::vec2 *>(VT_SCALE);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyOffset(verifier, VT_POSITION) &&
-           verifier.VerifyTable(position()) &&
+           VerifyField<LeaderEngine::vec2>(verifier, VT_POSITION, 4) &&
            VerifyField<float>(verifier, VT_ROTATION, 4) &&
-           VerifyOffset(verifier, VT_SCALE) &&
-           verifier.VerifyTable(scale()) &&
+           VerifyField<LeaderEngine::vec2>(verifier, VT_SCALE, 4) &&
            verifier.EndTable();
   }
 };
@@ -103,14 +72,14 @@ struct TransformSchemaBuilder {
   typedef TransformSchema Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_position(::flatbuffers::Offset<LeaderEngine::vec2> position) {
-    fbb_.AddOffset(TransformSchema::VT_POSITION, position);
+  void add_position(const LeaderEngine::vec2 *position) {
+    fbb_.AddStruct(TransformSchema::VT_POSITION, position);
   }
   void add_rotation(float rotation) {
     fbb_.AddElement<float>(TransformSchema::VT_ROTATION, rotation, 0.0f);
   }
-  void add_scale(::flatbuffers::Offset<LeaderEngine::vec2> scale) {
-    fbb_.AddOffset(TransformSchema::VT_SCALE, scale);
+  void add_scale(const LeaderEngine::vec2 *scale) {
+    fbb_.AddStruct(TransformSchema::VT_SCALE, scale);
   }
   explicit TransformSchemaBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -125,9 +94,9 @@ struct TransformSchemaBuilder {
 
 inline ::flatbuffers::Offset<TransformSchema> CreateTransformSchema(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<LeaderEngine::vec2> position = 0,
+    const LeaderEngine::vec2 *position = nullptr,
     float rotation = 0.0f,
-    ::flatbuffers::Offset<LeaderEngine::vec2> scale = 0) {
+    const LeaderEngine::vec2 *scale = nullptr) {
   TransformSchemaBuilder builder_(_fbb);
   builder_.add_scale(scale);
   builder_.add_rotation(rotation);

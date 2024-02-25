@@ -92,12 +92,15 @@ namespace LeaderEngine {
 	}
 
 
-	void Sprite2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
+	flatbuffers::Offset<void> Sprite2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
 		const auto textureName = builder.CreateString(_textureName);
 
 		const auto sprite2DComponent = CreateSprite2DComponentSchema(builder, textureName);
 		builder.Finish(sprite2DComponent); // Serialize the root of the object to the builder
+
+		return sprite2DComponent.Union(); // Return the offset of the root of the object
+		//return flatbuffers::Offset<flatbuffers::Table>(sprite2DComponent.o);
 	}
 
 	void Sprite2DComponent::Deserialize(const void* buffer)
