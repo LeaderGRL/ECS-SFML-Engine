@@ -154,13 +154,17 @@ namespace LeaderEngine {
 
 	flatbuffers::Offset<void> Entity::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
-		std::vector<flatbuffers::Offset<Component>> components; // Create a vector of components offsets to know where to find table in the buffer
+		std::vector<flatbuffers::Offset<void>> components; // Create a vector of components offsets to know where to find table in the buffer
+		std::vector<uint8_t> componentType;
+
 		for (const auto& comp : _components)
 		{
 			if (const auto serializable = dynamic_cast<ISerializable*>(comp.get()))
 			{
 				auto compnentOffset = serializable->Serialize(builder); // Serialize the component
-				components.push_back(compnentOffset); // Add the offset of the component to the vector
+				auto type = static_cast<uint8_t>(comp.get()->GetType());
+				componentType.push_back(type);
+				components.push_back(compnentOffset.Union()); // Add the offset of the component to the vector
 			}
 
 			/*if (serializable)
@@ -169,13 +173,28 @@ namespace LeaderEngine {
 
 		const auto position = vec2(getPosition().x, getPosition().y);
 		const auto scale = vec2(getScale().x, getScale().y);
-		auto componentsOffset = builder.CreateVector(components);
+		const auto componentTypeUnionData = builder.CreateVector(componentType);
+		const auto componentUnionData = builder.CreateVector(components);
+
 
 		const auto transform = CreateTransformSchema(builder, &position, getRotation(), &scale);
-		const auto entity = CreateEntitySchema(builder, _id, transform, componentsOffset);
+		//const auto entity = CreateEntitySchema(builder, _id, transform, componentUnionData);
+		//EntitySchemaBuilder b(builder);
+		//b.add_id(_id);
+		//b.add_transform(transform);
+		//b.add_components_type(componentTypeUnionData);
+		//b.add_components(componentUnionData);
+
+		const auto entity = CreateEntitySchema(builder, _id, transform, componentTypeUnionData, componentUnionData);
+
 		builder.Finish(entity);
 
 		return { entity.o };
+	}
+
+	void Entity::Deserialize(const void* buffer)
+	{
+
 	}
 
 	//--------------------------- TO REFACTOR ---------------------------//

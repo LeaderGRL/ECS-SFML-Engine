@@ -5,7 +5,6 @@
 #include "EntitySchema_generated.h"
 # include "TransformSchema_generated.h"
 
-
 //extern "C"
 //{
 //	#include "lua.h"

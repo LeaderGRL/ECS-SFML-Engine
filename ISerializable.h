@@ -1,3 +1,6 @@
+#ifndef LEADERENGINE_ISERIALIZABLE_H
+#define LEADERENGINE_ISERIALIZABLE_H
+
 #include "flatbuffers/flatbuffers.h"
 
 namespace LeaderEngine
@@ -11,3 +14,5 @@ namespace LeaderEngine
 
 	};
 }
+
+#endif // LEADERENGINE_ISERIALIZABLE_H
