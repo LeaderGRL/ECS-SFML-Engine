@@ -161,14 +161,12 @@ namespace LeaderEngine {
 		{
 			if (const auto serializable = dynamic_cast<ISerializable*>(comp.get()))
 			{
-				auto compnentOffset = serializable->Serialize(builder); // Serialize the component
+				auto componentOffset = serializable->Serialize(builder); // Serialize the component
 				auto type = static_cast<uint8_t>(comp.get()->GetType());
 				componentType.push_back(type);
-				components.push_back(compnentOffset.Union()); // Add the offset of the component to the vector
+				components.push_back(componentOffset.Union()); // Add the offset of the component to the vector
 			}
 
-			/*if (serializable)
-				comp.get()->Serialize(builder);*/
 		}
 
 		const auto position = vec2(getPosition().x, getPosition().y);
@@ -178,13 +176,6 @@ namespace LeaderEngine {
 
 
 		const auto transform = CreateTransformSchema(builder, &position, getRotation(), &scale);
-		//const auto entity = CreateEntitySchema(builder, _id, transform, componentUnionData);
-		//EntitySchemaBuilder b(builder);
-		//b.add_id(_id);
-		//b.add_transform(transform);
-		//b.add_components_type(componentTypeUnionData);
-		//b.add_components(componentUnionData);
-
 		const auto entity = CreateEntitySchema(builder, _id, transform, componentTypeUnionData, componentUnionData);
 
 		builder.Finish(entity);
@@ -194,110 +185,16 @@ namespace LeaderEngine {
 
 	void Entity::Deserialize(const void* buffer)
 	{
+		auto entity = GetEntitySchema(buffer);
+		_id = entity->id();
+		const auto transform = entity->transform();
+		setPosition(transform->position()->x(), transform->position()->y());
+		setRotation(transform->rotation());
+		setScale(transform->scale()->x(), transform->scale()->y());
+
+
 
 	}
-
-	//--------------------------- TO REFACTOR ---------------------------//
-
-	/*void Entity::AddComponent(int type)
-	{
-		COMPONENT_TYPE c_type = static_cast<COMPONENT_TYPE>(type);
-
-		if (c_type == COMPONENT_TYPE::SPRITE2D)
-			AddComponent<Sprite2DComponent>();
-		if (c_type == COMPONENT_TYPE::BOX_COLLIDER)
-			AddComponent<BoxColliderComponent>(sf::Vector2f(0,0));
-		if (c_type == COMPONENT_TYPE::ANIMATION)
-			AddComponent<Sprite2DComponent>();
-		if (c_type == COMPONENT_TYPE::CAMERA)
-			AddComponent<CameraComponent>();
-		if (c_type == COMPONENT_TYPE::SCRIPT)
-			AddComponent<ScriptComponent>();
-	}
-
-	luabridge::LuaRef Entity::GetComponent(int type)
-	{
-
-		auto type_c = static_cast<COMPONENT_TYPE>(type);
-		if (type_c == COMPONENT_TYPE::SPRITE2D)
-			for (const auto& comp : _components)
-			{
-				if (Sprite2DComponent* spriteComp = dynamic_cast<Sprite2DComponent*>(comp.get()))
-				{
-					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), spriteComp);
-				}
-
-			}
-
-		if (type_c == COMPONENT_TYPE::BOX_COLLIDER)
-			for (const auto& comp : _components)
-			{
-				if (BoxColliderComponent* boxComp = dynamic_cast<BoxColliderComponent*>(comp.get()))
-				{
-					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), boxComp);
-				}
-
-			}
-
-		if (type_c == COMPONENT_TYPE::ANIMATION)
-			for (const auto& comp : _components)
-			{
-				if (Sprite2DComponent* animComp = dynamic_cast<Sprite2DComponent*>(comp.get()))
-				{
-					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), animComp);
-				}
-			}
-
-		if (type_c == COMPONENT_TYPE::CAMERA)
-			for (const auto& comp : _components)
-			{
-				if (CameraComponent* camComp = dynamic_cast<CameraComponent*>(comp.get()))
-				{
-					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), camComp);
-				}
-			}
-		if (type_c == COMPONENT_TYPE::SCRIPT)
-			for (const auto& comp : _components)
-			{
-				if (ScriptComponent* scriptComp = dynamic_cast<ScriptComponent*>(comp.get()))
-				{
-					return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState(), scriptComp);
-				}
-			}
-
-		return luabridge::LuaRef(LuaAPI::GetInstance().GetLuaState());
-	}*/
-
-	// -------------------------------------------------------------------- //
-
-	//void Entity::AddComponent(IComponent* component)
-	//{
-	//	_components.push_back(std::move(std::shared_ptr<IComponent>(component)));
-	//}
-
-
-	//void Entity::AddComponent(std::unique_ptr<IComponent> component)
-	//{
-	//	_components.push_back(std::move(component));
-	//}
-
-	//void Entity::AddComponent(std::unique_ptr<IComponent> component)
-	//{
-	//	_components.push_back(std::move(component)); // Move component into the vector
-	//}
-
-	//sf::Packet& Entity::operator<<(sf::Packet& packet, const Entity& entity)
-	//{
-	//	return packet << _id << getPosition().x << getPosition().y;
-	//}
-
-	//sf::Packet& Entity::operator>>(sf::Packet& packet, Entity& entity)
-	//{
-	//	float x, y;
-	//	packet >> entity._id >> x >> y;
-	//	entity.setPosition(x, y);
-	//	return packet;
-	//}
 
 	int Entity::GetId() const
 	{

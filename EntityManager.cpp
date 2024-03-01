@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "EntityManager.h"
 #include "CollisionSystem.h"
+#include "NetworkingComponent.h"
 
 using namespace std;
 
@@ -74,6 +75,7 @@ namespace LeaderEngine
 		for (auto it = _entities.begin(); it != _entities.end(); it++)
 		{
 			it->second->Update(deltaTime);
+			
 		}
 	}
 

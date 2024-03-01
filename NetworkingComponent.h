@@ -13,14 +13,10 @@ namespace LeaderEngine
 			bool isDirty; // Has the entity changed?
 		public:
 			NetworkingComponent();
-			~NetworkingComponent();
 			
 			void Update(float deltaTime) override;
+			COMPONENT_TYPE GetType() const;
 
-			//void Serialize();
-			//void Deserialize();
-			
-		 
 	};
 }
 

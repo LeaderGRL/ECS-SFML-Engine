@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "LuaAPI.h"
 
+#include "NetworkingComponent.h"
 
 
 namespace LeaderEngine 
@@ -45,6 +46,8 @@ namespace LeaderEngine
 			.addFunction("GetCameraComponent", &Entity::GetComponent<CameraComponent>)
 			.addFunction("AddBoxColliderComponent", &Entity::AddComponent<BoxColliderComponent>)
 			.addFunction("GetBoxColliderComponent", &Entity::GetComponent<BoxColliderComponent>)
+			.addFunction("AddNetworkingComponent", &Entity::AddComponent<NetworkingComponent>)
+			.addFunction("GetNetworkComponent", &Entity::GetComponent<NetworkingComponent>)
 		/*	.addFunction("AddComponent", static_cast<void (Entity::*)(int)>(&Entity::AddComponent))
 			.addFunction("GetComponent", static_cast<luabridge::LuaRef(Entity::*)(int)>(&Entity::GetComponent))*/
 			.addFunction("GetPosition", (&sf::Transformable::getPosition))
@@ -116,6 +119,8 @@ namespace LeaderEngine
 			.addFunction("StopAnimation", &Animation2DComponent::StopAnimation)
 			.addFunction("GetAnimationName", &Animation2DComponent::GetAnimationName)
 			.addFunction("SetAnimationName", &Animation2DComponent::SetAnimationName)
+			.endClass()
+			.deriveClass<NetworkingComponent, IComponent>("NetworkingComponent")
 			.endClass();
 
 

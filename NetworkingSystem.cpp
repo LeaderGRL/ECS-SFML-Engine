@@ -2,6 +2,7 @@
 #include "NetworkingSystem.h"
 
 #include "EntityManager.h"
+#include "NetworkingComponent.h"
 
 namespace LeaderEngine
 {
@@ -10,7 +11,7 @@ namespace LeaderEngine
 		socket.bind(5000);
 		socket.setBlocking(false);
 
-		if ( sf::IpAddress::getLocalAddress().toString() == "192.168.69.11" )
+		if ( sf::IpAddress::getLocalAddress().toString() == "10.70.10.7" )
 		{
 			isHost = true;
 		}
@@ -19,6 +20,7 @@ namespace LeaderEngine
 
 	NetworkingSystem::~NetworkingSystem()
 	{
+
 	}
 
 	void NetworkingSystem::Update()
@@ -28,21 +30,38 @@ namespace LeaderEngine
 
 		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
-			for (auto& component : it->second->GetComponents()) // Iterate through the components of the entity
+			//for (auto& component : it->second->GetComponents()) // Iterate through the components of the entity
+			//{
+			//	auto serializable = dynamic_cast<ISerializable*>(component.get()); // Try to cast the component to ISerializable
+
+			//	if (serializable)
+			//	{
+			//		sf::Packet packet = sf::Packet();
+			//		serializable->Serialize(builder); // Serialize the component into the flatbuffer builder object
+			//		auto data = builder.GetBufferPointer(); // Get the pointer to the serialized data
+			//		auto size = builder.GetSize(); // Get the size of the serialized data
+			//		packet.append(data, size); // Append the serialized data to the packet
+
+			//		if (!isHost)
+			//			SendPacket(packet, "192.168.69.11", 5000);
+			//	}
+
+			//}
+
+			if (it->second->GetComponent<NetworkingComponent>() != nullptr)
 			{
-				auto serializable = dynamic_cast<ISerializable*>(component.get()); // Try to cast the component to ISerializable
+				// std::cout << "NetworkingComponent found" << std::endl;
+				sf::Packet packet = sf::Packet();
+				it->second->Serialize(builder);
+				auto data = builder.GetBufferPointer();
+				auto size = builder.GetSize();
+				packet.append(data, size);
 
-				if (serializable)
+				if (!isHost)
 				{
-					sf::Packet packet = sf::Packet();
-					serializable->Serialize(builder); // Serialize the component into the flatbuffer builder object
-					auto data = builder.GetBufferPointer(); // Get the pointer to the serialized data
-					auto size = builder.GetSize(); // Get the size of the serialized data
-					packet.append(data, size); // Append the serialized data to the packet
-
-					if (!isHost)
-						SendPacket(packet, "192.168.69.11", 5000);
+					SendPacket(packet, "10.70.10.7", 5000);
 				}
+
 			}
 		}
 
@@ -77,14 +96,9 @@ namespace LeaderEngine
 
 			for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 			{
-				for (auto& component : it->second->GetComponents()) // Iterate through the components of the entity
+				if (it->second->GetComponent<NetworkingComponent>() != nullptr)
 				{
-					auto serializable = dynamic_cast<ISerializable*>(component.get()); // Try to cast the component to ISerializable
-
-					if (serializable)
-					{
-						serializable->Deserialize(data.data()); // Deserialize the data into the component
-					}
+					it->second->Deserialize(data.data());
 				}
 			}
 		}
