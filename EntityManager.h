@@ -18,14 +18,14 @@ namespace LeaderEngine
 		protected:
 			
 		public:
-			static EntityManager& GetInstance();
+			//static EntityManager& GetInstance();
 			
 			EntityManager();
 			~EntityManager();
-			EntityManager(EntityManager const&) = delete;
-			EntityManager(EntityManager&&) = delete;
-			EntityManager& operator=(EntityManager const&) = delete;
-			EntityManager& operator=(EntityManager&&) = delete;
+			//EntityManager(EntityManager const&) = delete;
+			//EntityManager(EntityManager&&) = delete;
+			//EntityManager& operator=(EntityManager const&) = delete;
+			//EntityManager& operator=(EntityManager&&) = delete;
 
 			//void AddEntity(Entity&& entity); // RValue reference
 			Entity* CreateEntity(std::string name);

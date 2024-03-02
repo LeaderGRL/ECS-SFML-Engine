@@ -7,11 +7,11 @@ using namespace std;
 
 namespace LeaderEngine
 {	
-	EntityManager& EntityManager::GetInstance()
-	{
-		static EntityManager instance;
-		return instance;
-	}
+	//EntityManager& EntityManager::GetInstance()
+	//{
+	//	static EntityManager instance;
+	//	return instance;
+	//}
 
 	EntityManager::EntityManager()
 	{
