@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "LuaAPI.h"
 
+#include <TGUI/Backends/SFML.hpp>
+#include <TGUI/Widgets/EditBox.hpp>
+
 #include "NetworkingComponent.h"
 #include "Scene.h"
 #include "SceneManager.h"
@@ -265,6 +268,33 @@ namespace LeaderEngine
 			.addStaticFunction("intersects", &Utils::RectIntersects)
 			.endClass();
 
+		luabridge::getGlobalNamespace(L)
+			.beginClass<tgui::Gui>("Gui")
+			.addConstructor<void(*) (void)>()
+			.addFunction("Add", &tgui::Gui::add)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<tgui::EditBox>("EditBox")
+			.addConstructor<void(*) (void)>()
+			.addFunction("SetPosition", static_cast<void (tgui::EditBox::*)(tgui::Layout x, tgui::Layout y)>(&tgui::EditBox::setPosition))
+			.addFunction("SetSize", static_cast<void (tgui::EditBox::*)(tgui::Layout width, tgui::Layout height)>(&tgui::EditBox::setSize))
+			.addFunction("SetText", &tgui::EditBox::setText)
+			.addFunction("GetText", &tgui::EditBox::getText)
+			.addStaticFunction("Create", &tgui::EditBox::create)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<tgui::Layout>("Layout")
+			.addConstructor<void(*) (float)>()
+			.addConstructor<void(*) (const std::string&)>()
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<tgui::Widget>("Widget")
+			.addFunction("SetPosition", static_cast<void (tgui::Widget::*)(tgui::Layout x, tgui::Layout y)>(&tgui::Widget::setPosition))
+			.addFunction("SetSize", static_cast<void (tgui::Widget::*)(tgui::Layout width, tgui::Layout height)>(&tgui::Widget::setSize))
+			.endClass();
 		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		//report_errors(L, scriptLoadStatus);
 

@@ -30,6 +30,8 @@ namespace LeaderEngine {
 
 	void Application::Init()
 	{
+
+
 		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
 
 		LuaAPI::GetInstance().CPP_To_LUA();
@@ -68,6 +70,8 @@ namespace LeaderEngine {
 
 			while (window.pollEvent(event))
 			{
+				gui.handleEvent(event);
+
 				switch (event.type)
 				{
 					// "close requested" event: we close the window
@@ -90,6 +94,7 @@ namespace LeaderEngine {
 			}
 
 			window.clear(sf::Color::Black);
+			gui.draw();
 			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().draw(window, sf::RenderStates::Default);
 			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().Update(time.asSeconds());
 			window.display();
