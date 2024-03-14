@@ -15,9 +15,11 @@ namespace LeaderEngine
 			SceneManager();
 			~SceneManager();
 
+			static SceneManager& GetInstance();
 			void PushScene(std::unique_ptr<Scene> scene);
 			void PopScene();
 			void ChangeScene(std::unique_ptr<Scene> scene);
+			void ChangeScene(Scene* scene);
 			Scene* GetCurrentScene();
 			void Update(float deltaTime);
 			void Draw(sf::RenderTarget& target, sf::RenderStates states);

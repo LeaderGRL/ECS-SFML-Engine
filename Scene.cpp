@@ -37,4 +37,8 @@ namespace LeaderEngine
 	{
 		_entityManager.draw(target, states);
 	}
+	EntityManager& Scene::GetEntityManager()
+	{
+		return _entityManager;
+	}
 }

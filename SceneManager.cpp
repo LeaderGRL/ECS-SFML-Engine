@@ -13,6 +13,12 @@ namespace LeaderEngine
 		
 	}
 
+	SceneManager& SceneManager::GetInstance()
+	{
+		static SceneManager instance;
+		return instance;
+	}
+
 	void SceneManager::PushScene(std::unique_ptr<Scene> scene)
 	{
 		if(!_scenes.empty())
@@ -44,6 +50,16 @@ namespace LeaderEngine
 		}
 
 		PushScene(std::move(scene));
+	}
+
+	void SceneManager::ChangeScene(Scene* scene)
+	{
+		while (!_scenes.empty())
+		{
+			_scenes.pop();
+		}
+
+		PushScene(std::unique_ptr<Scene>(scene));
 	}
 
 	Scene* SceneManager::GetCurrentScene()

@@ -2,6 +2,8 @@
 #include "LuaAPI.h"
 
 #include "NetworkingComponent.h"
+#include "Scene.h"
+#include "SceneManager.h"
 
 
 namespace LeaderEngine 
@@ -72,7 +74,20 @@ namespace LeaderEngine
 			.beginClass<EntityManager>("EntityManager")
 			.addFunction("CreateEntity", &EntityManager::CreateEntity)
 			.addFunction("GetEntity", &EntityManager::GetEntity)
-			.addStaticFunction("GetInstance", &EntityManager::GetInstance)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<SceneManager>("SceneManager")
+			.addStaticFunction("GetInstance", &SceneManager::GetInstance)
+			//.addFunction("PushScene", &SceneManager::PushScene)
+			.addFunction("PopScene", &SceneManager::PopScene)
+			.addFunction("ChangeScene", static_cast<void (SceneManager::*)(Scene*)>(&SceneManager::ChangeScene))
+			.addFunction("GetCurrentScene", &SceneManager::GetCurrentScene)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<Scene>("Scene")
+			.addFunction("GetEntityManager", &Scene::GetEntityManager)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)

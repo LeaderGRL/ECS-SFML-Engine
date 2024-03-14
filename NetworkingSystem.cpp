@@ -3,6 +3,7 @@
 
 #include "EntityManager.h"
 #include "NetworkingComponent.h"
+#include "SceneManager.h"
 
 namespace LeaderEngine
 {
@@ -26,7 +27,7 @@ namespace LeaderEngine
 	void NetworkingSystem::Update()
 	{
 		flatbuffers::FlatBufferBuilder builder;
-		auto &entities = EntityManager::GetInstance().GetEntities(); // Reference to the entities map in the entity manager
+		auto &entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
 
 		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
@@ -92,7 +93,7 @@ namespace LeaderEngine
 			std::vector<uint8_t> data(packet.getDataSize()); // Create a vector to store the data from the packet
 			memcpy(data.data(), packet.getData(), packet.getDataSize()); // Copy the data from the packet to the vector
 
-			auto &entities = EntityManager::GetInstance().GetEntities();
+			auto &entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities();
 
 			for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 			{

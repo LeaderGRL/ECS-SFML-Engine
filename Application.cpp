@@ -6,6 +6,7 @@
 #include <SFML/Window.hpp>
 #include <filesystem>
 #include "LuaAPI.h"
+#include "SceneManager.h"
 #include "ScriptComponent.h"
 
 namespace LeaderEngine {
@@ -34,11 +35,14 @@ namespace LeaderEngine {
 		LuaAPI::GetInstance().CPP_To_LUA();
 		LuaAPI::GetInstance().LoadScript("Assets/Scripts/Config.lua");
 
-		Entity* gameManager = EntityManager::GetInstance().CreateEntity("GameManager");
+		std::unique_ptr<Scene> mainScene = std::make_unique<Scene>();
+		SceneManager::GetInstance().PushScene(std::move(mainScene));
+
+		Entity* gameManager = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("GameManager");
 		gameManager->AddComponent<ScriptComponent, const char*>("Assets/Scripts/GameManager.lua");
 		/*Entity* bulletManager = EntityManager::GetInstance().CreateEntity("BulletManager");
 		bulletManager->AddComponent<ScriptComponent, const char*>("Assets/Scripts/BulletManager.lua");*/
-		Entity* camera = EntityManager::GetInstance().CreateEntity("MainCamera");
+		Entity* camera = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("MainCamera");
 		camera->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Camera.lua");
 		/*Entity* bullets = EntityManager::GetInstance().CreateEntity("Rocket");
 		bullets->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Bullets.lua");*/
@@ -60,7 +64,7 @@ namespace LeaderEngine {
 		{
 			//sf::Time time = clock.getElapsedTime();
 			sf::Time time = clock.restart();
-			window.setView(EntityManager::GetInstance().GetEntity("MainCamera")->GetComponent<CameraComponent>()->getView());
+			window.setView(SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntity("MainCamera")->GetComponent<CameraComponent>()->getView());
 
 			while (window.pollEvent(event))
 			{
@@ -86,8 +90,8 @@ namespace LeaderEngine {
 			}
 
 			window.clear(sf::Color::Black);
-			EntityManager::GetInstance().draw(window, sf::RenderStates::Default);
-			EntityManager::GetInstance().Update(time.asSeconds());
+			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().draw(window, sf::RenderStates::Default);
+			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().Update(time.asSeconds());
 			window.display();
 		}
 	}
