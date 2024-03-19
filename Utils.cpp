@@ -19,5 +19,11 @@ namespace LeaderEngine
 	bool Utils::RectIntersects(const sf::Rect<float>& rect1, const sf::Rect<float>& rect2) {
 		return rect1.intersects(rect2);
 	}
+
+
+	void Utils::GuiAddWidget(tgui::Gui* gui, tgui::Widget::Ptr widget, const std::string& widgetName)
+	{
+		gui->add(widget, widgetName);
+	}
 }
 

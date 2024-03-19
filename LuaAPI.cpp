@@ -269,14 +269,25 @@ namespace LeaderEngine
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
-			.beginClass<tgui::Gui>("Gui")
-			.addConstructor<void(*) (void)>()
-			.addFunction("Add", &tgui::Gui::add)
+			.beginClass<Utils>("Gui")
+			.addStaticFunction("AddWidget", &Utils::GuiAddWidget)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+			.beginClass<tgui::GuiSFML>("Gui")
+			.addFunction("Add", &tgui::GuiSFML::add)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+			.beginClass<tgui::String>("String")
+			.addConstructor<void(*) (const std::string&)>()
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
 			.beginClass<tgui::EditBox>("EditBox")
-			.addConstructor<void(*) (void)>()
 			.addFunction("SetPosition", static_cast<void (tgui::EditBox::*)(tgui::Layout x, tgui::Layout y)>(&tgui::EditBox::setPosition))
 			.addFunction("SetSize", static_cast<void (tgui::EditBox::*)(tgui::Layout width, tgui::Layout height)>(&tgui::EditBox::setSize))
 			.addFunction("SetText", &tgui::EditBox::setText)
@@ -294,7 +305,13 @@ namespace LeaderEngine
 			.beginClass<tgui::Widget>("Widget")
 			.addFunction("SetPosition", static_cast<void (tgui::Widget::*)(tgui::Layout x, tgui::Layout y)>(&tgui::Widget::setPosition))
 			.addFunction("SetSize", static_cast<void (tgui::Widget::*)(tgui::Layout width, tgui::Layout height)>(&tgui::Widget::setSize))
+			.endClass()
+			.deriveClass<tgui::ClickableWidget, tgui::Widget>("ClickableWidget")
+			.endClass()
+			.deriveClass<tgui::EditBox, tgui::ClickableWidget>("EditBox")
 			.endClass();
+
+
 		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		//report_errors(L, scriptLoadStatus);
 
@@ -365,4 +382,5 @@ namespace LeaderEngine
 			lua_pop(L, 1); // remove non-function value
 		}
 	}
+
 }

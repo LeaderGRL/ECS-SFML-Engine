@@ -31,10 +31,13 @@ namespace LeaderEngine {
 	void Application::Init()
 	{
 
-
 		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
 
 		LuaAPI::GetInstance().CPP_To_LUA();
+
+		
+		luabridge::setGlobal(LuaAPI::GetInstance().GetLuaState(), &gui, "gui");
+
 		LuaAPI::GetInstance().LoadScript("Assets/Scripts/Config.lua");
 
 		std::unique_ptr<Scene> mainScene = std::make_unique<Scene>();
