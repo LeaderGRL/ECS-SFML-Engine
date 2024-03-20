@@ -35,8 +35,11 @@ namespace LeaderEngine {
 
 		LuaAPI::GetInstance().CPP_To_LUA();
 
-		
+		//tgui::EditBox::Ptr editBox = tgui::EditBox::create();
+		//editBox->setPosition(10, 10);
+		//
 		luabridge::setGlobal(LuaAPI::GetInstance().GetLuaState(), &gui, "gui");
+		luabridge::setGlobal(LuaAPI::GetInstance().GetLuaState(), &window, "window");
 
 		LuaAPI::GetInstance().LoadScript("Assets/Scripts/Config.lua");
 

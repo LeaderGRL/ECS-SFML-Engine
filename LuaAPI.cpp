@@ -34,6 +34,24 @@ namespace LeaderEngine
 		luaL_openlibs(L);
 
 		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::RenderWindow>("RenderWindow")
+			.addFunction("isOpen", &sf::RenderWindow::isOpen)
+			.addFunction("clear", &sf::RenderWindow::clear)
+			.addFunction("display", &sf::RenderWindow::display)
+			.addFunction("pollEvent", &sf::RenderWindow::pollEvent)
+			.addFunction("close", &sf::RenderWindow::close)
+			.addFunction("setView", &sf::RenderWindow::setView)
+			.addFunction("getView", &sf::RenderWindow::getView)
+			.addFunction("setMouseCursorVisible", &sf::RenderWindow::setMouseCursorVisible)
+			.addFunction("setFramerateLimit", &sf::RenderWindow::setFramerateLimit)
+			.addFunction("setVerticalSyncEnabled", &sf::RenderWindow::setVerticalSyncEnabled)
+			.addFunction("setKeyRepeatEnabled", &sf::RenderWindow::setKeyRepeatEnabled)
+			.addFunction("setActive", &sf::RenderWindow::setActive)
+			.addFunction("getSize", &sf::RenderWindow::getSize)
+			.endClass();
+			
+
+		luabridge::getGlobalNamespace(L)
 			.beginClass<Entity>("Entity")
 			.addConstructor<void(*) (void)>()
 			.addFunction("GetId", &Entity::GetId)
@@ -157,6 +175,20 @@ namespace LeaderEngine
 			.addConstructor<void(*) (float, float)>()
 			.addProperty("x", &sf::Vector2f::x)
 			.addProperty("y", &sf::Vector2f::y)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Vector2u>("Vector2u")
+			.addConstructor<void(*) (unsigned int, unsigned int)>()
+			.addProperty("x", &sf::Vector2u::x)
+			.addProperty("y", &sf::Vector2u::y)
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::Vector2i>("Vector2i")
+			.addConstructor<void(*) (int, int)>()
+			.addProperty("x", &sf::Vector2i::x)
+			.addProperty("y", &sf::Vector2i::y)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
@@ -296,9 +328,11 @@ namespace LeaderEngine
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
 			.beginClass<tgui::Layout>("Layout")
 			.addConstructor<void(*) (float)>()
 			.addConstructor<void(*) (const std::string&)>()
+			.addFunction("getValue", &tgui::Layout::getValue)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
