@@ -35,9 +35,15 @@ namespace LeaderEngine {
 
 		LuaAPI::GetInstance().CPP_To_LUA();
 
-		//tgui::EditBox::Ptr editBox = tgui::EditBox::create();
-		//editBox->setPosition(10, 10);
-		//
+	/*	tgui::EditBox::Ptr editBox = tgui::EditBox::create();
+		editBox->setPosition(100, 100);
+		gui.add(editBox);
+		editBox->onReturnKeyPress.connect([editBox]()
+		{
+						std::cout << "You entered: " << editBox->getText().to << std::endl;
+		});*/
+
+
 		luabridge::setGlobal(LuaAPI::GetInstance().GetLuaState(), &gui, "gui");
 		luabridge::setGlobal(LuaAPI::GetInstance().GetLuaState(), &window, "window");
 

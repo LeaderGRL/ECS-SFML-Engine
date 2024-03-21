@@ -315,15 +315,34 @@ namespace LeaderEngine
 			.beginNamespace("tgui")
 			.beginClass<tgui::String>("String")
 			.addConstructor<void(*) (const std::string&)>()
+			.addFunction("ToStdString", &tgui::String::toStdString)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("tgui")
 			.beginClass<tgui::EditBox>("EditBox")
 			.addFunction("SetPosition", static_cast<void (tgui::EditBox::*)(tgui::Layout x, tgui::Layout y)>(&tgui::EditBox::setPosition))
+			.addFunction("GetPosition", &tgui::EditBox::getPosition)
 			.addFunction("SetSize", static_cast<void (tgui::EditBox::*)(tgui::Layout width, tgui::Layout height)>(&tgui::EditBox::setSize))
+			.addFunction("GetSize", &tgui::EditBox::getSize)
 			.addFunction("SetText", &tgui::EditBox::setText)
 			.addFunction("GetText", &tgui::EditBox::getText)
+			.addFunction("SetDefaultText", &tgui::EditBox::setDefaultText)
+			.addFunction("GetDefaultText", &tgui::EditBox::getDefaultText)
+			.addFunction("SetMaximumCharacters", &tgui::EditBox::setMaximumCharacters)
+			.addFunction("GetMaximumCharacters", &tgui::EditBox::getMaximumCharacters)
+			.addFunction("SetReadOnly", &tgui::EditBox::setReadOnly)
+			.addFunction("IsReadOnly", &tgui::EditBox::isReadOnly)
+			.addFunction("SetAlignment", &tgui::EditBox::setAlignment)
+			.addFunction("GetAlignment", &tgui::EditBox::getAlignment)
+			.addFunction("SetInputValidator", &tgui::EditBox::setInputValidator)
+			.addFunction("GetInputValidator", &tgui::EditBox::getInputValidator)
+			.addFunction("SetTextSize", &tgui::EditBox::setTextSize)
+			.addFunction("GetTextSize", &tgui::EditBox::getTextSize)
+			.addFunction("SetPasswordCharacter", &tgui::EditBox::setPasswordCharacter)
+			.addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
+			.addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
+			.addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)
 			.addStaticFunction("Create", &tgui::EditBox::create)
 			.endClass();
 
@@ -338,13 +357,48 @@ namespace LeaderEngine
 		luabridge::getGlobalNamespace(L)
 			.beginClass<tgui::Widget>("Widget")
 			.addFunction("SetPosition", static_cast<void (tgui::Widget::*)(tgui::Layout x, tgui::Layout y)>(&tgui::Widget::setPosition))
+			.addFunction("GetPosition", &tgui::Widget::getPosition)
 			.addFunction("SetSize", static_cast<void (tgui::Widget::*)(tgui::Layout width, tgui::Layout height)>(&tgui::Widget::setSize))
+			.addFunction("GetSize", &tgui::Widget::getSize)
 			.endClass()
 			.deriveClass<tgui::ClickableWidget, tgui::Widget>("ClickableWidget")
 			.endClass()
 			.deriveClass<tgui::EditBox, tgui::ClickableWidget>("EditBox")
+			.addFunction("GetText", &tgui::EditBox::getText)
+			.addFunction("SetText", &tgui::EditBox::setText)
+			.addFunction("SetDefaultText", &tgui::EditBox::setDefaultText)
+			.addFunction("GetDefaultText", &tgui::EditBox::getDefaultText)
+			.addFunction("SetMaximumCharacters", &tgui::EditBox::setMaximumCharacters)
+			.addFunction("GetMaximumCharacters", &tgui::EditBox::getMaximumCharacters)
+			.addFunction("SetReadOnly", &tgui::EditBox::setReadOnly)
+			.addFunction("IsReadOnly", &tgui::EditBox::isReadOnly)
+			.addFunction("SetAlignment", &tgui::EditBox::setAlignment)
+			.addFunction("GetAlignment", &tgui::EditBox::getAlignment)
+			.addFunction("SetInputValidator", &tgui::EditBox::setInputValidator)
+			.addFunction("GetInputValidator", &tgui::EditBox::getInputValidator)
+			.addFunction("SetTextSize", &tgui::EditBox::setTextSize)
+			.addFunction("GetTextSize", &tgui::EditBox::getTextSize)
+			.addFunction("SetPasswordCharacter", &tgui::EditBox::setPasswordCharacter)
+			.addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
+			.addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
+			.addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)
+			.addStaticFunction("Create", &tgui::EditBox::create)
 			.endClass();
 
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+			.beginClass<tgui::SignalString>("SignalString")
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+			.beginClass<tgui::Signal>("Signal")
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+		    .beginNamespace("tgui")
+			.addFunction("OnReturnKeyPress", &OnReturnKeyPress)
+			.endNamespace();
 
 		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		//report_errors(L, scriptLoadStatus);
@@ -417,4 +471,24 @@ namespace LeaderEngine
 		}
 	}
 
+	// wrapper function for onReturnKeyPress.connect
+	void LuaAPI::OnReturnKeyPress(const tgui::EditBox::Ptr& editBox, const luabridge::LuaRef& callback, lua_State* L) {
+		if (!callback.isFunction()) {
+			// Handle error: provided argument is not a function
+
+			std::cerr << "Provided argument is not a function" << std::endl;
+			return;
+		}
+
+		editBox->onReturnKeyPress.connect([callback, L]() {
+			// Assuming the callback takes no arguments and returns nothing
+			try {
+				callback(); // You might need to push L if the callback uses it
+			}
+			catch (luabridge::LuaException const& e)
+			{
+				std::cerr << "Lua exception: " << e.what() << std::endl;
+			}
+		});
+	}
 }

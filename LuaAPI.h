@@ -3,6 +3,7 @@
 #include <iostream>
 #include <TGUI/Widget.hpp>
 #include <TGUI/Backends/SFML.hpp>
+#include <TGUI/Widgets/EditBox.hpp>
 
 #include "lua.hpp"
 #include "luabridge3/LuaBridge/LuaBridge.h"
@@ -39,7 +40,8 @@ namespace LeaderEngine
 			//void RegisterEvent(int inputEvent, const luabridge::LuaRef& callback);
 			static bool Call_Errors(lua_State* luaState, const luabridge::LuaRef& func, int nbArgs, int nbReturnValue);
 			void CallFunction(const std::string& funcName);
-			//void GuiAddWidget(tgui::Gui* gui, tgui::Widget::Ptr widget, const std::string& widgetName);
+
+			static void OnReturnKeyPress(const tgui::EditBox::Ptr& editBox, const luabridge::LuaRef& callback, lua_State* L);
 		
 	};
 }
