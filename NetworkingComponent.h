@@ -9,11 +9,14 @@ namespace LeaderEngine
 	{
 		private:
 			int _id;
+			std::string _ip;
 			bool isAuthoritative; // Is this the server?
 			bool isDirty; // Has the entity changed?
 		public:
 			NetworkingComponent();
-			
+
+			std::string GetIP() const;
+			void SetIP(const std::string& ip);
 			void Update(float deltaTime) override;
 			COMPONENT_TYPE GetType() const;
 

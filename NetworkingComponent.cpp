@@ -7,6 +7,16 @@ namespace LeaderEngine
 	{
 	}
 
+	std::string NetworkingComponent::GetIP() const
+	{
+		return _ip;
+	}
+
+	void NetworkingComponent::SetIP(const std::string& ip)
+	{
+		_ip = ip;
+	}
+
 
 	void NetworkingComponent::Update(float deltaTime)
 	{

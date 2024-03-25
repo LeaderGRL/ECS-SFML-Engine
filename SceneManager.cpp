@@ -67,6 +67,11 @@ namespace LeaderEngine
 		return _scenes.top().get();
 	}
 
+	std::stack<std::unique_ptr<Scene>>& SceneManager::GetScenes()
+	{
+		return _scenes;
+	}
+
 	void SceneManager::Update(float deltaTime)
 	{
 		if (!_scenes.empty())

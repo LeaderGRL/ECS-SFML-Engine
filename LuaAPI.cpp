@@ -5,6 +5,7 @@
 #include <TGUI/Widgets/EditBox.hpp>
 
 #include "NetworkingComponent.h"
+#include "NetworkManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
 
@@ -301,6 +302,16 @@ namespace LeaderEngine
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
+			.beginClass<sf::IpAddress>("IpAddress")
+			.addConstructor<void(*) (void)>()
+			.addConstructor<void(*) (const std::string&)>()
+			.addFunction("getLocalAddress", &sf::IpAddress::getLocalAddress)
+			.addFunction("getPublicAddress", &sf::IpAddress::getPublicAddress)
+			.endClass();
+
+			
+
+		luabridge::getGlobalNamespace(L)
 			.beginClass<Utils>("Gui")
 			.addStaticFunction("AddWidget", &Utils::GuiAddWidget)
 			.endClass();
@@ -321,7 +332,7 @@ namespace LeaderEngine
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("tgui")
 			.beginClass<tgui::EditBox>("EditBox")
-			.addFunction("SetPosition", static_cast<void (tgui::EditBox::*)(tgui::Layout x, tgui::Layout y)>(&tgui::EditBox::setPosition))
+			/*.addFunction("SetPosition", static_cast<void (tgui::EditBox::*)(tgui::Layout x, tgui::Layout y)>(&tgui::EditBox::setPosition))
 			.addFunction("GetPosition", &tgui::EditBox::getPosition)
 			.addFunction("SetSize", static_cast<void (tgui::EditBox::*)(tgui::Layout width, tgui::Layout height)>(&tgui::EditBox::setSize))
 			.addFunction("GetSize", &tgui::EditBox::getSize)
@@ -342,7 +353,7 @@ namespace LeaderEngine
 			.addFunction("SetPasswordCharacter", &tgui::EditBox::setPasswordCharacter)
 			.addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
 			.addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
-			.addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)
+			.addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)*/
 			.addStaticFunction("Create", &tgui::EditBox::create)
 			.endClass();
 
@@ -399,6 +410,15 @@ namespace LeaderEngine
 		    .beginNamespace("tgui")
 			.addFunction("OnReturnKeyPress", &OnReturnKeyPress)
 			.endNamespace();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<NetworkManager>("NetworkManager")
+			.addFunction("GetInstance", &NetworkManager::GetInstance)
+			.addFunction("SetIp", &NetworkManager::SetIp)
+			.addFunction("SetPort", &NetworkManager::SetPort)
+			.addFunction("GetIp", &NetworkManager::GetIp)
+			.addFunction("GetPort", &NetworkManager::GetPort)
+			.endClass();
 
 		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		//report_errors(L, scriptLoadStatus);
