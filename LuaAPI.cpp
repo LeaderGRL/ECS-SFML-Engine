@@ -105,10 +105,14 @@ namespace LeaderEngine
 			.addFunction("PopScene", &SceneManager::PopScene)
 			.addFunction("ChangeScene", static_cast<void (SceneManager::*)(Scene*)>(&SceneManager::ChangeScene))
 			.addFunction("GetCurrentScene", &SceneManager::GetCurrentScene)
+			.addFunction("CreateScene", &SceneManager::CreateScene)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<Scene>("Scene")
+			.addConstructor<void(*) (void)>()
+			.addFunction("SetId", &Scene::SetSceneID)
+			.addFunction("GetId", &Scene::GetSceneID)
 			.addFunction("GetEntityManager", &Scene::GetEntityManager)
 			.endClass();
 
@@ -305,8 +309,9 @@ namespace LeaderEngine
 			.beginClass<sf::IpAddress>("IpAddress")
 			.addConstructor<void(*) (void)>()
 			.addConstructor<void(*) (const std::string&)>()
-			.addFunction("getLocalAddress", &sf::IpAddress::getLocalAddress)
-			.addFunction("getPublicAddress", &sf::IpAddress::getPublicAddress)
+			.addStaticFunction("GetLocalAddress", &sf::IpAddress::getLocalAddress)
+			.addStaticFunction("GetPublicAddress", &sf::IpAddress::getPublicAddress)
+			.addFunction("ToString", &sf::IpAddress::toString)
 			.endClass();
 
 			
@@ -413,7 +418,7 @@ namespace LeaderEngine
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<NetworkManager>("NetworkManager")
-			.addFunction("GetInstance", &NetworkManager::GetInstance)
+			.addStaticFunction("GetInstance", &NetworkManager::GetInstance)
 			.addFunction("SetIp", &NetworkManager::SetIp)
 			.addFunction("SetPort", &NetworkManager::SetPort)
 			.addFunction("GetIp", &NetworkManager::GetIp)

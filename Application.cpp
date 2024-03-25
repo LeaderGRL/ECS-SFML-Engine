@@ -52,12 +52,12 @@ namespace LeaderEngine {
 		std::unique_ptr<Scene> mainScene = std::make_unique<Scene>();
 		SceneManager::GetInstance().PushScene(std::move(mainScene));
 
-		Entity* gameManager = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("GameManager");
-		gameManager->AddComponent<ScriptComponent, const char*>("Assets/Scripts/GameManager.lua");
+		Entity* mainMenu = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("MainMenu");
+		mainMenu->AddComponent<ScriptComponent, const char*>("Assets/Scripts/MainMenu.lua");
 		/*Entity* bulletManager = EntityManager::GetInstance().CreateEntity("BulletManager");
 		bulletManager->AddComponent<ScriptComponent, const char*>("Assets/Scripts/BulletManager.lua");*/
-		Entity* camera = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("MainCamera");
-		camera->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Camera.lua");
+		//Entity* camera = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("MainCamera");
+		//camera->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Camera.lua");
 		/*Entity* bullets = EntityManager::GetInstance().CreateEntity("Rocket");
 		bullets->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Bullets.lua");*/
 		//Entity* weapons = EntityManager::GetInstance().CreateEntity("FighterWeapons");
@@ -65,7 +65,7 @@ namespace LeaderEngine {
 		//Entity* player = EntityManager::GetInstance().CreateEntity("Fighter");
 		//player->AddComponent<ScriptComponent, const char*>("Assets/Scripts/Player.lua"); // Load the script automaticaly
 
-		window.setView(camera->GetComponent<CameraComponent>()->getView());
+		//window.setView(camera->GetComponent<CameraComponent>()->getView());
 
 	}  
 	
@@ -78,7 +78,7 @@ namespace LeaderEngine {
 		{
 			//sf::Time time = clock.getElapsedTime();
 			sf::Time time = clock.restart();
-			window.setView(SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntity("MainCamera")->GetComponent<CameraComponent>()->getView());
+			//window.setView(SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntity("MainCamera")->GetComponent<CameraComponent>()->getView());
 
 			while (window.pollEvent(event))
 			{

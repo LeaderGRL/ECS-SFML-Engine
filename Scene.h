@@ -6,7 +6,7 @@ namespace LeaderEngine
 	class Scene
 	{
 		private:
-			int _sceneID;
+			std::string _sceneID;
 			EntityManager _entityManager;
 
 		public:
@@ -19,6 +19,8 @@ namespace LeaderEngine
 			void Update(float deltaTime);
 			void Draw(sf::RenderTarget& target, sf::RenderStates states);
 
+			void SetSceneID(const std::string& sceneID);
+			std::string GetSceneID() const;
 			EntityManager& GetEntityManager();
 			
 	};

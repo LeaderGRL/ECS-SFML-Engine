@@ -37,6 +37,17 @@ namespace LeaderEngine
 	{
 		_entityManager.draw(target, states);
 	}
+
+	void Scene::SetSceneID(const std::string& sceneID)
+	{
+		_sceneID = sceneID;
+	}
+
+	std::string Scene::GetSceneID() const
+	{
+		return _sceneID;
+	}
+
 	EntityManager& Scene::GetEntityManager()
 	{
 		return _entityManager;

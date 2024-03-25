@@ -14,7 +14,7 @@ namespace LeaderEngine
 			NetworkManager();
 			~NetworkManager();
 
-			NetworkManager GetInstance();
+			static NetworkManager GetInstance();
 
 			void SetIp(sf::IpAddress ip);
 			void SetPort(unsigned short port);

@@ -3,6 +3,7 @@
 
 #include "EntityManager.h"
 #include "NetworkingComponent.h"
+#include "NetworkManager.h"
 #include "SceneManager.h"
 
 namespace LeaderEngine
@@ -51,7 +52,6 @@ namespace LeaderEngine
 
 			if (it->second->GetComponent<NetworkingComponent>() != nullptr)
 			{
-				// std::cout << "NetworkingComponent found" << std::endl;
 				sf::Packet packet = sf::Packet();
 				it->second->Serialize(builder);
 				auto data = builder.GetBufferPointer();
@@ -60,7 +60,7 @@ namespace LeaderEngine
 
 				if (!isHost)
 				{
-					SendPacket(packet, "10.70.10.7", 5000);
+					SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5000);
 				}
 
 			}
