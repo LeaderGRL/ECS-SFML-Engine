@@ -13,7 +13,7 @@ namespace LeaderEngine
 			std::unordered_map<std::string, std::unique_ptr<Entity>> _entities;
 			CollisionSystem _collisionSystem;
 			AnimationSystem _animationSystem;
-			NetworkingSystem _networkSystem;
+			//NetworkingSystem _networkSystem;
 			//static EntityManager& instance();
 		protected:
 			

@@ -6,6 +6,20 @@ namespace LeaderEngine
 {
 	ScriptComponent::ScriptComponent() : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
 	{
+		if (!_luaObject.isTable())
+		{
+			return;
+		}
+
+		const luabridge::LuaRef& init = _luaObject["Init"];
+		if (!init.isFunction())
+		{
+			return;
+		}
+
+
+		if (const luabridge::LuaResult res = init(_luaObject); !res.wasOk())
+			std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
 
 	}
 

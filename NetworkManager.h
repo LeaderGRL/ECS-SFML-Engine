@@ -2,6 +2,8 @@
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/Network/Packet.hpp>
 
+#include "NetworkingSystem.h"
+
 namespace LeaderEngine
 {
 	class NetworkManager
@@ -9,12 +11,13 @@ namespace LeaderEngine
 		private :
 			sf::IpAddress _ip;
 			unsigned short _port;
+			NetworkingSystem _networkSystem;
 
 		public:
 			NetworkManager();
 			~NetworkManager();
 
-			static NetworkManager GetInstance();
+			static NetworkManager& GetInstance();
 
 			void SetIp(sf::IpAddress ip);
 			void SetPort(unsigned short port);

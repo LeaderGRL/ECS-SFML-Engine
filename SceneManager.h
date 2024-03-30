@@ -21,7 +21,8 @@ namespace LeaderEngine
 			void ChangeScene(std::unique_ptr<Scene> scene);
 			void ChangeScene(Scene* scene);
 			Scene* GetCurrentScene();
-			std::unique_ptr<Scene> CreateScene();
+			//std::unique_ptr<Scene> CreateScene();
+			Scene* CreateScene();
 			std::stack<std::unique_ptr<Scene>>& GetScenes();
 			void Update(float deltaTime);
 			void Draw(sf::RenderTarget& target, sf::RenderStates states);

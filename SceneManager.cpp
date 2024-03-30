@@ -67,9 +67,16 @@ namespace LeaderEngine
 		return _scenes.top().get();
 	}
 
-	std::unique_ptr<Scene> SceneManager::CreateScene()
-	{
-		return std::make_unique<Scene>();
+	//std::unique_ptr<Scene> SceneManager::CreateScene()
+	//{
+	//	return std::make_unique<Scene>();
+	//}
+
+	Scene* SceneManager::CreateScene() {
+		auto scene = std::make_unique<Scene>();
+		Scene* ptr = scene.get();
+		PushScene(std::move(scene));
+		return ptr;
 	}
 
 	std::stack<std::unique_ptr<Scene>>& SceneManager::GetScenes()

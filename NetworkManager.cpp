@@ -11,7 +11,7 @@ namespace LeaderEngine
 	{
 	}
 
-	NetworkManager NetworkManager::GetInstance()
+	NetworkManager& NetworkManager::GetInstance()
 	{
 		static NetworkManager instance;
 		return instance;
@@ -39,5 +39,6 @@ namespace LeaderEngine
 
 	void NetworkManager::Update()
 	{
+		_networkSystem.Update();
 	}
 }
