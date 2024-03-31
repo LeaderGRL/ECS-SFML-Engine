@@ -6,6 +6,7 @@
 #include <SFML/Window.hpp>
 #include <filesystem>
 #include "LuaAPI.h"
+#include "NetworkManager.h"
 #include "SceneManager.h"
 #include "ScriptComponent.h"
 
@@ -111,7 +112,7 @@ namespace LeaderEngine {
 			gui.draw();
 			SceneManager::GetInstance().GetCurrentScene()->Draw(window, sf::RenderStates::Default);
 			SceneManager::GetInstance().Update(time.asSeconds());
-
+			NetworkManager::GetInstance().Update();
 			/*SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().draw(window, sf::RenderStates::Default);
 			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().Update(time.asSeconds());*/
 			window.display();

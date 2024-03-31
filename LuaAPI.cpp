@@ -329,6 +329,7 @@ namespace LeaderEngine
 			.beginNamespace("tgui")
 			.beginClass<tgui::GuiSFML>("Gui")
 			.addFunction("Add", &tgui::GuiSFML::add)
+			.addFunction("Remove", &tgui::GuiSFML::remove)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
@@ -386,6 +387,7 @@ namespace LeaderEngine
 			.deriveClass<tgui::EditBox, tgui::ClickableWidget>("EditBox")
 			.addFunction("GetText", &tgui::EditBox::getText)
 			.addFunction("SetText", &tgui::EditBox::setText)
+			.addFunction("SetText", &tgui::EditBox::setText)
 			.addFunction("SetDefaultText", &tgui::EditBox::setDefaultText)
 			.addFunction("GetDefaultText", &tgui::EditBox::getDefaultText)
 			.addFunction("SetMaximumCharacters", &tgui::EditBox::setMaximumCharacters)
@@ -402,6 +404,7 @@ namespace LeaderEngine
 			.addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
 			.addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
 			.addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)
+			.addFunction("SetEnable", &tgui::EditBox::setEnabled)
 			.addStaticFunction("Create", &tgui::EditBox::create)
 			.endClass();
 

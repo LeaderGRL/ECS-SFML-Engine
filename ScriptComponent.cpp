@@ -23,6 +23,8 @@ namespace LeaderEngine
 
 		_luaObject = luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1);*/
 
+		Start();
+
 	}
 
 	ScriptComponent::ScriptComponent(const char* path) : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
@@ -30,11 +32,18 @@ namespace LeaderEngine
 		LoadScript(path);
 
 		_luaObject = luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1);
+
+		Start();
+
 	}
 
 	void ScriptComponent::Init()
 	{
-		std::cout << "ScriptComponent Init" << std::endl;
+		
+	}
+
+	void ScriptComponent::Start()
+	{
 		if (!_luaObject.isTable()) // if the lua object is not a table, return
 		{
 			return;
@@ -49,7 +58,7 @@ namespace LeaderEngine
 		// In lua, a function set like Object:Function is actually Object.Function(Object)
 		// So we need to pass the object as the first parameter
 		if (const luabridge::LuaResult res = init(_luaObject); !res.wasOk()) // init statement
-			std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;	
+			std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
 	}
 
 	void ScriptComponent::Update(float deltaTime)
