@@ -15,6 +15,7 @@ namespace LeaderEngine
 			~BoxColliderComponent();
 
 			void CheckCollision(ColliderComponent* other) override;
+			void Init() override;
 			void Update(float deltaTime) override;
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 			sf::Vector2f GetSize() const;

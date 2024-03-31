@@ -17,6 +17,8 @@ namespace LeaderEngine
 
 			std::string GetIP() const;
 			void SetIP(const std::string& ip);
+
+			void Init() override;
 			void Update(float deltaTime) override;
 			COMPONENT_TYPE GetType() const;
 

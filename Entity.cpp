@@ -93,6 +93,26 @@ namespace LeaderEngine {
 		
 	}
 
+	void Entity::Init()
+	{
+		for (const auto& comp : _components)
+		{
+			comp.get()->Init(); // Call all component Init()
+		}
+
+		// Children
+		//for (auto it = _children.begin(); it != _children.end(); it++)
+		//{
+		//	//std::cout << "name : " << EntityManager::GetInstance().GetName(it->second.get()) << std::endl;
+		//	it->second->Init();
+		//}
+
+		for (auto& child : _children)
+		{
+			child.second->Init();
+		}
+	}
+
 	void Entity::Update(float deltaTime) const // WARNING : Check if the "const" cannot be a problem in the future
 	{
 		for (const auto& comp : _components)

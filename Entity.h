@@ -45,6 +45,7 @@ namespace LeaderEngine {
 			std::unordered_map<std::string, std::unique_ptr<Entity>>& GetChildren();
 			void RemoveChild(const std::string& name);
 
+			void Init(); // Init through all the components
 			void Update(float deltaTime) const; // Update through all the components
 			void Start();
 			void Destroy();

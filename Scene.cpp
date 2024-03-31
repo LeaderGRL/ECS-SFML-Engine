@@ -15,7 +15,7 @@ namespace LeaderEngine
 
 	void Scene::Init()
 	{
-
+		_entityManager.Init();
 	}
 
 	void Scene::Pause()

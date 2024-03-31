@@ -18,6 +18,10 @@ namespace LeaderEngine
 	}
 
 
+	void NetworkingComponent::Init()
+	{
+	}
+
 	void NetworkingComponent::Update(float deltaTime)
 	{
 	}

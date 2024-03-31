@@ -66,6 +66,10 @@ namespace LeaderEngine
 		this->_zoom = zoom;
 	}
 	
+	void CameraComponent::Init()
+	{
+	}
+
 	void CameraComponent::Update(float deltaTime)
 	{
 		_view.setCenter(_position);

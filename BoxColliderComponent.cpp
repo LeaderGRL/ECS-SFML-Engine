@@ -22,6 +22,10 @@ namespace LeaderEngine
 		
 	}
 
+	void BoxColliderComponent::Init()
+	{
+	}
+
 	void BoxColliderComponent::Update(float deltaTime)
 	{
 	}

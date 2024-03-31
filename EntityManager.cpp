@@ -67,6 +67,14 @@ namespace LeaderEngine
 		}
 	}
 
+	void EntityManager::Init()
+	{
+		for (auto it = _entities.begin(); it != _entities.end(); it++)
+		{
+			it->second->Init();
+		}
+	}
+
 	void EntityManager::Update(float deltaTime)
 	{
 		_collisionSystem.CheckCollisions(_entities);

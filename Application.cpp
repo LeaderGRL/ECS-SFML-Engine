@@ -74,6 +74,8 @@ namespace LeaderEngine {
 		sf::Clock clock;
 		sf::Event event;
 
+		SceneManager::GetInstance().GetCurrentScene()->Init();
+
 		while (window.isOpen())
 		{
 			//sf::Time time = clock.getElapsedTime();

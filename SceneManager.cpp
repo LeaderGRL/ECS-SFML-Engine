@@ -84,6 +84,14 @@ namespace LeaderEngine
 		return _scenes;
 	}
 
+	void SceneManager::Init()
+	{
+		if (!_scenes.empty())
+		{
+			_scenes.top()->Init();
+		}
+	}
+
 	void SceneManager::Update(float deltaTime)
 	{
 		if (!_scenes.empty())
