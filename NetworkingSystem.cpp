@@ -27,31 +27,11 @@ namespace LeaderEngine
 
 	void NetworkingSystem::Update()
 	{
-		/*std::cout << "test" << std::endl;
-		std :: cout << "NetworkingSystem Update : " << NetworkManager::GetInstance().GetIp() << std :: endl;*/
 		flatbuffers::FlatBufferBuilder builder;
 		auto &entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
 
 		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
-			//for (auto& component : it->second->GetComponents()) // Iterate through the components of the entity
-			//{
-			//	auto serializable = dynamic_cast<ISerializable*>(component.get()); // Try to cast the component to ISerializable
-
-			//	if (serializable)
-			//	{
-			//		sf::Packet packet = sf::Packet();
-			//		serializable->Serialize(builder); // Serialize the component into the flatbuffer builder object
-			//		auto data = builder.GetBufferPointer(); // Get the pointer to the serialized data
-			//		auto size = builder.GetSize(); // Get the size of the serialized data
-			//		packet.append(data, size); // Append the serialized data to the packet
-
-			//		if (!isHost)
-			//			SendPacket(packet, "192.168.69.11", 5000);
-			//	}
-
-			//}
-
 			if (it->second->GetComponent<NetworkingComponent>() != nullptr)
 			{
 				sf::Packet packet = sf::Packet();

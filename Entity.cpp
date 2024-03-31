@@ -212,8 +212,6 @@ namespace LeaderEngine {
 		setRotation(transform->rotation());
 		setScale(transform->scale()->x(), transform->scale()->y());
 
-
-
 	}
 
 	int Entity::GetId() const
