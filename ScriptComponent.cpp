@@ -34,7 +34,7 @@ namespace LeaderEngine
 
 	void ScriptComponent::Init()
 	{
-		std::cout << "Init" << std::endl;
+		std::cout << "ScriptComponent Init" << std::endl;
 		if (!_luaObject.isTable()) // if the lua object is not a table, return
 		{
 			return;

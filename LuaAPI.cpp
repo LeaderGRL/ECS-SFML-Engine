@@ -65,6 +65,10 @@ namespace LeaderEngine
 				entity->AddComponent<Animation2DComponent>(name, loop, animating);
 			})
 			.addFunction("AddScriptComponent", &Entity::AddComponent<ScriptComponent>)
+			.addFunction("AddScriptComponent", [](Entity* entity, const char* path) // Lambda function to add ScriptComponent with parameters
+			{
+				entity->AddComponent<ScriptComponent>(path);
+			})
 			.addFunction("GetScriptComponent", &Entity::GetComponent<ScriptComponent>)
 			.addFunction("AddCameraComponent", &Entity::AddComponent<CameraComponent>)
 			.addFunction("GetCameraComponent", &Entity::GetComponent<CameraComponent>)
