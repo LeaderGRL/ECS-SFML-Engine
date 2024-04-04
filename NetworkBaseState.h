@@ -2,6 +2,8 @@
 #include "string"
 #include <SFML/Network.hpp>
 #include "NetworkManager.h"
+#include "SceneManager.h"
+#include "NetworkingComponent.h"
 
 namespace LeaderEngine
 {

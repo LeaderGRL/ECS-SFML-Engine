@@ -186,6 +186,7 @@
     <ClInclude Include="INPUT_EVENT.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="NetworkBaseState.h" />
+    <ClInclude Include="NetworkClientState.h" />
     <ClInclude Include="NetworkDisconnectedState.h" />
     <ClInclude Include="NetworkHostState.h" />
     <ClInclude Include="NetworkingComponent.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="LeaderEngine.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="NetworkClientState.cpp" />
     <ClCompile Include="NetworkDisconnectedState.cpp" />
     <ClCompile Include="NetworkHostState.cpp" />
     <ClCompile Include="NetworkingComponent.cpp" />

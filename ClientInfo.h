@@ -5,7 +5,7 @@ namespace LeaderEngine
 {
 	struct ClientInfo
 	{
-		sf::IpAddress address;
+		sf::IpAddress ip;
 		unsigned short port;
 	};
 }
