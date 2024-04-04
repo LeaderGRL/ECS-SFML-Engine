@@ -23,13 +23,13 @@ namespace LeaderEngine
 
 			void SetIp(sf::IpAddress ip);
 			void SetPort(unsigned short port);
-			sf::IpAddress GetIp() const;
-			unsigned short GetPort() const;
+			sf::IpAddress GetIp();
+			unsigned short GetPort();
 
 			void AddClient(sf::IpAddress ip, unsigned short port);
 			void RemoveClient(sf::IpAddress ip, unsigned short port);
-			std::vector<ClientInfo> GetClients() const;
-			bool IsClientConnected(sf::IpAddress ip, unsigned short port) const;
+			std::vector<ClientInfo> GetClients();
+			bool IsClientConnected(sf::IpAddress ip, unsigned short port);
 
 			void Update();
 			//void SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port);

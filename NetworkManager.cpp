@@ -27,12 +27,12 @@ namespace LeaderEngine
 		_port = port;
 	}
 
-	sf::IpAddress NetworkManager::GetIp() const
+	sf::IpAddress NetworkManager::GetIp()
 	{
 		return _hostIp;
 	}
 
-	unsigned short NetworkManager::GetPort() const
+	unsigned short NetworkManager::GetPort()
 	{
 		return _port;
 	}
@@ -44,17 +44,17 @@ namespace LeaderEngine
 
 	void NetworkManager::RemoveClient(sf::IpAddress ip, unsigned short port)
 	{
-		_clientsInfo.erase(std::remove(_clientsInfo.begin(), _clientsInfo.end(), std::make_pair(ip, port)), _clientsInfo.end());
+		//_clientsInfo.erase(std::remove(_clientsInfo.begin(), _clientsInfo.end(), std::make_pair(ip, port)), _clientsInfo.end());
 	}
 
-	std::vector<ClientInfo> NetworkManager::GetClients() const
+	std::vector<ClientInfo> NetworkManager::GetClients()
 	{
 		return _clientsInfo;
 	}
 
-	bool NetworkManager::IsClientConnected(sf::IpAddress ip, unsigned short port) const
+	bool NetworkManager::IsClientConnected(sf::IpAddress ip, unsigned short port)
 	{
-		return std::find(_clientsInfo.begin(), _clientsInfo.end(), std::make_pair(ip, port)) != _clientsInfo.end();
+		return std::ranges::find(_clientsInfo, ClientInfo{ip, port}) != _clientsInfo.end();
 	}
 
 	void NetworkManager::Update()

@@ -54,10 +54,10 @@ namespace LeaderEngine
 		}
 
 		// Check if the client is already connected
-		if (NetworkManager::GetInstance().IsClientConnected(ip, port))
-		{
-			return;
-		}
+		//if (NetworkManager::GetInstance().IsClientConnected(ip, port))
+		//{
+		//	return;
+		//}
 
 		// Add the client to the list
 		NetworkManager::GetInstance().AddClient(ip, port);
@@ -83,10 +83,10 @@ namespace LeaderEngine
 		}
 
 		// Check if the client is connected
-		if (!NetworkManager::GetInstance().IsClientConnected(ip, port))
+	/*	if (!NetworkManager::GetInstance().IsClientConnected(ip, port))
 		{
 			return;
-		}
+		}*/
 
 		std::string dataType;
 		packet >> dataType;
@@ -108,6 +108,10 @@ namespace LeaderEngine
 				it->second->Deserialize(data.data());
 			}
 		}
+	}
+
+	void NetworkHostState::SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet)
+	{
 	}
 
 	
