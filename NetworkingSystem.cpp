@@ -45,7 +45,6 @@ namespace LeaderEngine
 					std::cout << "Sending packet to host" << std::endl;
 					SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5000);
 				}
-
 			}
 		}
 

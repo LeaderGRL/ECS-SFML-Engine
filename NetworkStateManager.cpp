@@ -19,9 +19,9 @@ namespace LeaderEngine
 		return instance;
 	}
 
-	void NetworkStateManager::PushState(std::unique_ptr<NetworkBaseState> state)
+	void NetworkStateManager::PushState(std::shared_ptr<NetworkBaseState> state)
 	{
-		_states.push(std::move(state));
+		_states.push(state);
 	}
 
 	void NetworkStateManager::PopState()
@@ -29,14 +29,14 @@ namespace LeaderEngine
 		_states.pop();
 	}
 
-	void NetworkStateManager::ChangeState(std::unique_ptr<NetworkBaseState> state)
+	void NetworkStateManager::ChangeState(std::shared_ptr<NetworkBaseState> state)
 	{
 		if (!_states.empty())
 		{
 			_states.pop();
 		}
 
-		_states.push(std::move(state));
+		_states.push(state);
 	}
 
 	NetworkBaseState& NetworkStateManager::GetCurrentState()

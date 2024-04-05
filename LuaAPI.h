@@ -15,6 +15,7 @@
 #include "CameraComponent.h"
 #include "ScriptComponent.h"
 #include "Animation2DComponent.h"
+#include "NetworkBaseState.h"
 
 namespace LeaderEngine
 {

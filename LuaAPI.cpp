@@ -4,14 +4,18 @@
 #include <TGUI/Backends/SFML.hpp>
 #include <TGUI/Widgets/EditBox.hpp>
 
+#include "NetworkClientState.h"
+#include "NetworkDisconnectedState.h"
+#include "NetworkHostState.h"
 #include "NetworkingComponent.h"
 #include "NetworkManager.h"
+#include "NetworkStateManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
 
 
 namespace LeaderEngine 
-{	
+{
 	LuaAPI::LuaAPI()
 	{
 
@@ -431,6 +435,33 @@ namespace LeaderEngine
 			.addFunction("GetIp", &NetworkManager::GetIp)
 			.addFunction("GetPort", &NetworkManager::GetPort)
 			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<NetworkBaseState>("NetworkBaseState")
+			.endClass()
+			.deriveClass<NetworkDisconnectedState, NetworkBaseState>("NetworkDisconnectState")
+			.addConstructor<void(*) (void)>()
+			.endClass()
+			.deriveClass<NetworkHostState, NetworkBaseState>("NetworkHostState")
+			.addConstructor<void(*) (void)>()
+			.endClass()
+			.deriveClass<NetworkClientState, NetworkBaseState>("NetworkClientState")
+			.addConstructor<void(*) (void)>()
+			.endClass();
+
+		luabridge::getGlobalNamespace(L)
+			.beginClass<NetworkStateManager>("NetworkStateManager")
+			.addStaticFunction("GetInstance", &NetworkStateManager::GetInstance)
+			//.addFunction("PushState", static_cast<void (NetworkStateManager::*)(std::shared_ptr<NetworkBaseState>)>(&NetworkStateManager::PushState))
+			.addFunction("PushState", [](std::shared_ptr<NetworkBaseState> state)
+			{
+				NetworkStateManager::GetInstance().PushState(state);
+			})
+			.addFunction("PopState", &NetworkStateManager::PopState)
+			//.addFunction("ChangeState", &NetworkStateManager::ChangeState)
+			.addFunction("GetCurrentState", &NetworkStateManager::GetCurrentState)
+			.endClass();
+			
 
 		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		//report_errors(L, scriptLoadStatus);

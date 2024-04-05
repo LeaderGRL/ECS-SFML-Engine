@@ -19,9 +19,9 @@ namespace LeaderEngine
 			NetworkClientState();
 			~NetworkClientState();
 
-			virtual void Init() = 0;
-			virtual void Update() = 0;
-			virtual void Exit() = 0;
+			void Init() override;
+			void Update() override;
+			void Exit() override;
 	};
 }
 
