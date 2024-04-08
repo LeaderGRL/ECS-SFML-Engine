@@ -10,8 +10,8 @@ namespace LeaderEngine
 {
 	NetworkingSystem::NetworkingSystem()
 	{
-		socket.bind(5000);
-		socket.setBlocking(false);
+		/*socket.bind(5000);
+		socket.setBlocking(false);*/
 
 		if ( sf::IpAddress::getLocalAddress().toString() == "192.168.69.11" )
 		{

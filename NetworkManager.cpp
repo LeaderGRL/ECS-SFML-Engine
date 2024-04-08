@@ -7,6 +7,7 @@ namespace LeaderEngine
 {
 	NetworkManager::NetworkManager()
 	{
+
 	}
 
 	NetworkManager::~NetworkManager()

@@ -24,6 +24,7 @@ namespace LeaderEngine
 	void NetworkStateManager::PushState(std::shared_ptr<NetworkBaseState> state)
 	{
 		_states.push(state);
+		_states.top()->Init();
 	}
 
 	void NetworkStateManager::PopState()

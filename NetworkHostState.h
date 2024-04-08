@@ -6,7 +6,7 @@ namespace LeaderEngine
 	class NetworkHostState : NetworkBaseState
 	{
 		private:
-			sf::UdpSocket socket;
+			sf::UdpSocket _socket;
 			void CheckForNewConnections();
 			void SendDataToAllClients(sf::Packet packet);
 			void ReceiveDataFromClients();
