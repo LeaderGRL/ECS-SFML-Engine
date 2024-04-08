@@ -5,6 +5,7 @@ namespace LeaderEngine
 {
 	NetworkClientState::NetworkClientState()
 	{
+		std::cout << "NetworkClientState created" << std::endl;
 	}
 
 	NetworkClientState::~NetworkClientState()
@@ -46,6 +47,8 @@ namespace LeaderEngine
 				auto data = builder.GetBufferPointer(); // Get the data from the builder
 				auto size = builder.GetSize(); // Get the size of the data
 				packet.append(data, size); // Append the data to the packet to send it over the network
+
+				SendPacket(packet, ip, port);
 			}
 		}
 

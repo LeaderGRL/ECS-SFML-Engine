@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "NetworkManager.h"
 
+#include "NetworkStateManager.h"
+
 namespace LeaderEngine
 {
 	NetworkManager::NetworkManager()
@@ -60,6 +62,6 @@ namespace LeaderEngine
 
 	void NetworkManager::Update()
 	{
-		_networkSystem.Update();
+		NetworkStateManager::GetInstance().Update();
 	}
 }

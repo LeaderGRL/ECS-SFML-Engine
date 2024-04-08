@@ -5,6 +5,7 @@
 #include <TGUI/Widgets/EditBox.hpp>
 
 #include "NetworkClientState.h"
+#include "NetworkConnectionState.h"
 #include "NetworkDisconnectedState.h"
 #include "NetworkHostState.h"
 #include "NetworkingComponent.h"
@@ -447,15 +448,21 @@ namespace LeaderEngine
 			.endClass()
 			.deriveClass<NetworkClientState, NetworkBaseState>("NetworkClientState")
 			.addConstructor<void(*) (void)>()
+			.endClass()
+			.deriveClass<NetworkConnectionState, NetworkBaseState>("NetworkConnectionState")
+			.addConstructor<void(*) (void)>()
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<NetworkStateManager>("NetworkStateManager")
 			.addStaticFunction("GetInstance", &NetworkStateManager::GetInstance)
 			//.addFunction("PushState", static_cast<void (NetworkStateManager::*)(std::shared_ptr<NetworkBaseState>)>(&NetworkStateManager::PushState))
-			.addFunction("PushState", [](std::shared_ptr<NetworkBaseState> state)
+			/*.addFunction("PushState", [](std::shared_ptr<NetworkBaseState> state)
 			{
 				NetworkStateManager::GetInstance().PushState(state);
+			})*/
+			.addFunction("PushState", [](NetworkStateManager* self, NetworkBaseState* state) {
+				NetworkStateManager::GetInstance().PushState(std::shared_ptr<NetworkBaseState>(state));
 			})
 			.addFunction("PopState", &NetworkStateManager::PopState)
 			//.addFunction("ChangeState", &NetworkStateManager::ChangeState)

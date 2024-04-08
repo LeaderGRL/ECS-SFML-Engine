@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "NetworkStateManager.h"
 
+#include "NetworkDisconnectedState.h"
+
 namespace LeaderEngine
 {
 	NetworkStateManager::NetworkStateManager()
 	{
-		
+		_states.push(std::make_shared<NetworkDisconnectedState>());
 	}
 
 	NetworkStateManager::~NetworkStateManager()
@@ -42,6 +44,11 @@ namespace LeaderEngine
 	NetworkBaseState& NetworkStateManager::GetCurrentState()
 	{
 		return *_states.top();
+	}
+
+	std::stack<std::shared_ptr<NetworkBaseState>>& NetworkStateManager::GetStates()
+	{
+		return _states;
 	}
 
 	void NetworkStateManager::Update()

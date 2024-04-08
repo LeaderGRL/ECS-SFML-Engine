@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "NetworkHostState.h"
 
+#include "NetworkPacketType.h"
+
 namespace LeaderEngine
 {
 	NetworkHostState::NetworkHostState()
 	{
+		std::cout << "Host state created" << std::endl;
 	}
 
 	NetworkHostState::~NetworkHostState()
@@ -15,6 +18,7 @@ namespace LeaderEngine
 	{
 		NetworkManager::GetInstance().SetIp(sf::IpAddress::getLocalAddress());
 		NetworkManager::GetInstance().SetPort(5000);
+		socket.setBlocking(false);
 	}
 
 	void NetworkHostState::Update()
@@ -45,22 +49,30 @@ namespace LeaderEngine
 			return;
 		}
 
-		std::string message;
+		sf::Int32 message;
 		packet >> message;
 
-		if (message != "Connect")
+		if (message != static_cast<sf::Int32>(NetworkPacketType::CONNECT))
 		{
 			return;
 		}
 
 		// Check if the client is already connected
-		//if (NetworkManager::GetInstance().IsClientConnected(ip, port))
-		//{
-		//	return;
-		//}
+		if (NetworkManager::GetInstance().IsClientConnected(ip, port))
+		{
+			return;
+		}
 
 		// Add the client to the list
 		NetworkManager::GetInstance().AddClient(ip, port);
+
+		sf::Packet responsePacket;
+		responsePacket << static_cast<sf::Int32>(NetworkPacketType::ACCEPTED);
+
+		SendDataToClient(ip, port, responsePacket);
+
+		std::cout << "Client connected : " << ip.toString() << " : " << port << std::endl;
+
 	}
 
 	void NetworkHostState::SendDataToAllClients(sf::Packet packet)
@@ -112,6 +124,7 @@ namespace LeaderEngine
 
 	void NetworkHostState::SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet)
 	{
+		socket.send(packet, address, port);
 	}
 
 	

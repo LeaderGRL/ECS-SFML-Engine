@@ -187,11 +187,13 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="NetworkBaseState.h" />
     <ClInclude Include="NetworkClientState.h" />
+    <ClInclude Include="NetworkConnectionState.h" />
     <ClInclude Include="NetworkDisconnectedState.h" />
     <ClInclude Include="NetworkHostState.h" />
     <ClInclude Include="NetworkingComponent.h" />
     <ClInclude Include="NetworkingSystem.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NetworkPacketType.h" />
     <ClInclude Include="NetworkStateManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -220,6 +222,7 @@
     <ClCompile Include="LeaderEngine.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="NetworkClientState.cpp" />
+    <ClCompile Include="NetworkConnectionState.cpp" />
     <ClCompile Include="NetworkDisconnectedState.cpp" />
     <ClCompile Include="NetworkHostState.cpp" />
     <ClCompile Include="NetworkingComponent.cpp" />

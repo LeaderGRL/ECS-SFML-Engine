@@ -22,6 +22,7 @@ namespace LeaderEngine
 			void PopState();
 			void ChangeState(std::shared_ptr<NetworkBaseState> state);
 			NetworkBaseState& GetCurrentState();
+			std::stack<std::shared_ptr<NetworkBaseState>>& GetStates();
 
 			void Update();
 	};
