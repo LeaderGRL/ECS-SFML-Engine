@@ -19,7 +19,7 @@ namespace LeaderEngine
 	void NetworkConnectionState::Init()
 	{
 		std::cout << "Initializing connection state..." << sf::IpAddress::getLocalAddress() << std::endl;
-		if (socket.bind(5001, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
+		if (socket.bind(5002, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
 		{
 			std::cout << "Failed to bind the socket" << std::endl;
 			//return;
@@ -27,9 +27,9 @@ namespace LeaderEngine
 		socket.setBlocking(false);
 
 		connectionPacket = sf::Packet();
-		char data[100];
-		constexpr std::size_t size = 100;
-		connectionPacket.append(data, size);
+		//char data[100];
+		//constexpr std::size_t size = 100;
+		//connectionPacket.append(data, size);
 
 		connectionPacket << static_cast<sf::Int32>(NetworkPacketType::CONNECT);
 		std::cout << "Connection state initialized" << std::endl;
@@ -74,8 +74,9 @@ namespace LeaderEngine
 	void NetworkConnectionState::SendConnectionRequest(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
 		 // Send connection request to server
+		std::cout << "packet type : " << packet.getData() << std::endl;
 		socket.send(packet, ip, port);
-		//std::cout << "Sent connection request to " << ip << ":" << port << std::endl;
+		std::cout << "Sent connection request to " << ip << ":" << port << std::endl;
 	}
 
 	void NetworkConnectionState::HandleConnectionAccepted()

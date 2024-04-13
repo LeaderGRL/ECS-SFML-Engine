@@ -70,20 +70,28 @@ namespace LeaderEngine
 		{
 			std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
 
+			if (packet.endOfPacket()) {
+				std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
+				continue; // Skip this iteration if the packet is empty or corrupted.
+			}
+
 			sf::Int32 packetType;
-			if (!(packet >> packetType)) {
+			if (!(packet >> packetType)) { // Read the packet type from the packet
 				std::cout << "Failed to read packet type" << std::endl;
 				continue;
 			}
 
-			if (packetType != static_cast<sf::Int32>(NetworkPacketType::CONNECT))
+			if (packetType != static_cast<sf::Int32>(NetworkPacketType::CONNECT)) // Check if the packet type is a connection request
 			{
-				return;
+				std::cout << "Invalid packet type" << std::endl;
+				std::cout << "Packet type : " << packetType << std::endl;
+				continue;
 			}
 
 			// Check if the client is already connected
 			if (NetworkManager::GetInstance().IsClientConnected(ip, port))
 			{
+				std::cout << "Client already connected" << std::endl;
 				return;
 			}
 
