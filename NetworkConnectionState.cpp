@@ -39,18 +39,36 @@ namespace LeaderEngine
 	{
 		char data[100];
 		std::size_t received;
-		sf::Packet packet;
+		sf::Packet acceptedPacket;
 		sf::IpAddress ip;
 		unsigned short port;
 
 		SendConnectionRequest(connectionPacket, NetworkManager::GetInstance().GetIp(), 5001);
 
-		if (socket.receive(data, 100, received, ip, port) == sf::Socket::Done)
+		while (socket.receive(acceptedPacket, ip, port) == sf::Socket::Done)
 		{
 			sf::Int32 packetType;
-			packet >> packetType;
+			//acceptedPacket >> packetType;
 
-			std::cout << "Received packet type : " << packetType << std::endl;
+			std::cout << "Received packet" << std::endl;
+
+			if (acceptedPacket.endOfPacket())
+			{
+				std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
+				continue; // Skip this iteration if the packet is empty or corrupted.
+			}
+
+			if (!(acceptedPacket >> packetType)) { // Read the packet type from the packet
+				std::cout << "Failed to read packet type" << std::endl;
+				continue;
+			}
+
+			if (packetType != static_cast<sf::Int32>(NetworkPacketType::ACCEPTED)) // Check if the packet type is a connection request
+			{
+				std::cout << "Invalid packet type" << std::endl;
+				std::cout << "Packet type : " << packetType << std::endl;
+				continue;
+			}
 
 			switch (packetType)
 			{
@@ -63,7 +81,37 @@ namespace LeaderEngine
 				default:
 					break;
 			}
-		}
+		}	
+
+		//if (socket.receive(acceptedPacket, ip, port) == sf::Socket::Done)
+		//{
+		//	sf::Int32 packetType;
+		//	acceptedPacket >> packetType;
+
+		//	std::cout << "Received packet type : " << acceptedPacket << std::endl;
+
+		//	if (acceptedPacket.endOfPacket()) {
+		//		std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
+		//		return; // Skip this iteration if the packet is empty or corrupted.
+		//	}
+
+		//	if (!(packet >> packetType)) { // Read the packet type from the packet
+		//		std::cout << "Failed to read packet type" << std::endl;
+		//		return;
+		//	}
+
+		//	switch (packetType)
+		//	{
+		//		case static_cast<sf::Int32>(NetworkPacketType::ACCEPTED):
+		//			HandleConnectionAccepted();
+		//			break;
+		//		case static_cast<sf::Int32>(NetworkPacketType::REFUSED):
+		//			HandleConnectionRefused();
+		//			break;
+		//		default:
+		//			break;
+		//	}
+		//}
 	}
 
 	void NetworkConnectionState::Exit()
@@ -74,7 +122,6 @@ namespace LeaderEngine
 	void NetworkConnectionState::SendConnectionRequest(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
 		 // Send connection request to server
-		std::cout << "packet type : " << packet.getData() << std::endl;
 		socket.send(packet, ip, port);
 		std::cout << "Sent connection request to " << ip << ":" << port << std::endl;
 	}

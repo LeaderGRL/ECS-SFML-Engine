@@ -89,11 +89,11 @@ namespace LeaderEngine
 			}
 
 			// Check if the client is already connected
-			if (NetworkManager::GetInstance().IsClientConnected(ip, port))
-			{
-				std::cout << "Client already connected" << std::endl;
-				return;
-			}
+			//if (NetworkManager::GetInstance().IsClientConnected(ip, port))
+			//{
+			//	//std::cout << "Client already connected" << std::endl;
+			//	return;
+			//}
 
 			// Add the client to the list
 			NetworkManager::GetInstance().AddClient(ip, port);
@@ -114,6 +114,7 @@ namespace LeaderEngine
 	{
 		for (auto& client : NetworkManager::GetInstance().GetClients())
 		{
+			std::cout << "Sending data to : " << client.ip.toString() << " : " << client.port << std::endl;
 			 _socket.send(packet, client.ip, client.port);
 		}
 	}
@@ -159,6 +160,7 @@ namespace LeaderEngine
 
 	void NetworkHostState::SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet)
 	{
+		std::cout << "Sending data to : " << address.toString() << " : " << port << std::endl;
 		_socket.send(packet, address, port);
 	}
 
