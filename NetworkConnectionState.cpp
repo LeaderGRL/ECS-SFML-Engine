@@ -2,6 +2,7 @@
 #include "NetworkConnectionState.h"
 
 #include "NetworkClientState.h"
+#include "NetworkManager.h"
 #include "NetworkPacketType.h"
 #include "NetworkStateManager.h"
 
@@ -17,19 +18,39 @@ namespace LeaderEngine
 
 	void NetworkConnectionState::Init()
 	{
+		std::cout << "Initializing connection state..." << sf::IpAddress::getLocalAddress() << std::endl;
+		if (socket.bind(5001, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
+		{
+			std::cout << "Failed to bind the socket" << std::endl;
+			//return;
+		}
+		socket.setBlocking(false);
 
+		connectionPacket = sf::Packet();
+		char data[100];
+		constexpr std::size_t size = 100;
+		connectionPacket.append(data, size);
+
+		connectionPacket << static_cast<sf::Int32>(NetworkPacketType::CONNECT);
+		std::cout << "Connection state initialized" << std::endl;
 	}
 
 	void NetworkConnectionState::Update()
 	{
-		 sf::Packet packet;
+		char data[100];
+		std::size_t received;
+		sf::Packet packet;
 		sf::IpAddress ip;
 		unsigned short port;
 
-		if (socket.receive(packet, ip, port) == sf::Socket::Done)
+		SendConnectionRequest(connectionPacket, NetworkManager::GetInstance().GetIp(), 5001);
+
+		if (socket.receive(data, 100, received, ip, port) == sf::Socket::Done)
 		{
 			sf::Int32 packetType;
 			packet >> packetType;
+
+			std::cout << "Received packet type : " << packetType << std::endl;
 
 			switch (packetType)
 			{
@@ -53,8 +74,8 @@ namespace LeaderEngine
 	void NetworkConnectionState::SendConnectionRequest(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
 		 // Send connection request to server
-		packet << static_cast<sf::Int32>(NetworkPacketType::CONNECT);
 		socket.send(packet, ip, port);
+		//std::cout << "Sent connection request to " << ip << ":" << port << std::endl;
 	}
 
 	void NetworkConnectionState::HandleConnectionAccepted()

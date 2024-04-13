@@ -4,6 +4,7 @@
 
 #include "NetworkingSystem.h"
 #include "ClientInfo.h""
+#include "NetworkHostState.h"
 
 namespace LeaderEngine
 {
@@ -14,6 +15,7 @@ namespace LeaderEngine
 			std::vector<ClientInfo> _clientsInfo;
 			unsigned short _port;
 			NetworkingSystem _networkSystem;
+			NetworkHostState _hostState;
 
 		public:
 			NetworkManager();

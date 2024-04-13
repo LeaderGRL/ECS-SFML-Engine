@@ -3,7 +3,7 @@
 
 namespace LeaderEngine
 {
-	class NetworkHostState : NetworkBaseState
+	class NetworkHostState : public NetworkBaseState
 	{
 		private:
 			sf::UdpSocket _socket;
@@ -11,12 +11,14 @@ namespace LeaderEngine
 			void SendDataToAllClients(sf::Packet packet);
 			void ReceiveDataFromClients();
 			void SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet);
+			sf::Packet _connectionPacket;
+		    
 			
 
 
 		public:
 			NetworkHostState();
-			~NetworkHostState();
+			~NetworkHostState() override;
 
 			void Init() override;
 			void Update() override;

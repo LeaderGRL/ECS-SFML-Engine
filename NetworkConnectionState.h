@@ -21,6 +21,7 @@ namespace LeaderEngine
 			sf::IpAddress ip;
 			unsigned short port;
 			sf::Packet packet;
+			sf::Packet connectionPacket;
 
 		public:
 			NetworkConnectionState();

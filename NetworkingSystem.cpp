@@ -10,10 +10,10 @@ namespace LeaderEngine
 {
 	NetworkingSystem::NetworkingSystem()
 	{
-		/*socket.bind(5000);
-		socket.setBlocking(false);*/
+		socket.bind(5000);
+		socket.setBlocking(false);
 
-		if ( sf::IpAddress::getLocalAddress().toString() == "192.168.69.11" )
+		if ( sf::IpAddress::getLocalAddress().toString() == "10.70.10.7" )
 		{
 			isHost = true;
 		}
@@ -27,6 +27,7 @@ namespace LeaderEngine
 
 	void NetworkingSystem::Update()
 	{
+		std::cout << "Networking system update" << std::endl;
 		flatbuffers::FlatBufferBuilder builder;
 		auto &entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
 

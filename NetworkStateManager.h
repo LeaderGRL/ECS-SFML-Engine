@@ -18,7 +18,7 @@ namespace LeaderEngine
 
 			static NetworkStateManager& GetInstance();
 
-			void PushState(std::shared_ptr<NetworkBaseState> state);
+			void PushState(const std::shared_ptr<NetworkBaseState>& state);
 			void PopState();
 			void ChangeState(std::shared_ptr<NetworkBaseState> state);
 			NetworkBaseState& GetCurrentState();

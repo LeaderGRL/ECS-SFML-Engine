@@ -462,7 +462,7 @@ namespace LeaderEngine
 				NetworkStateManager::GetInstance().PushState(state);
 			})*/
 			.addFunction("PushState", [](NetworkStateManager* self, NetworkBaseState* state) {
-				NetworkStateManager::GetInstance().PushState(std::shared_ptr<NetworkBaseState>(state));
+				self->GetInstance().PushState(std::shared_ptr<NetworkBaseState>(state));
 			})
 			.addFunction("PopState", &NetworkStateManager::PopState)
 			//.addFunction("ChangeState", &NetworkStateManager::ChangeState)

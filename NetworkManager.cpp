@@ -64,5 +64,6 @@ namespace LeaderEngine
 	void NetworkManager::Update()
 	{
 		NetworkStateManager::GetInstance().Update();
+		//_networkSystem.Update();
 	}
 }

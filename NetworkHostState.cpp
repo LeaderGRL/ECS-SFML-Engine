@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NetworkHostState.h"
 
+#include "NetworkManager.h"
 #include "NetworkPacketType.h"
 
 namespace LeaderEngine
@@ -16,9 +17,14 @@ namespace LeaderEngine
 
 	void NetworkHostState::Init()
 	{
-		NetworkManager::GetInstance().SetIp(sf::IpAddress::getLocalAddress());
-		NetworkManager::GetInstance().SetPort(5001);
-		_socket.bind(5001);
+		std::cout << "Initializing host state" << std::endl;
+		//NetworkManager::GetInstance().SetIp(sf::IpAddress::getLocalAddress());
+		//NetworkManager::GetInstance().SetPort(5000);
+		if(_socket.bind(5001) != sf::Socket::Done)
+		{
+			std::cout << "Failed to bind the socket" << std::endl;
+			//;
+		}
 		_socket.setBlocking(false);
 
 		std::cout << "Host state initialized" << std::endl;
@@ -44,10 +50,21 @@ namespace LeaderEngine
 
 	void NetworkHostState::CheckForNewConnections()
 	{
+		char data[100];
+		std::size_t received;
+
 		sf::Packet packet;
 		sf::IpAddress ip;
 		unsigned short port;
-		std::cout << "Checking for new connections" << std::endl;
+
+		//std::cout << "Checking for new connections" << std::endl;
+
+		//if (_socket.receive(packet, ip, port) != sf::Socket::Done)
+		//{
+		//	//std::cout << "Failed to receive data" << std::endl;
+		//} else {
+		//	std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
+		//}
 
 		while(_socket.receive(packet, ip, port) == sf::Socket::Done)
 		{
