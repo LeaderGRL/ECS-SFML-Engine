@@ -7,7 +7,7 @@ namespace LeaderEngine
 	{
 		public:
 			void Init() override;
-			void Update() override;
+			void Update(float deltaTime) override;
 			void Exit() override;
 	};
 }

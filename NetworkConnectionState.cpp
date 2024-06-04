@@ -35,8 +35,10 @@ namespace LeaderEngine
 		std::cout << "Connection state initialized" << std::endl;
 	}
 
-	void NetworkConnectionState::Update()
+	void NetworkConnectionState::Update(float deltaTime)
 	{
+		std::cout << "Update connection state" << std::endl;
+
 		char data[100];
 		std::size_t received;
 		sf::Packet acceptedPacket;
@@ -116,6 +118,8 @@ namespace LeaderEngine
 
 	void NetworkConnectionState::Exit()
 	{
+		socket.unbind();
+		std::cout << "Exiting connection state" << std::endl;
 		
 	}
 

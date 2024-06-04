@@ -21,13 +21,21 @@ namespace LeaderEngine
 
 	void SceneManager::PushScene(std::unique_ptr<Scene> scene)
 	{
-		if(!_scenes.empty())
+		try
 		{
-			_scenes.top()->Pause(); // Pause the current scene before pushing a new one
-		}
+			if (!_scenes.empty())
+			{
+				_scenes.top()->Pause(); // Pause the current scene before pushing a new one
+			}
 
-		_scenes.push(std::move(scene));
-		_scenes.top()->Init();
+			_scenes.push(std::move(scene));
+			_scenes.top()->Init();
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
+		}
+	
 	}
 
 	void SceneManager::PopScene()

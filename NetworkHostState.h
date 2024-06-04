@@ -1,4 +1,6 @@
 #pragma once
+#include <mutex>
+
 #include "NetworkBaseState.h"
 
 namespace LeaderEngine
@@ -12,7 +14,10 @@ namespace LeaderEngine
 			void ReceiveDataFromClients();
 			void SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet);
 			sf::Packet _connectionPacket;
-		    
+			std::mutex _mutex;
+
+
+
 			
 
 
@@ -21,7 +26,7 @@ namespace LeaderEngine
 			~NetworkHostState() override;
 
 			void Init() override;
-			void Update() override;
+			void Update(float deltaTime) override;
 			void Exit() override;
 
 

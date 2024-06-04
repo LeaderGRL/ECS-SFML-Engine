@@ -112,7 +112,7 @@ namespace LeaderEngine {
 			gui.draw();
 			SceneManager::GetInstance().GetCurrentScene()->Draw(window, sf::RenderStates::Default);
 			SceneManager::GetInstance().Update(time.asSeconds());
-			NetworkManager::GetInstance().Update();
+			NetworkManager::GetInstance().Update(time.asSeconds());
 			/*SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().draw(window, sf::RenderStates::Default);
 			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().Update(time.asSeconds());*/
 			window.display();

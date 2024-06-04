@@ -33,7 +33,7 @@ namespace LeaderEngine
 			std::vector<ClientInfo> GetClients();
 			bool IsClientConnected(sf::IpAddress ip, unsigned short port);
 
-			void Update();
+			void Update(float deltaTime);
 			//void SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port);
 			//void ReceivePacket();
 	};

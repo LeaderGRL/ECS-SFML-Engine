@@ -205,14 +205,51 @@ namespace LeaderEngine {
 
 	void Entity::Deserialize(const void* buffer)
 	{
-		auto entity = GetEntitySchema(buffer);
-		_id = entity->id();
+		std::mutex _mutex;
+		std::lock_guard<std::mutex> lock(_mutex);
+
+		// Validate the buffer
+		if (buffer == nullptr)
+		{
+			std::cerr << "Error: Buffer is null." << std::endl;
+			return;
+		}
+
+		// Verify the buffer
+		//flatbuffers::Verifier verifier(static_cast<const uint8_t*>(buffer), flatbuffers::GetSizePrefixedBufferLength(static_cast<const uint8_t*>(buffer)));
+		//if (!VerifyEntitySchemaBuffer(verifier)) {
+		//	std::cerr << "Error: Buffer verification failed." << std::endl;
+		//	return;
+		//}
+
+		// Get the entity schema
+		const auto* entity = GetEntitySchema(buffer);
+		if (entity == nullptr)
+		{
+			std::cerr << "Error: Failed to get entity schema." << std::endl;
+			return;
+		}
+
+		//// Validate the entity schema
+		//if (!flatbuffers::Verifier(reinterpret_cast<const uint8_t*>(buffer), flatbuffers::GetSizePrefixedBufferLength(static_cast<const uint8_t*>(buffer))).VerifyBuffer<LeaderEngine::EntitySchema>(nullptr))
+		//{
+		//	std::cerr << "Error: Buffer verification failed." << std::endl;
+		//	return;
+		//}
+
+		// Debug: Print buffer information
+		std::cout << "Buffer address: " << buffer << std::endl;
+		std::cout << "Entity ID: " << entity->id() << std::endl;
+
+		//_id = entity->id(); 
 		const auto transform = entity->transform();
-		setPosition(transform->position()->x(), transform->position()->y());
-		setRotation(transform->rotation());
-		setScale(transform->scale()->x(), transform->scale()->y());
+		//setPosition(transform->position()->x(), transform->position()->y());
+		//setRotation(transform->rotation());
+		//setScale(transform->scale()->x(), transform->scale()->y());
 
 	}
+
+
 
 	int Entity::GetId() const
 	{

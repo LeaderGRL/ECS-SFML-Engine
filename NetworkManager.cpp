@@ -61,9 +61,9 @@ namespace LeaderEngine
 		return std::ranges::find(_clientsInfo, ClientInfo{ip, port}) != _clientsInfo.end();
 	}
 
-	void NetworkManager::Update()
+	void NetworkManager::Update(float deltaTime)
 	{
-		NetworkStateManager::GetInstance().Update();
+		NetworkStateManager::GetInstance().Update(deltaTime);
 		//_networkSystem.Update();
 	}
 }

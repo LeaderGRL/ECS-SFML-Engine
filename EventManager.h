@@ -32,7 +32,8 @@ namespace LeaderEngine
 			//std::vector<std::shared_ptr<std::function<void(const sf::Event&)>>> GetEventFromInput(INPUT_EVENT);
 
 		private:
-			std::unordered_map<INPUT_EVENT, std::vector<std::shared_ptr<EventHandler>>> _EventHandlers; // list of handlers for each input event
+			std::unordered_map<INPUT_EVENT, std::vector<std::shared_ptr<EventHandler>>> _eventHandlers; // list of handlers for each input event
+			std::mutex _mutex;
 	};
 }
 

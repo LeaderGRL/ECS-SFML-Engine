@@ -22,8 +22,7 @@ namespace LeaderEngine
 		//NetworkManager::GetInstance().SetPort(5000);
 		if(_socket.bind(5001) != sf::Socket::Done)
 		{
-			std::cout << "Failed to bind the socket" << std::endl;
-			//;
+			std::cerr << "Failed to bind the socket" << std::endl;
 		}
 		_socket.setBlocking(false);
 
@@ -31,9 +30,13 @@ namespace LeaderEngine
 
 	}
 
-	void NetworkHostState::Update()
+	void NetworkHostState::Update(float deltaTime)
 	{
+		std::cout << "Update Network Host State" << std::endl;
+
+		//std::lock_guard<std::mutex> lock(_mutex); // Lock the mutex to prevent simultaneous access to the socket from multiple threads
 		CheckForNewConnections();
+		ReceiveDataFromClients();
 
 		// Check for new connections
 		// Check for new messages
@@ -43,6 +46,8 @@ namespace LeaderEngine
 
 	void NetworkHostState::Exit()
 	{
+		std::cout << "Exiting Network Host State" << std::endl;
+
 		_socket.unbind();
 
 		// TODO : Set a new host if the current host is disconnected
@@ -50,61 +55,110 @@ namespace LeaderEngine
 
 	void NetworkHostState::CheckForNewConnections()
 	{
-		char data[100];
-		std::size_t received;
-
+		//std::lock_guard<std::mutex> lock(_mutex);
+		//char data[100];
+		//std::size_t received;
+		
 		sf::Packet packet;
-		sf::IpAddress ip;
-		unsigned short port;
+		sf::IpAddress ip = sf::IpAddress::None;
+		unsigned short port = 0;
+		_connectionPacket = sf::Packet();
 
-		//std::cout << "Checking for new connections" << std::endl;
+		const sf::Socket::Status status = _socket.receive(packet, ip, port);
 
-		//if (_socket.receive(packet, ip, port) != sf::Socket::Done)
-		//{
-		//	//std::cout << "Failed to receive data" << std::endl;
-		//} else {
-		//	std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
-		//}
-
-		while(_socket.receive(packet, ip, port) == sf::Socket::Done)
+		if(status != sf::Socket::Done)
 		{
-			std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
-
-			if (packet.endOfPacket()) {
-				std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
-				continue; // Skip this iteration if the packet is empty or corrupted.
-			}
-
-			sf::Int32 packetType;
-			if (!(packet >> packetType)) { // Read the packet type from the packet
-				std::cout << "Failed to read packet type" << std::endl;
-				continue;
-			}
-
-			if (packetType != static_cast<sf::Int32>(NetworkPacketType::CONNECT)) // Check if the packet type is a connection request
+			switch (status)
 			{
-				std::cout << "Invalid packet type" << std::endl;
-				std::cout << "Packet type : " << packetType << std::endl;
-				continue;
+				case sf::Socket::NotReady:
+					std::cout << "No data received" << std::endl;
+					break;
+				case sf::Socket::Partial:
+					std::cout << "Partial data received" << std::endl;
+					break;
+				case sf::Socket::Disconnected:
+					std::cout << "Client disconnected" << std::endl;
+					break;
+				case sf::Socket::Error:
+					std::cout << "An error occurred" << std::endl;
+					break;
 			}
-
-			// Check if the client is already connected
-			//if (NetworkManager::GetInstance().IsClientConnected(ip, port))
-			//{
-			//	//std::cout << "Client already connected" << std::endl;
-			//	return;
-			//}
-
-			// Add the client to the list
-			NetworkManager::GetInstance().AddClient(ip, port);
-
-			sf::Packet responsePacket;
-			responsePacket << static_cast<sf::Int32>(NetworkPacketType::ACCEPTED);
-
-			SendDataToClient(ip, port, responsePacket);
-
-			std::cout << "Client connected : " << ip.toString() << " : " << port << std::endl;
+			return;
 		}
+
+
+
+		std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
+
+		if (packet.endOfPacket()) {
+			std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
+			return; // Skip this iteration if the packet is empty or corrupted.
+		}
+
+		sf::Int32 packetType;
+		if (!(packet >> packetType)) { // Read the packet type from the packet
+			std::cout << "Failed to read packet type" << std::endl;
+			return;
+		}
+
+		
+
+
+		// Check if the client is already connected
+		if (NetworkManager::GetInstance().IsClientConnected(ip, port))
+		{
+			//std::cout << "Client already connected" << std::endl;
+			return;
+		}
+
+		// Add the client to the list
+		NetworkManager::GetInstance().AddClient(ip, port);
+
+		sf::Packet responsePacket;
+		responsePacket << static_cast<sf::Int32>(NetworkPacketType::ACCEPTED);
+
+
+		SendDataToClient(ip, port, responsePacket);
+
+		std::cout << "Client connected : " << ip.toString() << " : " << port << std::endl;
+
+	
+
+		//while(_socket.receive(packet, ip, port) == sf::Socket::Done)
+		//{
+		//	std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
+
+		//	if (packet.endOfPacket()) {
+		//		std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
+		//		continue; // Skip this iteration if the packet is empty or corrupted.
+		//	}
+
+		//	sf::Int32 packetType;
+		//	if (!(packet >> packetType)) { // Read the packet type from the packet
+		//		std::cout << "Failed to read packet type" << std::endl;
+		//		continue;
+		//	}
+
+		//	
+
+
+		//	// Check if the client is already connected
+		//	//if (NetworkManager::GetInstance().IsClientConnected(ip, port))
+		//	//{
+		//	//	//std::cout << "Client already connected" << std::endl;
+		//	//	return;
+		//	//}
+
+		//	// Add the client to the list
+		//	NetworkManager::GetInstance().AddClient(ip, port);
+
+		//	sf::Packet responsePacket;
+		//	responsePacket << static_cast<sf::Int32>(NetworkPacketType::ACCEPTED);
+
+		//	SendDataToClient(ip, port, responsePacket);
+
+		//	std::cout << "Client connected : " << ip.toString() << " : " << port << std::endl;
+		//}
 
 		
 
@@ -121,41 +175,41 @@ namespace LeaderEngine
 
 	void NetworkHostState::ReceiveDataFromClients()
 	{
-	//	sf::Packet packet;
-	//	sf::IpAddress ip;
-	//	unsigned short port;
+		sf::Packet packet;
+		sf::IpAddress ip;
+		unsigned short port;
 
-	//	if (_socket.receive(packet, ip, port) != sf::Socket::Done)
-	//	{
-	//		return;
-	//	}
+		if (_socket.receive(packet, ip, port) != sf::Socket::Done)
+		{
+			return;
+		}
 
-	//	// Check if the client is connected
-	///*	if (!NetworkManager::GetInstance().IsClientConnected(ip, port))
-	//	{
-	//		return;
-	//	}*/
+		// Check if the client is connected
+	/*	if (!NetworkManager::GetInstance().IsClientConnected(ip, port))
+		{
+			return;
+		}*/
 
-	//	std::string dataType;
-	//	packet >> dataType;
+		sf::Int32 dataType;
+		packet >> dataType;
 
-	//	if (dataType != "Entities")
-	//	{
-	//		return;
-	//	}
+		if (dataType != static_cast<sf::Int32>(NetworkPacketType::ENTITIES))
+		{
+			return;
+		}
 
-	//	std::vector<uint8_t> data(packet.getDataSize()); // Create a vector to store the data from the packet
-	//	memcpy(data.data(), packet.getData(), packet.getDataSize()); // Copy the data from the packet to the vector
+		std::vector<uint8_t> data(packet.getDataSize()); // Create a vector to store the data from the packet
+		memcpy(data.data(), packet.getData(), packet.getDataSize()); // Copy the data from the packet to the vector
 
-	//	auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities();
+		auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Get the entities from the current scene
 
-	//	for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
-	//	{
-	//		if (it->second->GetComponent<NetworkingComponent>() != nullptr)
-	//		{
-	//			it->second->Deserialize(data.data());
-	//		}
-	//	}
+		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
+		{
+			if (it->second->GetComponent<NetworkingComponent>() != nullptr)
+			{
+				it->second->Deserialize(data.data());
+			}
+		}
 	}
 
 	void NetworkHostState::SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet)

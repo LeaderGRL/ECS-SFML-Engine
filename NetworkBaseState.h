@@ -12,7 +12,7 @@ namespace LeaderEngine
 			virtual ~NetworkBaseState() = default;
 
 			virtual void Init() = 0;
-			virtual void Update() = 0;
+			virtual void Update(float deltaTime) = 0;
 			virtual void Exit() = 0;
 	};
 }

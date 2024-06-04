@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <mutex>
 #include <stack>
 
 #include "NetworkBaseState.h"
@@ -10,7 +11,8 @@ namespace LeaderEngine
 	{
 		private:
 			std::stack<std::shared_ptr<NetworkBaseState>> _states;
-			
+			std::mutex _mutex;
+
 
 		public:
 			NetworkStateManager();
@@ -24,6 +26,6 @@ namespace LeaderEngine
 			NetworkBaseState& GetCurrentState();
 			std::stack<std::shared_ptr<NetworkBaseState>>& GetStates();
 
-			void Update();
+			void Update(float deltaTime);
 	};
 }
