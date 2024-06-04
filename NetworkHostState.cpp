@@ -191,25 +191,65 @@ namespace LeaderEngine
 		}*/
 
 		sf::Int32 dataType;
-		packet >> dataType;
 
-		if (dataType != static_cast<sf::Int32>(NetworkPacketType::ENTITIES))
+		if (!(packet >> dataType) || dataType != static_cast<sf::Int32>(NetworkPacketType::ENTITIES))
 		{
+			std::cerr << "Error: Invalid packet type or failed to read packet type." << std::endl;
 			return;
 		}
 
-		std::vector<uint8_t> data(packet.getDataSize()); // Create a vector to store the data from the packet
-		memcpy(data.data(), packet.getData(), packet.getDataSize()); // Copy the data from the packet to the vector
+		const void* packetData = packet.getData();
+		std::size_t packetSize = packet.getDataSize();
 
-		auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Get the entities from the current scene
-
-		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
+		if (packetData == nullptr || packetSize == 0)
 		{
-			if (it->second->GetComponent<NetworkingComponent>() != nullptr)
+			std::cerr << "Error: Invalid packet data or size." << std::endl;
+			return;
+		}
+
+		if (dataType == static_cast<sf::Int32>(NetworkPacketType::ENTITIES))
+		{
+			const uint8_t* data = static_cast<const uint8_t*>(packet.getData()) + sizeof(dataType); // Skip the dataType part
+			size_t dataSize = packet.getDataSize() - sizeof(dataType);
+
+			flatbuffers::Verifier verifier(static_cast<const uint8_t*>(data), dataSize);
+			if (!VerifyEntitySchemaBuffer(verifier))
 			{
-				it->second->Deserialize(data.data());
+				std::cerr << "Error: Buffer verification failed." << std::endl;
+				return;
+			}
+
+			const LeaderEngine::EntitySchema* entity_schema = flatbuffers::GetRoot<LeaderEngine::EntitySchema>(data);
+			if (!entity_schema)
+			{
+				std::cerr << "Error: Failed to get entity schema." << std::endl;
+				return;
+			}
+
+			// Deserialize and process the entity
+			auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities();
+			for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
+			{
+				if (it->second->GetComponent<NetworkingComponent>() != nullptr)
+				{
+					// validate the buffer
+					std::cout << "Deserializing entity : " << it->first << " : " << packetSize << std::endl;
+
+					try {
+						it->second->Deserialize(data);
+					}
+					catch (const std::exception& e) {
+						std::cerr << "Exception during deserialization: " << e.what() << std::endl;
+					}
+				}
 			}
 		}
+
+		//std::vector<uint8_t> data(packet.getDataSize()); // Create a vector to store the data from the packet
+		//memcpy(data.data(), packet.getData(), packet.getDataSize()); // Copy the data from the packet to the vector
+
+
+		
 	}
 
 	void NetworkHostState::SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet)

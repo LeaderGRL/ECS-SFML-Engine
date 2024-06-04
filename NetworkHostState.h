@@ -11,6 +11,7 @@ namespace LeaderEngine
 			sf::UdpSocket _socket;
 			void CheckForNewConnections();
 			void SendDataToAllClients(sf::Packet packet);
+			std::string get_value();
 			void ReceiveDataFromClients();
 			void SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet);
 			sf::Packet _connectionPacket;

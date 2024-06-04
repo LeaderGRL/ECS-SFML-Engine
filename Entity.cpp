@@ -196,7 +196,7 @@ namespace LeaderEngine {
 
 
 		const auto transform = CreateTransformSchema(builder, &position, getRotation(), &scale);
-		const auto entity = CreateEntitySchema(builder, _id, transform, componentTypeUnionData, componentUnionData);
+		const auto entity = CreateEntitySchema(builder, 11, transform);
 
 		builder.Finish(entity);
 
@@ -205,8 +205,8 @@ namespace LeaderEngine {
 
 	void Entity::Deserialize(const void* buffer)
 	{
-		std::mutex _mutex;
-		std::lock_guard<std::mutex> lock(_mutex);
+		//std::mutex _mutex;
+		//std::lock_guard<std::mutex> lock(_mutex);
 
 		// Validate the buffer
 		if (buffer == nullptr)
@@ -215,6 +215,13 @@ namespace LeaderEngine {
 			return;
 		}
 
+		//flatbuffers::Verifier verifier(reinterpret_cast<const uint8_t*>(buffer), 1024); // Create a verifier object to verify the buffer
+		//if (!VerifyEntitySchemaBuffer(verifier)) // Verify the buffer
+		//{
+		//	std::cerr << "Error: Buffer verification failed." << std::endl;
+		//	return;
+		//}
+
 		// Verify the buffer
 		//flatbuffers::Verifier verifier(static_cast<const uint8_t*>(buffer), flatbuffers::GetSizePrefixedBufferLength(static_cast<const uint8_t*>(buffer)));
 		//if (!VerifyEntitySchemaBuffer(verifier)) {
@@ -222,13 +229,14 @@ namespace LeaderEngine {
 		//	return;
 		//}
 
-		// Get the entity schema
-		const auto* entity = GetEntitySchema(buffer);
-		if (entity == nullptr)
+		const EntitySchema* ent = GetEntitySchema(buffer);
+		if (ent == nullptr)
 		{
 			std::cerr << "Error: Failed to get entity schema." << std::endl;
 			return;
 		}
+
+		
 
 		//// Validate the entity schema
 		//if (!flatbuffers::Verifier(reinterpret_cast<const uint8_t*>(buffer), flatbuffers::GetSizePrefixedBufferLength(static_cast<const uint8_t*>(buffer))).VerifyBuffer<LeaderEngine::EntitySchema>(nullptr))
@@ -239,13 +247,14 @@ namespace LeaderEngine {
 
 		// Debug: Print buffer information
 		std::cout << "Buffer address: " << buffer << std::endl;
-		std::cout << "Entity ID: " << entity->id() << std::endl;
+		std::cout << "Entity ID: " << ent->id() << std::endl; // I have read access violation here
 
-		//_id = entity->id(); 
-		const auto transform = entity->transform();
-		//setPosition(transform->position()->x(), transform->position()->y());
-		//setRotation(transform->rotation());
-		//setScale(transform->scale()->x(), transform->scale()->y());
+
+		_id = ent->id(); 
+		const auto transform = ent->transform();
+		setPosition(transform->position()->x(), transform->position()->y());
+		setRotation(transform->rotation());
+		setScale(transform->scale()->x(), transform->scale()->y());
 
 	}
 

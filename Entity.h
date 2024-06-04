@@ -24,7 +24,7 @@ namespace LeaderEngine {
 			std::unordered_map<std::string, std::unique_ptr<Entity>> _children; // Child entities
 
 		protected :
-			int _id;
+			int _id = 1;
 			std::vector<std::shared_ptr<IComponent>> _components;
 		public:
 			void report_errors(lua_State* luaState, int status);
