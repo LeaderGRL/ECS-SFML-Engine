@@ -196,7 +196,7 @@ namespace LeaderEngine {
 
 
 		const auto transform = CreateTransformSchema(builder, &position, getRotation(), &scale);
-		const auto entity = CreateEntitySchema(builder, 11, transform);
+		const auto entity = CreateEntitySchema(builder, 11, transform, componentTypeUnionData, componentUnionData);
 
 		builder.Finish(entity);
 
@@ -249,12 +249,21 @@ namespace LeaderEngine {
 		std::cout << "Buffer address: " << buffer << std::endl;
 		std::cout << "Entity ID: " << ent->id() << std::endl; // I have read access violation here
 
-
-		_id = ent->id(); 
+		if (_id != ent->id())
+		{
+			// create a new entity
+		}
+		/*_id = ent->id(); 
 		const auto transform = ent->transform();
 		setPosition(transform->position()->x(), transform->position()->y());
 		setRotation(transform->rotation());
-		setScale(transform->scale()->x(), transform->scale()->y());
+		setScale(transform->scale()->x(), transform->scale()->y());*/
+
+		// Deserialize the components
+		/*auto componentType = ent->components_type();
+		auto componentData = ent->components();*/
+
+		 
 
 	}
 
