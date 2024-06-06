@@ -32,6 +32,37 @@ namespace LeaderEngine
 		return rawPtr;
 	}
 
+	std::shared_ptr<Entity> EntityManager::CreateEntityFromSchema(const EntitySchema* entitySchema)
+	{
+		std::cout << "Creating entity from schema" << std::endl;
+		const std::shared_ptr<Entity> newEntity = std::make_shared<Entity>(std::to_string(entitySchema->id()));
+		newEntity->SetId(entitySchema->id());
+		newEntity->setPosition(sf::Vector2f(entitySchema->transform()->position()->x(), entitySchema->transform()->position()->y()));
+		newEntity->setScale(sf::Vector2f(entitySchema->transform()->scale()->x(), entitySchema->transform()->scale()->y()));
+		newEntity->setRotation(entitySchema->transform()->rotation());
+
+		 const auto componentType = entitySchema->components_type();
+		 const auto componentData = entitySchema->components();
+
+		 for (int i = 0; i < componentType->size(); i++)
+		 {
+		 	const auto type = static_cast<COMPONENT_TYPE>(componentType->Get(i));
+		 	const auto data = componentData->Get(i);
+
+		 	switch (type)
+		 	{
+		 		case COMPONENT_TYPE::DRAWABLE:
+					std::cout << "Creating drawable component" << std::endl;
+					const auto sprite2D = std::make_shared<Sprite2DComponent>();
+		 			auto s = sprite2D->Deserialize(data);
+		 			//newEntity->AddComponent<Sprite2DComponent>(s); // Add the component to the entity
+		 			break;
+		 	}
+		 }
+
+		return newEntity;
+	}
+
 	Entity* EntityManager::GetEntity(const std::string& name)
 	{
 		const auto it = _entities.find(name);

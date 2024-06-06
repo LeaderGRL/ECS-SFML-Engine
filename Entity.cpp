@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Sprite2DComponent.h"
 #include <iostream>
+#include <memory>
 #include <typeinfo>
 
 #include "BoxColliderComponent.h"
@@ -174,6 +175,7 @@ namespace LeaderEngine {
 
 	flatbuffers::Offset<void> Entity::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
+		std::cout << "Serializing Entity" << std::endl;
 		std::vector<flatbuffers::Offset<void>> components; // Create a vector of components offsets to know where to find table in the buffer
 		std::vector<uint8_t> componentType;
 
@@ -203,7 +205,7 @@ namespace LeaderEngine {
 		return { entity.o };
 	}
 
-	void Entity::Deserialize(const void* buffer)
+	std::shared_ptr<ISerializable> Entity::Deserialize(const void* buffer)
 	{
 		//std::mutex _mutex;
 		//std::lock_guard<std::mutex> lock(_mutex);
@@ -212,7 +214,7 @@ namespace LeaderEngine {
 		if (buffer == nullptr)
 		{
 			std::cerr << "Error: Buffer is null." << std::endl;
-			return;
+			//return;
 		}
 
 		//flatbuffers::Verifier verifier(reinterpret_cast<const uint8_t*>(buffer), 1024); // Create a verifier object to verify the buffer
@@ -233,7 +235,7 @@ namespace LeaderEngine {
 		if (ent == nullptr)
 		{
 			std::cerr << "Error: Failed to get entity schema." << std::endl;
-			return;
+			//return;
 		}
 
 		
@@ -251,20 +253,61 @@ namespace LeaderEngine {
 
 		if (_id != ent->id())
 		{
-			// create a new entity
-		}
-		/*_id = ent->id(); 
-		const auto transform = ent->transform();
-		setPosition(transform->position()->x(), transform->position()->y());
-		setRotation(transform->rotation());
-		setScale(transform->scale()->x(), transform->scale()->y());*/
+			const auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntityFromSchema(ent);
+			//const auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity(std::to_string(ent->id()));
+			//entity->SetId(ent->id());
+			//entity->setPosition(ent->transform()->position()->x(), ent->transform()->position()->y());
+			//entity->setRotation(ent->transform()->rotation());
+			//entity->setScale(ent->transform()->scale()->x(), ent->transform()->scale()->y());
 
-		// Deserialize the components
-		/*auto componentType = ent->components_type();
-		auto componentData = ent->components();*/
+			//const auto componentType = ent->components_type();
+			//const auto componentData = ent->components();
+
+			//for (int i = 0; i < componentType->size(); i++)
+			//{
+			//	const auto type = static_cast<COMPONENT_TYPE>(componentType->Get(i));
+			//	const auto data = componentData->Get(i);
+
+			//	switch (type)
+			//	{
+			//		case COMPONENT_TYPE::SPRITE2D:
+			//			const auto sprite2D = std::make_shared<Sprite2DComponent>();
+			//			auto s = sprite2D->Deserialize(data);
+			//			entity->AddComponent<Sprite2DComponent>(s); // Add the component to the entity
+			//			break;
+			//	}
+			//}
+
+			//return entity;
+			
+		}
+		//_id = ent->id(); 
+		//const auto transform = ent->transform();
+		//setPosition(transform->position()->x(), transform->position()->y());
+		//setRotation(transform->rotation());
+		//setScale(transform->scale()->x(), transform->scale()->y());
+
+		//// Deserialize the components
+		//const auto componentType = ent->components_type();
+		//const auto componentData = ent->components();
+
+		// for (int i = 0; i < componentType->size(); i++)
+		// {
+		// 	const auto type = static_cast<COMPONENT_TYPE>(componentType->Get(i));
+		//	const auto data = componentData->Get(i);
+
+		//	switch (type)
+		//	{
+		//		case COMPONENT_TYPE::SPRITE2D:
+		//			auto sprite2D = std::make_shared<Sprite2DComponent>();
+		//			sprite2D->Deserialize(data);
+		//			_components.push_back(sprite2D);
+		//			break;
+		//	}
+		//}
 
 		 
-
+		return std::make_shared<Entity>();
 	}
 
 

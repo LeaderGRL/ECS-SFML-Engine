@@ -26,7 +26,7 @@ namespace LeaderEngine
 			void SetAnimationName(const std::string& animationName);
 
 			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
-			void Deserialize(const void* buffer) override;
+			std::shared_ptr<ISerializable> Deserialize(const void* buffer) override;
 	};
 
 }

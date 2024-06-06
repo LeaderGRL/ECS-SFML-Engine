@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Animation2DComponent.h"
 
+#include <memory>
+
 namespace  LeaderEngine
 {
 	Animation2DComponent::Animation2DComponent()
@@ -50,12 +52,13 @@ namespace  LeaderEngine
 		return  animation2DComponent.Union();
 	}
 
-	void Animation2DComponent::Deserialize(const void* buffer)
+	std::shared_ptr<ISerializable> Animation2DComponent::Deserialize(const void* buffer)
 	{
 		const auto animation2DComponent = GetAnimation2DComponentSchema(buffer);
 		_animationName = animation2DComponent->animation_name()->c_str();
 		shouldLoop = animation2DComponent->should_loop();
 		isAnimating = animation2DComponent->is_animating();
+		return std::make_shared<Animation2DComponent>();
 	}
 
 }

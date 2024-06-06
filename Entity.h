@@ -56,7 +56,7 @@ namespace LeaderEngine {
 			std::vector<std::shared_ptr<IComponent>>& GetComponents();
 
 			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
-			void Deserialize(const void* buffer) override;
+			std::shared_ptr<ISerializable> Deserialize(const void* buffer) override;
 
 			template<typename T, typename ...Args> 
 			void AddComponent(Args&&... args) // r value reference on n arguments

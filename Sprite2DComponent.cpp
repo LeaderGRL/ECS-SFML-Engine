@@ -13,6 +13,12 @@ namespace LeaderEngine {
 		_sprite.setTexture(texture);
 	}
 
+	Sprite2DComponent::Sprite2DComponent(const std::string& textureName)
+	{
+		_sprite.setTexture(ResourceManager::GetInstance().getTexture(textureName));
+		_textureName = textureName;
+	}
+
 	Sprite2DComponent::~Sprite2DComponent()
 	{
 		
@@ -98,6 +104,7 @@ namespace LeaderEngine {
 
 	flatbuffers::Offset<void> Sprite2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
+		std::cout << "Serializing Sprite2DComponent" << std::endl;
 		const auto textureName = builder.CreateString(_textureName);
 
 		const auto sprite2DComponent = CreateSprite2DComponentSchema(builder, textureName);
@@ -107,12 +114,15 @@ namespace LeaderEngine {
 		//return flatbuffers::Offset<flatbuffers::Table>(sprite2DComponent.o);
 	}
 
-	void Sprite2DComponent::Deserialize(const void* buffer)
+	std::shared_ptr<ISerializable> Sprite2DComponent::Deserialize(const void* buffer)
 	{
 		const auto* sprite2DComponentSchema = GetSprite2DComponentSchema(buffer);
 
 		std::cout << "Texture Name: " << sprite2DComponentSchema->texture_name()->c_str() << std::endl;
 
+		const std::shared_ptr<Sprite2DComponent> sprite2DComponent = std::make_shared<Sprite2DComponent>(sprite2DComponentSchema->texture_name()->c_str());
+		//sprite2DComponent->SetSpriteByName(sprite2DComponentSchema->texture_name()->c_str());
 
+		return sprite2DComponent;
 	}
 }

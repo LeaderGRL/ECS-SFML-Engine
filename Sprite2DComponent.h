@@ -28,6 +28,7 @@ namespace LeaderEngine
 			
 			Sprite2DComponent();
 			Sprite2DComponent(const sf::Texture& texture);
+			Sprite2DComponent(const std::string& textureName);
 			~Sprite2DComponent();
 
 			void Init() override;
@@ -40,7 +41,7 @@ namespace LeaderEngine
 			sf::Vector2f GetSize();
 
 			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
-			void Deserialize(const void* buffer) override;
+			std::shared_ptr<ISerializable> Deserialize(const void* buffer) override;
 
 	};
 }
