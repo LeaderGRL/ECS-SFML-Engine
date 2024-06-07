@@ -72,6 +72,14 @@ namespace LeaderEngine {
 		return rawPtr;
 	}
 
+	Entity* Entity::AddChild(std::unique_ptr<Entity> child)
+	{
+		child->SetParent(this);
+		Entity* rawPtr = child.get();
+		_children[std::to_string(rawPtr->GetId())] = std::move(child); // Add the child to the children map
+		return rawPtr;
+	}
+
 	Entity* Entity::GetChild(const std::string& name)
 	{
 		std::cout << name << std::endl;
@@ -179,7 +187,8 @@ namespace LeaderEngine {
 	{
 		std::cout << "Serializing Entity" << std::endl;
 		std::vector<flatbuffers::Offset<void>> components; // Create a vector of components offsets to know where to find table in the buffer
-		std::vector<uint8_t> componentType;
+		std::vector<uint8_t> componentType; // Create a vector of component types to know which component is being serialized
+		std::vector<flatbuffers::Offset<EntitySchema>> children; // Create a vector of children offsets to know where to find table in the buffer
 
 		for (const auto& comp : _components)
 		{
@@ -194,14 +203,20 @@ namespace LeaderEngine {
 
 		}
 
+		for (const auto& child : _children)
+		{
+			const auto childOffset = child.second->Serialize(builder);
+			children.emplace_back(childOffset.o); // emplace_back is used to avoid copying the object when adding it to the vector
+		}
+
 		const auto position = vec2(getPosition().x, getPosition().y);
 		const auto scale = vec2(getScale().x, getScale().y);
 		const auto componentTypeUnionData = builder.CreateVector(componentType);
 		const auto componentUnionData = builder.CreateVector(components);
-
+		const auto childrenData = builder.CreateVector(children);
 
 		const auto transform = CreateTransformSchema(builder, &position, getRotation(), &scale);
-		const auto entity = CreateEntitySchema(builder, 11, transform, componentTypeUnionData, componentUnionData);
+		const auto entity = CreateEntitySchema(builder, 11, transform, componentTypeUnionData, componentUnionData, childrenData);
 
 		builder.Finish(entity);
 

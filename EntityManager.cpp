@@ -52,6 +52,7 @@ namespace LeaderEngine
 
 		const auto componentType = entitySchema->components_type();
 		const auto componentData = entitySchema->components();
+		const auto children = entitySchema->children();
 
 		//auto verifier = flatbuffers::Verifier(reinterpret_cast<const uint8_t*>(componentData->data()), componentData->size());
 		//if (!VerifySprite2DComponentSchemaBuffer(verifier))
@@ -90,6 +91,13 @@ namespace LeaderEngine
 					break;*/
 		 	}
 		 }
+
+		for (size_t i = 0; i < children->size(); ++i)
+		{
+			const auto child = children->Get(i);
+			auto childEntity = CreateEntityFromSchema(child); // Recursively create child entities
+			newEntity->AddChild(std::move(childEntity));
+		}
 
 		return newEntity;
 	}

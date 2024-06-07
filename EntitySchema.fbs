@@ -15,6 +15,7 @@ table EntitySchema
 	id:int;
 	transform:TransformSchema;
 	components:[Component];
+	children:[EntitySchema];
 }
 
 root_type EntitySchema;

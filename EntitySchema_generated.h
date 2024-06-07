@@ -76,7 +76,8 @@ struct EntitySchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     VT_ID = 4,
     VT_TRANSFORM = 6,
     VT_COMPONENTS_TYPE = 8,
-    VT_COMPONENTS = 10
+    VT_COMPONENTS = 10,
+    VT_CHILDREN = 12
   };
   int32_t id() const {
     return GetField<int32_t>(VT_ID, 0);
@@ -90,6 +91,9 @@ struct EntitySchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *components() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *>(VT_COMPONENTS);
   }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<LeaderEngine::EntitySchema>> *children() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<LeaderEngine::EntitySchema>> *>(VT_CHILDREN);
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_ID, 4) &&
@@ -100,6 +104,9 @@ struct EntitySchema FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
            VerifyOffset(verifier, VT_COMPONENTS) &&
            verifier.VerifyVector(components()) &&
            VerifyComponentVector(verifier, components(), components_type()) &&
+           VerifyOffset(verifier, VT_CHILDREN) &&
+           verifier.VerifyVector(children()) &&
+           verifier.VerifyVectorOfTables(children()) &&
            verifier.EndTable();
   }
 };
@@ -120,6 +127,9 @@ struct EntitySchemaBuilder {
   void add_components(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<void>>> components) {
     fbb_.AddOffset(EntitySchema::VT_COMPONENTS, components);
   }
+  void add_children(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<LeaderEngine::EntitySchema>>> children) {
+    fbb_.AddOffset(EntitySchema::VT_CHILDREN, children);
+  }
   explicit EntitySchemaBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -136,8 +146,10 @@ inline ::flatbuffers::Offset<EntitySchema> CreateEntitySchema(
     int32_t id = 0,
     ::flatbuffers::Offset<LeaderEngine::TransformSchema> transform = 0,
     ::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> components_type = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<void>>> components = 0) {
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<void>>> components = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<LeaderEngine::EntitySchema>>> children = 0) {
   EntitySchemaBuilder builder_(_fbb);
+  builder_.add_children(children);
   builder_.add_components(components);
   builder_.add_components_type(components_type);
   builder_.add_transform(transform);
@@ -150,15 +162,18 @@ inline ::flatbuffers::Offset<EntitySchema> CreateEntitySchemaDirect(
     int32_t id = 0,
     ::flatbuffers::Offset<LeaderEngine::TransformSchema> transform = 0,
     const std::vector<uint8_t> *components_type = nullptr,
-    const std::vector<::flatbuffers::Offset<void>> *components = nullptr) {
+    const std::vector<::flatbuffers::Offset<void>> *components = nullptr,
+    const std::vector<::flatbuffers::Offset<LeaderEngine::EntitySchema>> *children = nullptr) {
   auto components_type__ = components_type ? _fbb.CreateVector<uint8_t>(*components_type) : 0;
   auto components__ = components ? _fbb.CreateVector<::flatbuffers::Offset<void>>(*components) : 0;
+  auto children__ = children ? _fbb.CreateVector<::flatbuffers::Offset<LeaderEngine::EntitySchema>>(*children) : 0;
   return LeaderEngine::CreateEntitySchema(
       _fbb,
       id,
       transform,
       components_type__,
-      components__);
+      components__,
+      children__);
 }
 
 inline bool VerifyComponent(::flatbuffers::Verifier &verifier, const void *obj, Component type) {
