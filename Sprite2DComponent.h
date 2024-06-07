@@ -18,10 +18,11 @@ namespace LeaderEngine
 			sf::Texture _texture;
 			sf::Sprite _sprite;
 			sf::Vector2f _size;
-			std::string _textureName;
 			
 		protected :
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+			std::string _textureName;
+
 
 		public :
 
@@ -39,6 +40,8 @@ namespace LeaderEngine
 			sf::Sprite& GetSprite();
 			std::string& GetTextureName();
 			sf::Vector2f GetSize();
+
+			COMPONENT_TYPE GetType() const override;
 
 			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
 			std::shared_ptr<ISerializable> Deserialize(const void* buffer) override;

@@ -77,14 +77,15 @@ namespace LeaderEngine
 		return it->first;
 	}
 
-	const std::string& ResourceManager::GetTextureName(const sf::Texture* texture) const
+	const std::string& ResourceManager::GetTextureNameFromAnimationName(const std::string& animationName) const
 	{
-		auto it = std::find_if(_textures.begin(), _textures.end(), [&texture](const std::pair<std::string, sf::Texture>& pair) // Find the texture with the same address
+		const auto& animation = GetAnimation(animationName);
+		if (!animation.empty())
 		{
-			return &pair.second == texture;
-		});
+			return animation[0].textureId;
+		}
 
-		return it->first;
+		return "";
 	}
 
 	const std::string& ResourceManager::GetAnimationName(const std::vector<AnimationFrame>& animation) const

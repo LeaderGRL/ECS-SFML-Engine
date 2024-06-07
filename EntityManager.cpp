@@ -32,31 +32,50 @@ namespace LeaderEngine
 		return rawPtr;
 	}
 
-	std::shared_ptr<Entity> EntityManager::CreateEntityFromSchema(const EntitySchema* entitySchema)
+	void EntityManager::AddEntity(std::unique_ptr<Entity> entity)
+	{
+		//std::unique_ptr<Entity> newEntity = std::move(entity);
+		const Entity* rawPtr = entity.get();
+		_entities[std::to_string(rawPtr->GetId())] = std::move(entity);
+	}
+
+	std::unique_ptr<Entity> EntityManager::CreateEntityFromSchema(const EntitySchema* entitySchema)
 	{
 		std::cout << "Creating entity from schema" << std::endl;
-		const std::shared_ptr<Entity> newEntity = std::make_shared<Entity>(std::to_string(entitySchema->id()));
+		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(std::to_string(entitySchema->id()));
 		newEntity->SetId(entitySchema->id());
 		newEntity->setPosition(sf::Vector2f(entitySchema->transform()->position()->x(), entitySchema->transform()->position()->y()));
 		newEntity->setScale(sf::Vector2f(entitySchema->transform()->scale()->x(), entitySchema->transform()->scale()->y()));
 		newEntity->setRotation(entitySchema->transform()->rotation());
 
-		 const auto componentType = entitySchema->components_type();
-		 const auto componentData = entitySchema->components();
+		const auto componentType = entitySchema->components_type();
+		const auto componentData = entitySchema->components();
 
-		 for (int i = 0; i < componentType->size(); i++)
+		//auto verifier = flatbuffers::Verifier(reinterpret_cast<const uint8_t*>(componentData->data()), componentData->size());
+		//if (!VerifySprite2DComponentSchemaBuffer(verifier))
+		//{
+		//	std::cerr << "Error: The buffer is not a valid Sprite2DComponent schema." << std::endl;
+		//	//return;
+		//}
+
+		 for (size_t i = 0; i < componentType->size(); ++i)
 		 {
 		 	const auto type = static_cast<COMPONENT_TYPE>(componentType->Get(i));
 		 	const auto data = componentData->Get(i);
 
 		 	switch (type)
 		 	{
-		 		case COMPONENT_TYPE::DRAWABLE:
+		 		case COMPONENT_TYPE::SPRITE2D:
 					std::cout << "Creating drawable component" << std::endl;
-					const auto sprite2D = std::make_shared<Sprite2DComponent>();
-		 			auto s = sprite2D->Deserialize(data);
-		 			//newEntity->AddComponent<Sprite2DComponent>(s); // Add the component to the entity
+					//auto s = std::dynamic_pointer_cast<Sprite2DComponent>(std::make_shared<Sprite2DComponent>()->Deserialize(data));
+					//const auto sprite2D = std::make_shared<Sprite2DComponent>();
+					const auto sprite = reinterpret_cast<const Sprite2DComponentSchema*>(data);
+					std::cout << "Sprite Component - texture: " << sprite->texture_name()->c_str() << std::endl;
+		 			newEntity->AddComponent<Sprite2DComponent>(sprite->texture_name()->c_str());
 		 			break;
+		 		/*default:
+					std::cout << "Unknown component type";
+					break;*/
 		 	}
 		 }
 

@@ -28,7 +28,7 @@ namespace LeaderEngine
 		const sf::Texture& getTexture(const std::string& id) const;
 		const std::vector<AnimationFrame>& GetAnimation(const std::string& id) const;
 		const std::string& GetTextureName(const sf::Texture& texture) const;
-		const std::string& GetTextureName(const sf::Texture* texture) const;
+		const std::string& GetTextureNameFromAnimationName(const std::string& animationName) const;
 		const std::string& GetAnimationName(const std::vector<AnimationFrame>& animation) const;
 		unsigned int GetTextureWidth(const std::string& textureName) const;
 		unsigned int GetTextureHeight(const std::string& textureName) const;

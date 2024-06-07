@@ -14,6 +14,7 @@ namespace  LeaderEngine
 		_animationName = animationName;
 		shouldLoop = loop;
 		isAnimating = animating;
+		_textureName = ResourceManager::GetInstance().GetTextureNameFromAnimationName(_animationName);
 	}
 
 	Animation2DComponent::~Animation2DComponent()
@@ -40,6 +41,7 @@ namespace  LeaderEngine
 	void Animation2DComponent::SetAnimationName(const std::string& animationName)
 	{
 		_animationName = animationName;
+		_textureName = ResourceManager::GetInstance().GetTextureNameFromAnimationName(_animationName);
 	}
 
 	flatbuffers::Offset<void> Animation2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
@@ -47,7 +49,7 @@ namespace  LeaderEngine
 		const auto animationName = builder.CreateString(_animationName);
 		
 		const auto animation2DComponent = CreateAnimation2DComponentSchema(builder, animationName, shouldLoop, isAnimating);
-		builder.Finish(animation2DComponent);
+		//builder.Finish(animation2DComponent);
 
 		return  animation2DComponent.Union();
 	}

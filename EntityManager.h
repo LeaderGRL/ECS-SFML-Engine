@@ -29,7 +29,8 @@ namespace LeaderEngine
 
 			//void AddEntity(Entity&& entity); // RValue reference
 			Entity* CreateEntity(std::string name);
-			std::shared_ptr<Entity> CreateEntityFromSchema(const EntitySchema* entitySchema);
+			void AddEntity(std::unique_ptr<Entity> entity);
+			std::unique_ptr<Entity> CreateEntityFromSchema(const EntitySchema* entitySchema);
 			//std::shared_ptr<Entity> CreateEntity(std::string name);
 			Entity* GetEntity(const std::string& name);
 			const std::string GetName(const Entity* entity);

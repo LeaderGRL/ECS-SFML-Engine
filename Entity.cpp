@@ -149,9 +149,11 @@ namespace LeaderEngine {
 		states.transform.combine(getTransform()); // Apply the entity transform to the drawable components
 		for (const auto& comp : _components)
 		{
-			if (comp->GetType() == COMPONENT_TYPE::DRAWABLE) // Check if the component's type equals DRAWABLE
+			// Use dynamic_cast to check if the component is drawable
+			const IDrawableComponent* drawable = dynamic_cast<const IDrawableComponent*>(comp.get());
+			if (drawable != nullptr) // Check if the component's type equals DRAWABLE
 			{
-				const IDrawableComponent* drawable = (IDrawableComponent*)comp.get(); // Cast the component to IDrawable component
+				//const IDrawableComponent* drawable = (IDrawableComponent*)comp.get(); // Cast the component to IDrawable component
 				target.draw(*drawable, states); // Draw the drawable component if the cast was successful
 			}
 		}
@@ -253,58 +255,9 @@ namespace LeaderEngine {
 
 		if (_id != ent->id())
 		{
-			const auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntityFromSchema(ent);
-			//const auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity(std::to_string(ent->id()));
-			//entity->SetId(ent->id());
-			//entity->setPosition(ent->transform()->position()->x(), ent->transform()->position()->y());
-			//entity->setRotation(ent->transform()->rotation());
-			//entity->setScale(ent->transform()->scale()->x(), ent->transform()->scale()->y());
-
-			//const auto componentType = ent->components_type();
-			//const auto componentData = ent->components();
-
-			//for (int i = 0; i < componentType->size(); i++)
-			//{
-			//	const auto type = static_cast<COMPONENT_TYPE>(componentType->Get(i));
-			//	const auto data = componentData->Get(i);
-
-			//	switch (type)
-			//	{
-			//		case COMPONENT_TYPE::SPRITE2D:
-			//			const auto sprite2D = std::make_shared<Sprite2DComponent>();
-			//			auto s = sprite2D->Deserialize(data);
-			//			entity->AddComponent<Sprite2DComponent>(s); // Add the component to the entity
-			//			break;
-			//	}
-			//}
-
-			//return entity;
-			
+			auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntityFromSchema(ent);
+			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().AddEntity(std::move(entity));
 		}
-		//_id = ent->id(); 
-		//const auto transform = ent->transform();
-		//setPosition(transform->position()->x(), transform->position()->y());
-		//setRotation(transform->rotation());
-		//setScale(transform->scale()->x(), transform->scale()->y());
-
-		//// Deserialize the components
-		//const auto componentType = ent->components_type();
-		//const auto componentData = ent->components();
-
-		// for (int i = 0; i < componentType->size(); i++)
-		// {
-		// 	const auto type = static_cast<COMPONENT_TYPE>(componentType->Get(i));
-		//	const auto data = componentData->Get(i);
-
-		//	switch (type)
-		//	{
-		//		case COMPONENT_TYPE::SPRITE2D:
-		//			auto sprite2D = std::make_shared<Sprite2DComponent>();
-		//			sprite2D->Deserialize(data);
-		//			_components.push_back(sprite2D);
-		//			break;
-		//	}
-		//}
 
 		 
 		return std::make_shared<Entity>();
