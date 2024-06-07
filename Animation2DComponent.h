@@ -24,6 +24,7 @@ namespace LeaderEngine
 
 			std::string& GetAnimationName() ;
 			void SetAnimationName(const std::string& animationName);
+			COMPONENT_TYPE GetType() const override { return COMPONENT_TYPE::ANIMATION2D; }
 
 			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
 			std::shared_ptr<ISerializable> Deserialize(const void* buffer) override;

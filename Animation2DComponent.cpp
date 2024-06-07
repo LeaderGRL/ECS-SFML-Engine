@@ -46,6 +46,7 @@ namespace  LeaderEngine
 
 	flatbuffers::Offset<void> Animation2DComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
 	{
+		std::cout << "Serializing Animation2DComponent" << std::endl;
 		const auto animationName = builder.CreateString(_animationName);
 		
 		const auto animation2DComponent = CreateAnimation2DComponentSchema(builder, animationName, shouldLoop, isAnimating);

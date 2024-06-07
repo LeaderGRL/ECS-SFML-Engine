@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "EntityManager.h"
+
+#include "Animation2DComponent.h"
 #include "CollisionSystem.h"
 #include "NetworkingComponent.h"
 
@@ -65,14 +67,24 @@ namespace LeaderEngine
 
 		 	switch (type)
 		 	{
+				case COMPONENT_TYPE::ANIMATION2D:
+				{
+					std::cout << "Creating animation component" << std::endl;
+					const auto animation = reinterpret_cast<const Animation2DComponentSchema*>(data);
+					std::cout << "Animation Component - name: " << animation->animation_name()->c_str() << std::endl;
+					newEntity->AddComponent<Animation2DComponent>(animation->animation_name()->c_str(), animation->should_loop(), animation->is_animating());
+					break;
+				}
 		 		case COMPONENT_TYPE::SPRITE2D:
+				{
 					std::cout << "Creating drawable component" << std::endl;
-					//auto s = std::dynamic_pointer_cast<Sprite2DComponent>(std::make_shared<Sprite2DComponent>()->Deserialize(data));
-					//const auto sprite2D = std::make_shared<Sprite2DComponent>();
 					const auto sprite = reinterpret_cast<const Sprite2DComponentSchema*>(data);
 					std::cout << "Sprite Component - texture: " << sprite->texture_name()->c_str() << std::endl;
-		 			newEntity->AddComponent<Sprite2DComponent>(sprite->texture_name()->c_str());
-		 			break;
+					newEntity->AddComponent<Sprite2DComponent>(sprite->texture_name()->c_str());
+					break;
+				}
+					
+				
 		 		/*default:
 					std::cout << "Unknown component type";
 					break;*/

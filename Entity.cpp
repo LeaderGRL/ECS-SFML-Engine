@@ -185,6 +185,7 @@ namespace LeaderEngine {
 		{
 			if (const auto serializable = dynamic_cast<ISerializable*>(comp.get()))
 			{
+				std::cout << "COMPONENT : " << typeid(*comp.get()).name() << std::endl;
 				auto componentOffset = serializable->Serialize(builder); // Serialize the component
 				auto type = static_cast<uint8_t>(comp.get()->GetType());
 				componentType.push_back(type);

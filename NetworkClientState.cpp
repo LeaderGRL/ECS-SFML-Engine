@@ -47,6 +47,24 @@ namespace LeaderEngine
 
 				SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5001);
 			}
+
+			// -- TEMP -- //
+
+			for (auto it2 = it->second->GetChildren().begin(); it2 != it->second->GetChildren().end(); ++it2) // Iterate through the children of the entity
+			{
+				if (it2->second->GetComponent<NetworkingComponent>() != nullptr)
+				{
+					sf::Packet packet = sf::Packet();
+					sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
+					packet << dataType;
+					it2->second->Serialize(builder);
+					auto data = builder.GetBufferPointer(); // Get the data from the builder
+					auto size = builder.GetSize(); // Get the size of the data
+					packet.append(data, size); // Append the data to the packet to send it over the network
+
+					SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5001);
+				}
+			}
 		}
 
 		ReceivePacket();

@@ -15,6 +15,7 @@ namespace LeaderEngine
 		RIGIDBODY,
 		CHARACTER_CONTROLLER,
 		SPRITE2D,
+		ANIMATION2D,
 		NETWORKING,
 	};
 }
