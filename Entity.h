@@ -24,20 +24,20 @@ namespace LeaderEngine {
 			std::unordered_map<std::string, std::unique_ptr<Entity>> _children; // Child entities
 
 		protected :
-			int _id = 1;
+			std::string _id = "";
 			std::vector<std::shared_ptr<IComponent>> _components;
 		public:
 			void report_errors(lua_State* luaState, int status);
 			Entity();
 			~Entity();
-			Entity(std::string name);
+			Entity(const std::string& name);
 			Entity(const Entity&) = delete; // delete copy constructor
 			Entity& operator=(const Entity&) = delete; // delete copy assignment
 			Entity(Entity&&) = default; // use default move constructor
 			Entity& operator=(Entity&&) = default; // use default move assignment
 			
-			int GetId() const;
-			void SetId(int id);
+			std::string GetId() const;
+			void SetId(std::string id);
 			void SetParent(Entity* parent);
 			Entity* GetParent() const;
 			Entity* AddChild(const std::string& name);

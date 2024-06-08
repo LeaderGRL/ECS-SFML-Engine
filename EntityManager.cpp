@@ -25,11 +25,22 @@ namespace LeaderEngine
 		
 	}
 	
-	Entity* EntityManager::CreateEntity(std::string name)
+	Entity* EntityManager::CreateEntity(const std::string& name)
 	{
-		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(name);
+		std::string id = name;
+		if (IdExists(id))
+		{
+			int i = 1;
+			while (IdExists(id + std::to_string(i)))
+			{
+				i++;
+			}
+			id = id + std::to_string(i);
+
+		}
+		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(id);
 		Entity* rawPtr = newEntity.get();
-		_entities[name] = std::move(newEntity);
+		_entities[id] = std::move(newEntity);
 		//_entities.insert(std::make_pair(name, newEntity));
 		return rawPtr;
 	}
@@ -38,14 +49,14 @@ namespace LeaderEngine
 	{
 		//std::unique_ptr<Entity> newEntity = std::move(entity);
 		const Entity* rawPtr = entity.get();
-		_entities[std::to_string(rawPtr->GetId())] = std::move(entity);
+		_entities[rawPtr->GetId()] = std::move(entity);
 	}
 
 	std::unique_ptr<Entity> EntityManager::CreateEntityFromSchema(const EntitySchema* entitySchema)
 	{
 		std::cout << "Creating entity from schema" << std::endl;
-		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(std::to_string(entitySchema->id()));
-		newEntity->SetId(entitySchema->id());
+		std::unique_ptr<Entity> newEntity = std::make_unique<Entity>(entitySchema->id()->c_str());
+		newEntity->SetId(entitySchema->id()->c_str());
 		newEntity->setPosition(sf::Vector2f(entitySchema->transform()->position()->x(), entitySchema->transform()->position()->y()));
 		newEntity->setScale(sf::Vector2f(entitySchema->transform()->scale()->x(), entitySchema->transform()->scale()->y()));
 		newEntity->setRotation(entitySchema->transform()->rotation());
@@ -127,6 +138,19 @@ namespace LeaderEngine
 	const std::unordered_map<std::string, std::unique_ptr<Entity>>& EntityManager::GetEntities() const
 	{
 		return _entities;
+	}
+
+	bool EntityManager::IdExists(const std::string& id) const
+	{
+		for (const auto& entity : _entities)
+		{
+			if (entity.first == id)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	void EntityManager::draw(sf::RenderTarget& target, sf::RenderStates states)

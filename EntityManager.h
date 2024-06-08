@@ -28,15 +28,17 @@ namespace LeaderEngine
 			//EntityManager& operator=(EntityManager&&) = delete;
 
 			//void AddEntity(Entity&& entity); // RValue reference
-			Entity* CreateEntity(std::string name);
+			Entity* CreateEntity(const std::string& name);
 			void AddEntity(std::unique_ptr<Entity> entity);
 			std::unique_ptr<Entity> CreateEntityFromSchema(const EntitySchema* entitySchema);
 			//std::shared_ptr<Entity> CreateEntity(std::string name);
 			Entity* GetEntity(const std::string& name);
 			const std::string GetName(const Entity* entity);
 			const std::unordered_map<std::string, std::unique_ptr<Entity>>& GetEntities() const;
-			void draw(sf::RenderTarget& target, sf::RenderStates states);
 
+			bool IdExists(const std::string& id) const;
+
+			void draw(sf::RenderTarget& target, sf::RenderStates states);
 			void Init();
 			void Update(float deltaTime);
 

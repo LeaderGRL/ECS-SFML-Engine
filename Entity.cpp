@@ -13,7 +13,7 @@
 namespace LeaderEngine {
 	Entity::Entity()
 	{
-		Entity::_id = 0;
+		Entity::_id = "";
 
 		//lua_State* luaState = luaL_newstate(); // Create a lua state
 
@@ -39,12 +39,12 @@ namespace LeaderEngine {
 	{
 	}
 
-	Entity::Entity(std::string name)
+	Entity::Entity(const std::string& name)
 	{
-		
+		Entity::_id = name;
 	}
 	
-	void Entity::SetId(int id)
+	void Entity::SetId(std::string id)
 	{
 		Entity::_id = id;
 	}
@@ -76,7 +76,7 @@ namespace LeaderEngine {
 	{
 		child->SetParent(this);
 		Entity* rawPtr = child.get();
-		_children[std::to_string(rawPtr->GetId())] = std::move(child); // Add the child to the children map
+		_children[rawPtr->GetId()] = std::move(child); // Add the child to the children map
 		return rawPtr;
 	}
 
@@ -209,6 +209,7 @@ namespace LeaderEngine {
 			children.emplace_back(childOffset.o); // emplace_back is used to avoid copying the object when adding it to the vector
 		}
 
+		const auto id = builder.CreateString(_id);
 		const auto position = vec2(getPosition().x, getPosition().y);
 		const auto scale = vec2(getScale().x, getScale().y);
 		const auto componentTypeUnionData = builder.CreateVector(componentType);
@@ -216,7 +217,7 @@ namespace LeaderEngine {
 		const auto childrenData = builder.CreateVector(children);
 
 		const auto transform = CreateTransformSchema(builder, &position, getRotation(), &scale);
-		const auto entity = CreateEntitySchema(builder, 11, transform, componentTypeUnionData, componentUnionData, childrenData);
+		const auto entity = CreateEntitySchema(builder, id, transform, componentTypeUnionData, componentUnionData, childrenData);
 
 		builder.Finish(entity);
 
@@ -267,9 +268,9 @@ namespace LeaderEngine {
 
 		// Debug: Print buffer information
 		std::cout << "Buffer address: " << buffer << std::endl;
-		std::cout << "Entity ID: " << ent->id() << std::endl; // I have read access violation here
+		std::cout << "Entity ID: " << ent->id()->c_str() << std::endl; // I have read access violation here
 
-		if (_id != ent->id())
+		if (_id != ent->id()->c_str())
 		{
 			auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntityFromSchema(ent);
 			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().AddEntity(std::move(entity));
@@ -281,7 +282,7 @@ namespace LeaderEngine {
 
 
 
-	int Entity::GetId() const
+	std::string Entity::GetId() const
 	{
 		return _id;
 	}

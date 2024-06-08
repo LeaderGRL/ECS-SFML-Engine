@@ -12,7 +12,7 @@ union Component
 
 table EntitySchema
 {
-	id:int;
+	id:string;
 	transform:TransformSchema;
 	components:[Component];
 	children:[EntitySchema];
