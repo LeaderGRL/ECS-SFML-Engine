@@ -35,7 +35,12 @@ namespace LeaderEngine
 
 		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
-			if (it->second->GetComponent<NetworkingComponent>() != nullptr)
+			if (!it->second->GetComponent<NetworkingComponent>())
+			{
+				continue;
+			}
+
+			if (it->second->IsDirty())
 			{
 				sf::Packet packet = sf::Packet();
 				sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
@@ -46,6 +51,8 @@ namespace LeaderEngine
 				packet.append(data, size); // Append the data to the packet to send it over the network
 
 				SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5001);
+
+				it->second->SetDirty(false);
 			}
 
 			// -- TEMP -- //

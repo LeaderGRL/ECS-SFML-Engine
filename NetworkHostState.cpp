@@ -35,8 +35,9 @@ namespace LeaderEngine
 		std::cout << "Update Network Host State" << std::endl;
 
 		//std::lock_guard<std::mutex> lock(_mutex); // Lock the mutex to prevent simultaneous access to the socket from multiple threads
-		CheckForNewConnections();
 		ReceiveDataFromClients();
+		CheckForNewConnections(); // We need to check for new connections after receiving data from clients to avoid having the CheckForNewConnections() function to receive the data packet sent by the new client
+
 
 		// Check for new connections
 		// Check for new messages
@@ -179,16 +180,31 @@ namespace LeaderEngine
 		sf::IpAddress ip;
 		unsigned short port;
 
-		if (_socket.receive(packet, ip, port) != sf::Socket::Done)
+		switch(_socket.receive(packet, ip, port))
 		{
-			return;
+			case sf::Socket::Done:
+				std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
+				break;
+			case sf::Socket::NotReady:
+				std::cout << "No data received" << std::endl;
+				return;
+			case sf::Socket::Partial:
+				std::cout << "Partial data received" << std::endl;
+				return;
+			case sf::Socket::Disconnected:
+				std::cout << "Client disconnected" << std::endl;
+				return;
+			case sf::Socket::Error:
+				std::cout << "An error occurred" << std::endl;
+				return;
 		}
 
 		// Check if the client is connected
-	/*	if (!NetworkManager::GetInstance().IsClientConnected(ip, port))
+		if (!NetworkManager::GetInstance().IsClientConnected(ip, port))
 		{
+			std::cout << "Client not connected" << std::endl;
 			return;
-		}*/
+		}
 
 		sf::Int32 dataType;
 

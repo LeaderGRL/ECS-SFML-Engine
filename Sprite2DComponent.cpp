@@ -74,37 +74,6 @@ namespace LeaderEngine {
 		return COMPONENT_TYPE::SPRITE2D;
 	}
 
-	//void Sprite2DComponent::PlayAnimation(const std::string& animationName, bool loop)
-	//{
-	//	/*ResourceManager rs = ResourceManager::GetInstance();*/
-	//	_animationName = animationName;
-	//	isAnimating = true;
-	//	shouldLoop = loop;
-
-	//	const auto& animationFrames = ResourceManager::GetInstance().GetAnimation(animationName);
-	//	if (!animationFrames.empty()) {
-	//		//_sprite.setTexture(*animationFrames.front().texture); // Set the first frame
-	//	}
-	//	else {
-	//		std::cerr << "Error: No frames for animation named " << animationName << std::endl;
-	//	}
-	//}
-
-	//void Sprite2DComponent::StopAnimation(const std::string& animationName)
-	//{
-	//	if (animationName == _animationName)
-	//	{
-	//		isAnimating = false;
-	//		//const auto& animationFrames = ResourceManager::GetInstance().GetAnimation(animationName);
-	//		//if (!animationFrames.empty()) {
-	//		//	_sprite.setTexture(*animationFrames.front().texture); // Set the first frame
-	//		//}
-	//		//else {
-	//		//	std::cerr << "Error: No frames for animation named " << animationName << std::endl;
-	//		//}
-	//	}
-	//}
-
 	void Sprite2DComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.draw(_sprite, states);

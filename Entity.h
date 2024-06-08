@@ -52,7 +52,7 @@ namespace LeaderEngine {
 			void Destroy();
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const override; // Walk through all the rendable components
 
-			void AddComponent(int type);
+			//void AddComponent(int type);
 			luabridge::LuaRef GetComponent(int type);
 			std::vector<std::shared_ptr<IComponent>>& GetComponents();
 
@@ -64,6 +64,7 @@ namespace LeaderEngine {
 			{
 				static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from IComponent"); // Check if T inherit from IComponent
 				_components.push_back(std::make_shared<T>(std::forward<Args>(args)...)); // forwards the arguments args to the constructor of T with their original value
+				SetDirty(true);
 			}
 			
 			template<typename T>
