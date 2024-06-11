@@ -91,6 +91,7 @@ namespace LeaderEngine
 			.addFunction("GetParent", &Entity::GetParent)
 			.addFunction("AddChild", static_cast<Entity* (Entity::*)(const std::string&)>(&Entity::AddChild)) 
 			.addFunction("GetChild", &Entity::GetChild)
+			.addFunction("GetChildren", &Entity::GetChildren)
 			.addFunction("Move_F", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::move))
 			.addFunction("Move_V", static_cast<void (sf::Transformable::*)(const sf::Vector2f&)>(&sf::Transformable::move))
 			.addFunction("SetDirty", &Entity::SetDirty)
