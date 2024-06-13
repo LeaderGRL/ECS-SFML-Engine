@@ -5,11 +5,12 @@ namespace LeaderEngine
 {
 	struct ClientInfo
 	{
+		std::string id;
 		sf::IpAddress ip;
 		unsigned short port;
 
 		bool operator==(const ClientInfo& other) const {
-			return ip == other.ip && port == other.port;
+			return id == other.id && ip == other.ip && port == other.port;
 		}
 	};
 

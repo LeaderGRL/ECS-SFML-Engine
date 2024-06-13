@@ -268,13 +268,16 @@ namespace LeaderEngine {
 
 		// Debug: Print buffer information
 		std::cout << "Buffer address: " << buffer << std::endl;
-		std::cout << "Entity ID: " << ent->id()->c_str() << std::endl; // I have read access violation here
+		std::cout << "Entity ID: " << ent->id()->c_str() << std::endl; 
 
-		if (_id != ent->id()->c_str())
-		{
-			auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntityFromSchema(ent);
-			SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().AddEntity(std::move(entity));
-		}
+		//if (_id != ent->id()->c_str())
+		//{
+		//	auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntityFromSchema(ent);
+		//	SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().AddEntity(std::move(entity));
+		//}
+
+		auto entity = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntityFromSchema(ent);
+		SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().AddEntity(std::move(entity));
 
 		 
 		return std::make_shared<Entity>();
