@@ -15,10 +15,17 @@ namespace LeaderEngine
 	{
 		private :
 			sf::IpAddress _hostIp;
-			std::vector<ClientInfo> _clientsInfo;
+			//std::vector<ClientInfo> _clientsInfo;
 			unsigned short _port;
 			NetworkingSystem _networkSystem;
 			NetworkHostState _hostState;
+
+			std::unordered_map<std::string, ClientInfo> _clientsInfo;
+
+			// Helper function to generate a unique key for unordered_map
+			std::string GenerateKey(sf::IpAddress ip, unsigned short port) const {
+				return ip.toString() + ":" + std::to_string(port);
+			}
 
 		public:
 			NetworkManager();
@@ -35,7 +42,7 @@ namespace LeaderEngine
 			void AddClient(sf::IpAddress ip, unsigned short port);
 			std::string GenerateClientId();
 			void RemoveClient(std::string id, sf::IpAddress ip, unsigned short port);
-			std::vector<ClientInfo> GetClients();
+			std::unordered_map<std::string, ClientInfo> GetClients();
 			bool IsClientConnected(sf::IpAddress ip, unsigned short port);
 
 			void Update(float deltaTime);

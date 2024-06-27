@@ -114,63 +114,24 @@ namespace LeaderEngine
 
 		// Add the client to the list
 		NetworkManager::GetInstance().AddClient(ip, port);
+		std::cout << "Get Client ID : " << NetworkManager::GetInstance().GetClientId(ip, port) << std::endl;
 
 		sf::Packet responsePacket;
 		responsePacket << static_cast<sf::Int32>(NetworkPacketType::ACCEPTED);
+		responsePacket << NetworkManager::GetInstance().GetClientId(ip, port);
 
 
 		SendDataToClient(ip, port, responsePacket);
 
 		std::cout << "Client connected : " << ip.toString() << " : " << port << std::endl;
-
-	
-
-		//while(_socket.receive(packet, ip, port) == sf::Socket::Done)
-		//{
-		//	std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
-
-		//	if (packet.endOfPacket()) {
-		//		std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
-		//		continue; // Skip this iteration if the packet is empty or corrupted.
-		//	}
-
-		//	sf::Int32 packetType;
-		//	if (!(packet >> packetType)) { // Read the packet type from the packet
-		//		std::cout << "Failed to read packet type" << std::endl;
-		//		continue;
-		//	}
-
-		//	
-
-
-		//	// Check if the client is already connected
-		//	//if (NetworkManager::GetInstance().IsClientConnected(ip, port))
-		//	//{
-		//	//	//std::cout << "Client already connected" << std::endl;
-		//	//	return;
-		//	//}
-
-		//	// Add the client to the list
-		//	NetworkManager::GetInstance().AddClient(ip, port);
-
-		//	sf::Packet responsePacket;
-		//	responsePacket << static_cast<sf::Int32>(NetworkPacketType::ACCEPTED);
-
-		//	SendDataToClient(ip, port, responsePacket);
-
-		//	std::cout << "Client connected : " << ip.toString() << " : " << port << std::endl;
-		//}
-
-		
-
 	}
 
 	void NetworkHostState::SendDataToAllClients(sf::Packet packet)
 	{
 		for (auto& client : NetworkManager::GetInstance().GetClients())
 		{
-			std::cout << "Sending data to : " << client.ip.toString() << " : " << client.port << std::endl;
-			 _socket.send(packet, client.ip, client.port);
+			std::cout << "Sending data to : " << client.second.ip.toString() << " : " << client.second.port << std::endl;
+			SendDataToClient(client.second.ip, client.second.port, packet);
 		}
 	}
 

@@ -50,6 +50,7 @@ namespace LeaderEngine
 		while (socket.receive(acceptedPacket, ip, port) == sf::Socket::Done)
 		{
 			sf::Int32 packetType;
+			std::string UUID;
 			//acceptedPacket >> packetType;
 
 			std::cout << "Received packet" << std::endl;
@@ -72,10 +73,24 @@ namespace LeaderEngine
 				continue;
 			}
 
+			if (!(acceptedPacket >> UUID)) { // Read the UUID from the packet
+				std::cout << "Failed to read UUID" << std::endl;
+				continue;
+			}
+
+			std::cout << "Received UUID : " << UUID << std::endl;
+
+			if (UUID.empty())
+			{
+				std::cout << "Invalid UUID" << std::endl;
+				continue;
+			}
+
 			switch (packetType)
 			{
 				case static_cast<sf::Int32>(NetworkPacketType::ACCEPTED):
-					HandleConnectionAccepted();
+					//HandleConnectionAccepted();
+					NetworkStateManager::GetInstance().PushState(std::make_shared<NetworkClientState>(UUID));
 					break;
 				case static_cast<sf::Int32>(NetworkPacketType::REFUSED):
 					HandleConnectionRefused();
@@ -84,36 +99,6 @@ namespace LeaderEngine
 					break;
 			}
 		}	
-
-		//if (socket.receive(acceptedPacket, ip, port) == sf::Socket::Done)
-		//{
-		//	sf::Int32 packetType;
-		//	acceptedPacket >> packetType;
-
-		//	std::cout << "Received packet type : " << acceptedPacket << std::endl;
-
-		//	if (acceptedPacket.endOfPacket()) {
-		//		std::cout << "Received an empty packet or improperly formatted packet." << std::endl;
-		//		return; // Skip this iteration if the packet is empty or corrupted.
-		//	}
-
-		//	if (!(packet >> packetType)) { // Read the packet type from the packet
-		//		std::cout << "Failed to read packet type" << std::endl;
-		//		return;
-		//	}
-
-		//	switch (packetType)
-		//	{
-		//		case static_cast<sf::Int32>(NetworkPacketType::ACCEPTED):
-		//			HandleConnectionAccepted();
-		//			break;
-		//		case static_cast<sf::Int32>(NetworkPacketType::REFUSED):
-		//			HandleConnectionRefused();
-		//			break;
-		//		default:
-		//			break;
-		//	}
-		//}
 	}
 
 	void NetworkConnectionState::Exit()

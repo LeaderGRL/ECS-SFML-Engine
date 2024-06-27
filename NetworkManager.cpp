@@ -42,34 +42,57 @@ namespace LeaderEngine
 
 	std::string NetworkManager::GetClientId(sf::IpAddress ip, unsigned short port)
 	{
-		return std::ranges::find(_clientsInfo, ClientInfo{"", ip, port})->id;
+		auto key = GenerateKey(ip, port);
+		auto it = std::find_if(_clientsInfo.begin(), _clientsInfo.end(), [key](const std::pair<std::string, ClientInfo>& pair) // C++20 way of finding an element in a vector based on a condition (in this case, the condition is that the key of the pair is equal to the key we are looking for)
+		{
+			return pair.first == key;
+		});
+
+		if (it != _clientsInfo.end())
+		{
+			return it->second.id;
+		}
+		else
+		{
+			return "";
+		}
 	}
 
 	void NetworkManager::AddClient(sf::IpAddress ip, unsigned short port)
 	{
-		_clientsInfo.push_back({GenerateClientId(), ip, port});
+		auto key = GenerateKey(ip, port);
+		if (_clientsInfo.find(key) == _clientsInfo.end())
+		{
+			_clientsInfo[key] = ClientInfo{GenerateClientId(), ip, port};
+		}
+		else
+		{
+			std::cout << "Client already exists" << std::endl;
+		}
 	}
 
 	std::string NetworkManager::GenerateClientId()
 	{
 		const boost::uuids::uuid uuid = boost::uuids::random_generator()(); // Generate a random uuid
+		std::cout << "Generated UUID : " << to_string(uuid) << std::endl;
 		return to_string(uuid);
 	}
 
 	void NetworkManager::RemoveClient(std::string id, sf::IpAddress ip, unsigned short port)
 	{
-		_clientsInfo.erase(std::ranges::find(_clientsInfo, ClientInfo{id, ip, port})); // C++20 way of removing an element from a vector based on a condition (in this case, the condition is that the ip and port of the client are equal to the ip and port of the client we want to remove)
-		//_clientsInfo.erase(std::remove(_clientsInfo.begin(), _clientsInfo.end(), std::make_pair(ip, port)), _clientsInfo.end());
+		auto key = GenerateKey(ip, port);
+		_clientsInfo.erase(key);
 	}
 
-	std::vector<ClientInfo> NetworkManager::GetClients()
+	std::unordered_map<std::string, ClientInfo> NetworkManager::GetClients()
 	{
 		return _clientsInfo;
 	}
 
 	bool NetworkManager::IsClientConnected(sf::IpAddress ip, unsigned short port)
 	{
-		return std::ranges::find(_clientsInfo, ClientInfo{GetClientId(ip, port), ip, port}) != _clientsInfo.end();
+		auto key = GenerateKey(ip, port);
+		return _clientsInfo.find(key) != _clientsInfo.end(); // Check if the client is connected by checking if the key exists in the unordered_map
 	}
 
 	void NetworkManager::Update(float deltaTime)

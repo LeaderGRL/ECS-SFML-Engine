@@ -11,18 +11,24 @@ namespace LeaderEngine
 		std::cout << "NetworkClientState created" << std::endl;
 	}
 
+	NetworkClientState::NetworkClientState(const std::string& UUID)
+	{
+		std::cout << "NetworkClientState created with UUID: " << UUID << std::endl;
+		_UUID = UUID;
+	}
+
 	NetworkClientState::~NetworkClientState()
 	{
 	}
 
 	void NetworkClientState::Init()
 	{
-		if (socket.bind(5003, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
+		if (_socket.bind(5003, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
 		{
 			std::cout << "Failed to bind the socket" << std::endl;
 			//return;
 		}
-		socket.setBlocking(false);
+		_socket.setBlocking(false);
 
 	}
 
@@ -80,24 +86,22 @@ namespace LeaderEngine
 	void NetworkClientState::Exit()
 	{
 		std::cout << "Exiting Network Client State" << std::endl;
-		socket.unbind();
+		_socket.unbind();
 	}
 
 	void NetworkClientState::SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
 		std::cout << "Sending data to server" << std::endl;
-		socket.send(packet, ip, port);
+		_socket.send(packet, ip, port);
 	}
 
 	void NetworkClientState::ReceivePacket()
 	{
 		std::cout << "Receiving data from server" << std::endl;
 
-		if (socket.receive(packet, ip, port) != sf::Socket::Done)
+		if (_socket.receive(_packet, _ip, _port) != sf::Socket::Done)
 		{
 			return;
 		}
-
-		 
 	}
 }
