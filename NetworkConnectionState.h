@@ -17,7 +17,7 @@ namespace LeaderEngine
 			void HandleConnectionError();
 			void HandleConnectionUnknown();
 
-			sf::UdpSocket socket;
+			//sf::UdpSocket socket;
 			sf::IpAddress ip;
 			unsigned short port;
 			sf::Packet packet;

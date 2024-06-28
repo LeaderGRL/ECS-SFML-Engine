@@ -58,6 +58,11 @@ namespace LeaderEngine
 		}
 	}
 
+	sf::UdpSocket& NetworkManager::GetSocket()
+	{
+		return _socket;
+	}
+
 	void NetworkManager::AddClient(sf::IpAddress ip, unsigned short port)
 	{
 		auto key = GenerateKey(ip, port);

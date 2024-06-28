@@ -20,11 +20,11 @@ namespace LeaderEngine
 		std::cout << "Initializing host state" << std::endl;
 		//NetworkManager::GetInstance().SetIp(sf::IpAddress::getLocalAddress());
 		//NetworkManager::GetInstance().SetPort(5000);
-		if(_socket.bind(5001) != sf::Socket::Done)
+		if(NetworkManager::GetInstance().GetSocket().bind(5001) != sf::Socket::Done)
 		{
 			std::cerr << "Failed to bind the socket" << std::endl;
 		}
-		_socket.setBlocking(false);
+		NetworkManager::GetInstance().GetSocket().setBlocking(false);
 
 		std::cout << "Host state initialized" << std::endl;
 
@@ -32,7 +32,7 @@ namespace LeaderEngine
 
 	void NetworkHostState::Update(float deltaTime)
 	{
-		std::cout << "Update Network Host State" << std::endl;
+		//std::cout << "Update Network Host State" << std::endl;
 
 		//std::lock_guard<std::mutex> lock(_mutex); // Lock the mutex to prevent simultaneous access to the socket from multiple threads
 		ReceiveDataFromClients();
@@ -49,7 +49,7 @@ namespace LeaderEngine
 	{
 		std::cout << "Exiting Network Host State" << std::endl;
 
-		_socket.unbind();
+		NetworkManager::GetInstance().GetSocket().unbind();
 
 		// TODO : Set a new host if the current host is disconnected
 	}
@@ -65,7 +65,7 @@ namespace LeaderEngine
 		unsigned short port = 0;
 		_connectionPacket = sf::Packet();
 
-		const sf::Socket::Status status = _socket.receive(packet, ip, port);
+		const sf::Socket::Status status = NetworkManager::GetInstance().GetSocket().receive(packet, ip, port);
 
 		if(status != sf::Socket::Done)
 		{
@@ -141,22 +141,22 @@ namespace LeaderEngine
 		sf::IpAddress ip;
 		unsigned short port;
 
-		switch(_socket.receive(packet, ip, port))
+		switch(NetworkManager::GetInstance().GetSocket().receive(packet, ip, port))
 		{
 			case sf::Socket::Done:
-				std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
+				//std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
 				break;
 			case sf::Socket::NotReady:
-				std::cout << "No data received" << std::endl;
+				//std::cout << "No data received" << std::endl;
 				return;
 			case sf::Socket::Partial:
-				std::cout << "Partial data received" << std::endl;
+				//std::cout << "Partial data received" << std::endl;
 				return;
 			case sf::Socket::Disconnected:
-				std::cout << "Client disconnected" << std::endl;
+				//std::cout << "Client disconnected" << std::endl;
 				return;
 			case sf::Socket::Error:
-				std::cout << "An error occurred" << std::endl;
+				//std::cout << "An error occurred" << std::endl;
 				return;
 		}
 
@@ -232,7 +232,7 @@ namespace LeaderEngine
 	void NetworkHostState::SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet)
 	{
 		std::cout << "Sending data to : " << address.toString() << " : " << port << std::endl;
-		_socket.send(packet, address, port);
+		NetworkManager::GetInstance().GetSocket().send(packet, address, port);
 	}
 
 	

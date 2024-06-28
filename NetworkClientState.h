@@ -7,7 +7,7 @@ namespace LeaderEngine
 	{
 		private :
 			std::string _UUID;
-			sf::UdpSocket _socket;
+			//sf::UdpSocket _socket;
 			sf::IpAddress _ip;
 			unsigned short _port;
 			sf::Packet _packet;

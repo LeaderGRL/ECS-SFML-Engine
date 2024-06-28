@@ -8,7 +8,7 @@ namespace LeaderEngine
 	class NetworkHostState : public NetworkBaseState
 	{
 		private:
-			sf::UdpSocket _socket;
+			//sf::UdpSocket _socket;
 			void CheckForNewConnections();
 			void SendDataToAllClients(sf::Packet packet);
 			std::string get_value();

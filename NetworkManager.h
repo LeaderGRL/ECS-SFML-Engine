@@ -19,6 +19,7 @@ namespace LeaderEngine
 			unsigned short _port;
 			NetworkingSystem _networkSystem;
 			NetworkHostState _hostState;
+			sf::UdpSocket _socket;
 
 			std::unordered_map<std::string, ClientInfo> _clientsInfo;
 
@@ -38,6 +39,7 @@ namespace LeaderEngine
 			sf::IpAddress GetIp();
 			unsigned short GetPort();
 			std::string GetClientId(sf::IpAddress ip, unsigned short port);
+			sf::UdpSocket& GetSocket();
 
 			void AddClient(sf::IpAddress ip, unsigned short port);
 			std::string GenerateClientId();

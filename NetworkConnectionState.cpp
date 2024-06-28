@@ -19,12 +19,12 @@ namespace LeaderEngine
 	void NetworkConnectionState::Init()
 	{
 		std::cout << "Initializing connection state..." << sf::IpAddress::getLocalAddress() << std::endl;
-		if (socket.bind(5002, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
+		if (NetworkManager::GetInstance().GetSocket().bind(5002, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
 		{
 			std::cout << "Failed to bind the socket" << std::endl;
 			//return;
 		}
-		socket.setBlocking(false);
+		NetworkManager::GetInstance().GetSocket().setBlocking(false);
 
 		connectionPacket = sf::Packet();
 		//char data[100];
@@ -47,7 +47,7 @@ namespace LeaderEngine
 
 		SendConnectionRequest(connectionPacket, NetworkManager::GetInstance().GetIp(), 5001);
 
-		while (socket.receive(acceptedPacket, ip, port) == sf::Socket::Done)
+		while (NetworkManager::GetInstance().GetSocket().receive(acceptedPacket, ip, port) == sf::Socket::Done)
 		{
 			sf::Int32 packetType;
 			std::string UUID;
@@ -103,7 +103,7 @@ namespace LeaderEngine
 
 	void NetworkConnectionState::Exit()
 	{
-		socket.unbind();
+		NetworkManager::GetInstance().GetSocket().unbind();
 		std::cout << "Exiting connection state" << std::endl;
 		
 	}
@@ -111,7 +111,7 @@ namespace LeaderEngine
 	void NetworkConnectionState::SendConnectionRequest(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
 		 // Send connection request to server
-		socket.send(packet, ip, port);
+		NetworkManager::GetInstance().GetSocket().send(packet, ip, port);
 		std::cout << "Sent connection request to " << ip << ":" << port << std::endl;
 	}
 

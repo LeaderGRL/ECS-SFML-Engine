@@ -23,18 +23,19 @@ namespace LeaderEngine
 
 	void NetworkClientState::Init()
 	{
-		if (_socket.bind(5003, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
-		{
-			std::cout << "Failed to bind the socket" << std::endl;
-			//return;
-		}
-		_socket.setBlocking(false);
+		//if (_socket.bind(5002, sf::IpAddress::getLocalAddress()) != sf::Socket::Done)
+		//{
+		//	std::cout << "Failed to bind the socket" << std::endl;
+		//	//return;
+		//}
+		NetworkManager::GetInstance().GetSocket().setBlocking(false);
 
 	}
 
 	void NetworkClientState::Update(float deltaTime)
 	{
-		std::cout << "Update Network Client State" << std::endl;
+		std::cout << "my port : " << NetworkManager::GetInstance().GetSocket().getLocalPort() << std::endl;
+		//std::cout << "Update Network Client State" << std::endl;
 
 		flatbuffers::FlatBufferBuilder builder;
 		auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
@@ -86,20 +87,20 @@ namespace LeaderEngine
 	void NetworkClientState::Exit()
 	{
 		std::cout << "Exiting Network Client State" << std::endl;
-		_socket.unbind();
+		NetworkManager::GetInstance().GetSocket().unbind();
 	}
 
 	void NetworkClientState::SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
 		std::cout << "Sending data to server" << std::endl;
-		_socket.send(packet, ip, port);
+		NetworkManager::GetInstance().GetSocket().send(packet, ip, port);
 	}
 
 	void NetworkClientState::ReceivePacket()
 	{
 		std::cout << "Receiving data from server" << std::endl;
 
-		if (_socket.receive(_packet, _ip, _port) != sf::Socket::Done)
+		if (NetworkManager::GetInstance().GetSocket().receive(_packet, _ip, _port) != sf::Socket::Done)
 		{
 			return;
 		}
