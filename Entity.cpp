@@ -9,6 +9,7 @@
 #include "CameraComponent.h"
 #include "LuaAPI.h"
 #include "ScriptComponent.h"
+#include "NetworkManager.h"
 
 namespace LeaderEngine {
 	Entity::Entity()
@@ -209,7 +210,7 @@ namespace LeaderEngine {
 			children.emplace_back(childOffset.o); // emplace_back is used to avoid copying the object when adding it to the vector
 		}
 
-		const auto id = builder.CreateString(_id);
+		const auto id = builder.CreateString(_id + NetworkManager::GetInstance().GetLastNElementsOfUUID(12));
 		const auto position = vec2(getPosition().x, getPosition().y);
 		const auto scale = vec2(getScale().x, getScale().y);
 		const auto componentTypeUnionData = builder.CreateVector(componentType);

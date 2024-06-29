@@ -38,6 +38,37 @@ namespace LeaderEngine
 		ReceiveDataFromClients();
 		CheckForNewConnections(); // We need to check for new connections after receiving data from clients to avoid having the CheckForNewConnections() function to receive the data packet sent by the new client
 
+		// ********************* TEMP ************************ //
+		// Send only if we have a client connected
+
+		//flatbuffers::FlatBufferBuilder builder;
+		//auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
+
+		//for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
+		//{
+		//	if (!it->second->GetComponent<NetworkingComponent>())
+		//	{
+		//		continue;
+		//	}
+
+		//	if (it->second->IsDirty())
+		//	{
+		//		sf::Packet packet = sf::Packet();
+		//		sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
+		//		packet << dataType;
+		//		//packet << _UUID;
+		//		it->second->Serialize(builder);
+		//		auto data = builder.GetBufferPointer(); // Get the data from the builder
+		//		auto size = builder.GetSize(); // Get the size of the data
+		//		packet.append(data, size); // Append the data to the packet to send it over the network
+
+		//		SendDataToAllClients(packet);
+
+		//		it->second->SetDirty(false);
+		//	}
+		//}
+
+		// *************************************************** //
 
 		// Check for new connections
 		// Check for new messages

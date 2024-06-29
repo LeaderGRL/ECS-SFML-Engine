@@ -5,7 +5,7 @@
 
 namespace LeaderEngine
 {
-	class NetworkingComponent : public IComponent
+	class NetworkingComponent : public IComponent, public ISerializable
 	{
 		private:
 			int _id;
@@ -17,6 +17,9 @@ namespace LeaderEngine
 
 			std::string GetIP() const;
 			void SetIP(const std::string& ip);
+
+			bool GetDirty() const;
+			void SetDirty(bool dirty);
 
 			void Init() override;
 			void Update(float deltaTime) override;

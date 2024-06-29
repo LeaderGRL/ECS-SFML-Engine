@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NetworkManager.h"
 
+#include "NetworkPacketType.h"
 #include "NetworkStateManager.h"
 
 namespace LeaderEngine
@@ -63,6 +64,21 @@ namespace LeaderEngine
 		return _socket;
 	}
 
+	std::string NetworkManager::GetUUID()
+	{
+		return _UUID;
+	}
+
+	std::string NetworkManager::GetLastNElementsOfUUID(int n)
+	{
+		return _UUID.substr(_UUID.size() - n);
+	}
+
+	void NetworkManager::SetUUID(std::string uuid)
+	{
+		_UUID = uuid;
+	}
+
 	void NetworkManager::AddClient(sf::IpAddress ip, unsigned short port)
 	{
 		auto key = GenerateKey(ip, port);
@@ -81,6 +97,70 @@ namespace LeaderEngine
 		const boost::uuids::uuid uuid = boost::uuids::random_generator()(); // Generate a random uuid
 		std::cout << "Generated UUID : " << to_string(uuid) << std::endl;
 		return to_string(uuid);
+	}
+
+	void NetworkManager::HandleIncomingPackets(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort)
+	{
+		sf::Int32 packetType;
+		packet >> packetType;
+
+		if (!(packet >> packetType))
+		{
+			std::cerr << "Error: Invalid packet type or failed to read packet type." << std::endl;
+			return;
+		}
+
+		switch (packetType)
+		{
+			case static_cast<sf::Int32>(NetworkPacketType::ENTITIES):
+				HandleEntitiesPacket(packet, sender, senderPort);
+			break;
+
+			case default:
+				std::cerr << "Error: Invalid packet type." << std::endl;
+			break;
+		}
+	}
+
+	void NetworkManager::HandleEntitiesPacket(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort)
+	{
+		flatbuffers::FlatBufferBuilder builder;
+
+		std::string entityId;
+		packet >> entityId;
+
+		if (!(packet >> entityId) || entityId.empty())
+		{
+			std::cerr << "Error: Invalid or empty entity ID." << std::endl;
+			return;
+		}
+
+		auto& entityManager = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager();
+		auto entity = entityManager.GetEntity(entityId);
+
+		if (!entity)
+		{
+			std::cerr << "Error: Received unknown entity: " << entityId << std::endl;
+			return;
+		}
+
+		auto* networkComponent = entity->GetComponent<NetworkingComponent>();
+		if (!networkComponent)
+		{
+			std::cerr << "Error: Entity " << entityId << " does not have a NetworkingComponent." << std::endl;
+			return;
+		}
+
+		const char* data = static_cast<const char*>(packet.getData()) + packet.getReadPosition();
+		std::size_t dataSize = packet.getDataSize() - packet.getReadPosition();
+
+		if (!entity->Deserialize(data))
+		{
+			std::cerr << "Error: Failed to deserialize entity " << entityId << std::endl;
+			return;
+		}
+
+		networkComponent->SetDirty(false);
 	}
 
 	void NetworkManager::RemoveClient(std::string id, sf::IpAddress ip, unsigned short port)

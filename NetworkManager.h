@@ -20,6 +20,7 @@ namespace LeaderEngine
 			NetworkingSystem _networkSystem;
 			NetworkHostState _hostState;
 			sf::UdpSocket _socket;
+			std::string _UUID;
 
 			std::unordered_map<std::string, ClientInfo> _clientsInfo;
 
@@ -35,17 +36,30 @@ namespace LeaderEngine
 			static NetworkManager& GetInstance();
 
 			void SetIp(sf::IpAddress ip);
-			void SetPort(unsigned short port);
 			sf::IpAddress GetIp();
+
+			void SetPort(unsigned short port);
 			unsigned short GetPort();
+
 			std::string GetClientId(sf::IpAddress ip, unsigned short port);
+
 			sf::UdpSocket& GetSocket();
 
+			std::string GetUUID();
+			void SetUUID(std::string uuid);
+			std::string GetLastNElementsOfUUID(int n);
+
 			void AddClient(sf::IpAddress ip, unsigned short port);
-			std::string GenerateClientId();
 			void RemoveClient(std::string id, sf::IpAddress ip, unsigned short port);
 			std::unordered_map<std::string, ClientInfo> GetClients();
 			bool IsClientConnected(sf::IpAddress ip, unsigned short port);
+
+			std::string GenerateClientId();
+
+			void HandleIncomingPackets(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort);
+			void HandleEntitiesPacket(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort);
+
+			/*sf::Packet PackAllNetworkEntities();*/
 
 			void Update(float deltaTime);
 			//void SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port);

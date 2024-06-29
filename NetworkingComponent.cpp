@@ -17,6 +17,15 @@ namespace LeaderEngine
 		_ip = ip;
 	}
 
+	bool NetworkingComponent::GetDirty() const
+	{
+		return isDirty;
+	}
+
+	void NetworkingComponent::SetDirty(bool dirty)
+	{
+		isDirty = dirty;
+	}
 
 	void NetworkingComponent::Init()
 	{
