@@ -35,6 +35,16 @@ namespace LeaderEngine
 	{
 	}
 
+	flatbuffers::Offset<void> NetworkingComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
+	{
+		return flatbuffers::Offset<void>();
+	}
+
+	std::shared_ptr<ISerializable> NetworkingComponent::Deserialize(const void* buffer)
+	{
+		return std::shared_ptr<ISerializable>();
+	}
+
 	COMPONENT_TYPE NetworkingComponent::GetType() const
 	{
 		return COMPONENT_TYPE::NETWORKING;

@@ -102,7 +102,7 @@ namespace LeaderEngine
 	void NetworkManager::HandleIncomingPackets(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort)
 	{
 		sf::Int32 packetType;
-		packet >> packetType;
+		//packet >> packetType;
 
 		if (!(packet >> packetType))
 		{
@@ -110,13 +110,16 @@ namespace LeaderEngine
 			return;
 		}
 
+		std::cout << "Received packet of type: " << packetType << std::endl;
+
 		switch (packetType)
 		{
 			case static_cast<sf::Int32>(NetworkPacketType::ENTITIES):
+				std::cout << "Received entities packet" << std::endl;
 				HandleEntitiesPacket(packet, sender, senderPort);
 			break;
 
-			case default:
+			default:
 				std::cerr << "Error: Invalid packet type." << std::endl;
 			break;
 		}
@@ -127,7 +130,7 @@ namespace LeaderEngine
 		flatbuffers::FlatBufferBuilder builder;
 
 		std::string entityId;
-		packet >> entityId;
+		//packet >> entityId;
 
 		if (!(packet >> entityId) || entityId.empty())
 		{
@@ -161,6 +164,47 @@ namespace LeaderEngine
 		}
 
 		networkComponent->SetDirty(false);
+	}
+
+	void NetworkManager::BroadcastEntitiesPacket(const Entity& entity)
+	{
+		auto packet = CreateEntityPacket(entity);
+
+		for (auto& client : _clientsInfo)
+		{
+			SendPacket(packet, client.second.ip, client.second.port);
+		}
+	}
+
+	sf::Packet NetworkManager::CreateEntityPacket(const Entity& entity)
+	{
+		flatbuffers::FlatBufferBuilder builder;
+		sf::Packet packet = sf::Packet();
+
+		sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
+		packet << dataType;
+
+		packet << entity.GetId();
+		entity.Serialize(builder);
+		const auto data = builder.GetBufferPointer();
+		const auto size = builder.GetSize();
+		packet.append(data, size);
+
+		return packet;
+	}
+
+	void NetworkManager::SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
+	{
+		if (_socket.send(packet, ip, port) != sf::Socket::Done)
+		{
+			std::cerr << "Error: Failed to send packet." << std::endl;
+		}
+	}
+
+	void NetworkManager::SendEntityPacket(const Entity& entity, const sf::IpAddress ip, const unsigned short port)
+	{
+		sf::Packet packet = CreateEntityPacket(entity);
+		SendPacket(packet, ip, port);
 	}
 
 	void NetworkManager::RemoveClient(std::string id, sf::IpAddress ip, unsigned short port)

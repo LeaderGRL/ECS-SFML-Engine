@@ -1,5 +1,6 @@
 #pragma once
 #include "IComponent.h"
+#include "ISerializable.h"
 #include "SFML/Network.hpp"
 #include "flatbuffers/flatbuffers.h"
 
@@ -23,6 +24,10 @@ namespace LeaderEngine
 
 			void Init() override;
 			void Update(float deltaTime) override;
+
+			flatbuffers::Offset<void> Serialize(flatbuffers::FlatBufferBuilder& builder) const override;
+		    std::shared_ptr<ISerializable> Deserialize(const void* buffer) override;
+
 			COMPONENT_TYPE GetType() const;
 
 	};

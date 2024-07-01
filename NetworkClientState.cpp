@@ -34,33 +34,29 @@ namespace LeaderEngine
 
 	void NetworkClientState::Update(float deltaTime)
 	{
-		//std::cout << "Update Network Client State" << std::endl;
+		std::cout << "Update Network Client State" << std::endl;
 
 		flatbuffers::FlatBufferBuilder builder;
 		auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
 
 		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
-			if (!it->second->GetComponent<NetworkingComponent>())
+			auto* networkComponent = it->second->GetComponent<NetworkingComponent>();
+			if (!networkComponent)
 			{
 				continue;
 			}
 
-			if (it->second->IsDirty())
+			if (!networkComponent->GetDirty())
 			{
-				sf::Packet packet = sf::Packet();
-				sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
-				packet << dataType; // Append the data type to the packet to identify the type of data
-				packet << it->second->GetId(); // Append the entity id to the packet to identify the entity
-				it->second->Serialize(builder);
-				auto data = builder.GetBufferPointer(); // Get the data from the builder
-				auto size = builder.GetSize(); // Get the size of the data
-				packet.append(data, size); // Append the data to the packet to send it over the network
-
-				SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5001);
-
-				it->second->SetDirty(false);
+				continue;
 			}
+			
+			NetworkManager::GetInstance().SendEntityPacket(*it->second, NetworkManager::GetInstance().GetIp(), 5001);
+			//NetworkManager::GetInstance().BroadcastEntitiesPacket(*it->second);
+
+			networkComponent->SetDirty(false);
+			
 		}
 
 		ReceivePacket();

@@ -58,7 +58,13 @@ namespace LeaderEngine
 
 			void HandleIncomingPackets(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort);
 			void HandleEntitiesPacket(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort);
+			void BroadcastEntitiesPacket(const Entity& entity);
+			//void HandleOutgoingPackets();
 
+			sf::Packet CreateEntityPacket(const Entity& entity);
+
+			void SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port);
+			void SendEntityPacket(const Entity& entity, const sf::IpAddress ip, const unsigned short port);
 			/*sf::Packet PackAllNetworkEntities();*/
 
 			void Update(float deltaTime);

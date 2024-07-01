@@ -94,7 +94,7 @@ namespace LeaderEngine
 			.addFunction("GetChildren", &Entity::GetChildren)
 			.addFunction("Move_F", static_cast<void (sf::Transformable::*)(float, float)>(&sf::Transformable::move))
 			.addFunction("Move_V", static_cast<void (sf::Transformable::*)(const sf::Vector2f&)>(&sf::Transformable::move))
-			.addFunction("SetDirty", &Entity::SetDirty)
+			//.addFunction("SetDirty", &Entity::SetDirty)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
@@ -175,6 +175,8 @@ namespace LeaderEngine
 			.addFunction("SetAnimationName", &Animation2DComponent::SetAnimationName)
 			.endClass()
 			.deriveClass<NetworkingComponent, IComponent>("NetworkingComponent")
+			.addFunction("SetDirty", &NetworkingComponent::SetDirty)
+			.addFunction("GetDirty", &NetworkingComponent::GetDirty)
 			.endClass();
 
 
