@@ -71,6 +71,10 @@ namespace LeaderEngine
 
 	std::string NetworkManager::GetLastNElementsOfUUID(int n)
 	{
+		if (n > _UUID.size()) // WARNING : Not the good way to manage this case
+		{
+			return _UUID;
+		}
 		return _UUID.substr(_UUID.size() - n);
 	}
 
@@ -166,13 +170,32 @@ namespace LeaderEngine
 		networkComponent->SetDirty(false);
 	}
 
-	void NetworkManager::BroadcastEntitiesPacket(const Entity& entity)
+	void NetworkManager::BroadcastEntitiesPacket()
 	{
-		auto packet = CreateEntityPacket(entity);
 
-		for (auto& client : _clientsInfo)
+		auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
+
+		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
-			SendPacket(packet, client.second.ip, client.second.port);
+			auto* networkComponent = it->second->GetComponent<NetworkingComponent>();
+			if (!networkComponent)
+			{
+				continue;
+			}
+
+			if (!networkComponent->GetDirty())
+			{
+				continue;
+			}
+
+			auto packet = CreateEntityPacket(*it->second);
+
+			for (auto& client : _clientsInfo)
+			{
+				SendPacket(packet, client.second.ip, client.second.port);
+			}
+
+			networkComponent->SetDirty(false);
 		}
 	}
 
