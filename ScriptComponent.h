@@ -1,7 +1,6 @@
 #pragma once
 #include "LuaAPI.h"
 #include <string>
-
 #include "IComponent.h"
 
 
@@ -18,8 +17,9 @@ namespace LeaderEngine
 			ScriptComponent();
 			//ScriptComponent();
 			ScriptComponent(const char* path);
+			ScriptComponent(const char* path, std::string parent);
 
-			void Init() override;
+            void Init() override;
 			void Start();
 			void Update(float deltaTime) override;
 			void LoadScript(const char* path);

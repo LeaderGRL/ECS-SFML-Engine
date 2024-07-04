@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+#include <string>
 #include "COMPONENT_TYPE.h"
 
 namespace LeaderEngine
@@ -7,7 +9,7 @@ namespace LeaderEngine
 
     class IComponent {
         protected:
-			std::shared_ptr<Entity> parent;
+			std::string parent;
 
 		public:
 			virtual ~IComponent() = default;
@@ -15,7 +17,7 @@ namespace LeaderEngine
 			virtual void Update(float deltaTime) = 0;
 			virtual COMPONENT_TYPE GetType() const = 0;
 
-			void setParent(std::shared_ptr<Entity> parent)
+			void setParent(std::string parent)
 			{
 				this->parent = parent;
 			}
@@ -24,7 +26,7 @@ namespace LeaderEngine
 			 * \brief WARNING RETURNS NULLPTR IF PARENT NOT ASSIGNED
 			 * \return
 			 */
-			std::shared_ptr<Entity> getParent()
+			std::string getParent()
 			{
 				return parent;
 			}
