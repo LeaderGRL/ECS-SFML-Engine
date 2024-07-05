@@ -170,6 +170,7 @@ namespace LeaderEngine
 			    .endClass()
 			    .deriveClass<ScriptComponent, IComponent>("ScriptComponent")
 			        .addFunction("LoadScript", &ScriptComponent::LoadScript)
+		            .addFunction("GetLuaObject", &ScriptComponent::getLuaObject)
 			    .endClass()
 			    .deriveClass<Animation2DComponent, Sprite2DComponent>("Animation2DComponent")
 			        .addConstructor<void(*) (void)>()

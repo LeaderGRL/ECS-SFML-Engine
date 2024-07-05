@@ -24,7 +24,7 @@ namespace LeaderEngine
 			void Update(float deltaTime) override;
 			void LoadScript(const char* path);
 			COMPONENT_TYPE GetType() const override;
-
+			luabridge::LuaRef getLuaObject();
 	};
 }
 

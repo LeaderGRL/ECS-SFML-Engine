@@ -26,7 +26,7 @@ namespace LeaderEngine
 		Start();
 
 	}
-
+	// Deprecated
 	ScriptComponent::ScriptComponent(const char* path) : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
 	{
 		LoadScript(path);
@@ -39,6 +39,7 @@ namespace LeaderEngine
 
     ScriptComponent::ScriptComponent(const char* path, std::string parent) : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
     {
+		this->_scriptName = parent + "Script";
 		this->parent = parent;
 		LoadScript(path);
 
@@ -102,7 +103,12 @@ namespace LeaderEngine
 		return COMPONENT_TYPE::SCRIPT;
 	}
 
-	void ScriptComponent::report_errors(lua_State* luaState, int status)
+    luabridge::LuaRef ScriptComponent::getLuaObject()
+    {
+		return this->_luaObject;
+    }
+
+    void ScriptComponent::report_errors(lua_State* luaState, int status)
 	{
 		if (status == 0) {
 			return;
