@@ -28,6 +28,8 @@ namespace LeaderEngine
 
 		std::cout << "Host state initialized" << std::endl;
 
+		NetworkManager::GetInstance().AddClient(NetworkManager::GetInstance().GetIp(), 5001); // Add the host as a client to the list of clients
+		NetworkManager::GetInstance().SetUUID(NetworkManager::GetInstance().GetClientId(NetworkManager::GetInstance().GetIp(), 5001)); // Generate a unique ID for the host
 	}
 
 	void NetworkHostState::Update(float deltaTime)

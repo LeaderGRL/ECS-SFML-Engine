@@ -192,6 +192,11 @@ namespace LeaderEngine
 
 			for (auto& client : _clientsInfo)
 			{
+				// -- TEMPORARY -- //
+				if (client.second.ip == _hostIp && client.second.port == _port) // Avoid host sending data to itself
+				{
+					continue;
+				}
 				SendPacket(packet, client.second.ip, client.second.port);
 			}
 
@@ -218,6 +223,7 @@ namespace LeaderEngine
 
 	void NetworkManager::SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
+		std::cout << "Sending packet to " << ip.toString() << " : " << port << std::endl;
 		if (_socket.send(packet, ip, port) != sf::Socket::Done)
 		{
 			std::cerr << "Error: Failed to send packet." << std::endl;

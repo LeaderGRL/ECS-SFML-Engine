@@ -211,6 +211,7 @@ namespace LeaderEngine {
 		}
 
 		const auto id = builder.CreateString(_id + NetworkManager::GetInstance().GetLastNElementsOfUUID(12));
+		std::cout << "MY ID : " << _id << std::endl;
 		const auto position = vec2(getPosition().x, getPosition().y);
 		const auto scale = vec2(getScale().x, getScale().y);
 		const auto componentTypeUnionData = builder.CreateVector(componentType);
