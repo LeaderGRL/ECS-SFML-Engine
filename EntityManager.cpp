@@ -110,8 +110,6 @@ namespace LeaderEngine
 			newEntity->AddChild(std::move(childEntity));
 		}
 
-		std::cout << "TEST !" << std::endl;
-
 		return newEntity;
 	}
 

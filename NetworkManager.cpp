@@ -142,12 +142,16 @@ namespace LeaderEngine
 			return;
 		}
 
+		std::cout << "Received entities packet for entity: " << entityId << std::endl;
+
 		auto& entityManager = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager();
 		auto entity = entityManager.GetEntity(entityId);
 
 		if (!entity)
 		{
-			std::cerr << "Error: Received unknown entity: " << entityId << std::endl;
+			auto newEntity = entityManager.CreateEntity(entityId);
+			newEntity->Deserialize(static_cast<const char*>(packet.getData()) + packet.getReadPosition());
+			//std::cerr << "Error: Received unknown entity: " << entityId << std::endl;
 			return;
 		}
 
@@ -212,7 +216,7 @@ namespace LeaderEngine
 		sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
 		packet << dataType;
 
-		packet << entity.GetId();
+		packet << entity.GetId() + GetLastNElementsOfUUID(12);
 		entity.Serialize(builder);
 		const auto data = builder.GetBufferPointer();
 		const auto size = builder.GetSize();
