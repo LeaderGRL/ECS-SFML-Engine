@@ -3,6 +3,7 @@
 #include <iostream>
 #include <TGUI/Widget.hpp>
 #include <TGUI/Backends/SFML.hpp>
+#include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/EditBox.hpp>
 
 #include "lua.hpp"
@@ -41,8 +42,9 @@ namespace LeaderEngine
 			//void RegisterEvent(int inputEvent, const luabridge::LuaRef& callback);
 			static bool Call_Errors(lua_State* luaState, const luabridge::LuaRef& func, int nbArgs, int nbReturnValue);
 			void CallFunction(const std::string& funcName);
+            void OnButtonClicked(const tgui::Button::Ptr& button, const luabridge::LuaRef& callback, lua_State* L);
 
-			static void OnReturnKeyPress(const tgui::EditBox::Ptr& editBox, const luabridge::LuaRef& callback, lua_State* L);
-		
+            static void OnReturnKeyPress(const tgui::EditBox::Ptr& editBox, const luabridge::LuaRef& callback, lua_State* L);
+		    
 	};
 }

@@ -2,6 +2,7 @@
 #include "LuaAPI.h"
 
 #include <TGUI/Backends/SFML.hpp>
+#include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/EditBox.hpp>
 
 #include "NetworkClientState.h"
@@ -181,6 +182,7 @@ namespace LeaderEngine
 			        .addFunction("SetAnimationName", &Animation2DComponent::SetAnimationName)
 			    .endClass()
 			    .deriveClass<NetworkingComponent, IComponent>("NetworkingComponent")
+		            
 			    .endClass()
 	        .endNamespace();
 
@@ -400,38 +402,54 @@ namespace LeaderEngine
 			    .endClass()
 	        .endNamespace();
 
+		/** Okay so, events in tgui and luabridge are kind of a pain in the ass
+		 * The reason why has to do with the fact that luabridge doesn't accept template functions that are instantiated at runtime
+		 * To declare a callback, you must get a Signal member variable (such as Button::onPress) and call the connect() function on it
+		 * That function uses template parameters for both the callback function type and any other optional arguments
+		 * In other words, we'd have to manually declare each connect() template type to pass it to Lua
+		 * So it's less of a pain to simply set up wrapper C++ functions in this file that will call both tgui and lua the right way
+		 * See onReturnKeyPress below
+		**/
 		luabridge::getGlobalNamespace(L)
-			.beginClass<tgui::Widget>("Widget")
-			    .addFunction("SetPosition", static_cast<void (tgui::Widget::*)(tgui::Layout x, tgui::Layout y)>(&tgui::Widget::setPosition))
-			    .addFunction("GetPosition", &tgui::Widget::getPosition)
-			    .addFunction("SetSize", static_cast<void (tgui::Widget::*)(tgui::Layout width, tgui::Layout height)>(&tgui::Widget::setSize))
-			    .addFunction("GetSize", &tgui::Widget::getSize)
-			.endClass()
-			.deriveClass<tgui::ClickableWidget, tgui::Widget>("ClickableWidget")
-			.endClass()
-			.deriveClass<tgui::EditBox, tgui::ClickableWidget>("EditBox")
-			    .addFunction("GetText", &tgui::EditBox::getText)
-			    .addFunction("SetText", &tgui::EditBox::setText)
-			    .addFunction("SetText", &tgui::EditBox::setText)
-			    .addFunction("SetDefaultText", &tgui::EditBox::setDefaultText)
-			    .addFunction("GetDefaultText", &tgui::EditBox::getDefaultText)
-			    .addFunction("SetMaximumCharacters", &tgui::EditBox::setMaximumCharacters)
-			    .addFunction("GetMaximumCharacters", &tgui::EditBox::getMaximumCharacters)
-			    .addFunction("SetReadOnly", &tgui::EditBox::setReadOnly)
-			    .addFunction("IsReadOnly", &tgui::EditBox::isReadOnly)
-			    .addFunction("SetAlignment", &tgui::EditBox::setAlignment)
-			    .addFunction("GetAlignment", &tgui::EditBox::getAlignment)
-			    .addFunction("SetInputValidator", &tgui::EditBox::setInputValidator)
-			    .addFunction("GetInputValidator", &tgui::EditBox::getInputValidator)
-			    .addFunction("SetTextSize", &tgui::EditBox::setTextSize)
-			    .addFunction("GetTextSize", &tgui::EditBox::getTextSize)
-			    .addFunction("SetPasswordCharacter", &tgui::EditBox::setPasswordCharacter)
-			    .addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
-			    .addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
-			    .addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)
-			    .addFunction("SetEnable", &tgui::EditBox::setEnabled)
-			    .addStaticFunction("Create", &tgui::EditBox::create)
-			.endClass();
+		    .beginNamespace("tgui")
+			    .beginClass<tgui::Widget>("Widget")
+			        .addFunction("SetPosition", static_cast<void (tgui::Widget::*)(tgui::Layout x, tgui::Layout y)>(&tgui::Widget::setPosition))
+			        .addFunction("GetPosition", &tgui::Widget::getPosition)
+			        .addFunction("SetSize", static_cast<void (tgui::Widget::*)(tgui::Layout width, tgui::Layout height)>(&tgui::Widget::setSize))
+			        .addFunction("GetSize", &tgui::Widget::getSize)
+			    .endClass()
+			    .deriveClass<tgui::ClickableWidget, tgui::Widget>("ClickableWidget")
+			    .endClass()
+			    .deriveClass<tgui::EditBox, tgui::ClickableWidget>("EditBox")
+			        .addFunction("GetText", &tgui::EditBox::getText)
+			        .addFunction("SetText", &tgui::EditBox::setText)
+			        .addFunction("SetText", &tgui::EditBox::setText)
+			        .addFunction("SetDefaultText", &tgui::EditBox::setDefaultText)
+			        .addFunction("GetDefaultText", &tgui::EditBox::getDefaultText)
+			        .addFunction("SetMaximumCharacters", &tgui::EditBox::setMaximumCharacters)
+			        .addFunction("GetMaximumCharacters", &tgui::EditBox::getMaximumCharacters)
+			        .addFunction("SetReadOnly", &tgui::EditBox::setReadOnly)
+			        .addFunction("IsReadOnly", &tgui::EditBox::isReadOnly)
+			        .addFunction("SetAlignment", &tgui::EditBox::setAlignment)
+			        .addFunction("GetAlignment", &tgui::EditBox::getAlignment)
+			        .addFunction("SetInputValidator", &tgui::EditBox::setInputValidator)
+			        .addFunction("GetInputValidator", &tgui::EditBox::getInputValidator)
+			        .addFunction("SetTextSize", &tgui::EditBox::setTextSize)
+			        .addFunction("GetTextSize", &tgui::EditBox::getTextSize)
+			        .addFunction("SetPasswordCharacter", &tgui::EditBox::setPasswordCharacter)
+			        .addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
+			        .addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
+			        .addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)
+			        .addFunction("SetEnable", &tgui::EditBox::setEnabled)
+			        .addStaticFunction("Create", &tgui::EditBox::create)
+			    .endClass()
+	            .deriveClass<tgui::ButtonBase, tgui::ClickableWidget>("ButtonBase")
+		        .endClass()
+		        .deriveClass<tgui::Button, tgui::ButtonBase>("Button")
+		            .addStaticFunction("Create", &tgui::Button::create)
+		            .addFunction("LeftMousePressed", &OnButtonClicked)
+		        .endClass()
+	        .endNamespace();
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("tgui")
@@ -490,7 +508,6 @@ namespace LeaderEngine
 			    //.addFunction("ChangeState", &NetworkStateManager::ChangeState)
 			    .addFunction("GetCurrentState", &NetworkStateManager::GetCurrentState)
 			.endClass();
-			
 
 		//const int scriptLoadStatus = luaL_dofile(L, "../LeaderEngine/Script.lua"); // Load the script
 		//report_errors(L, scriptLoadStatus);
@@ -561,6 +578,26 @@ namespace LeaderEngine
 		{
 			lua_pop(L, 1); // remove non-function value
 		}
+	}
+
+	void LuaAPI::OnButtonClicked(const tgui::Button::Ptr& button, const luabridge::LuaRef& callback, lua_State* L) {
+		if (!callback.isFunction()) {
+			// Handle error: provided argument is not a function
+
+			std::cerr << "Provided argument is not a function" << std::endl;
+			return;
+		}
+
+		button->onMousePress.connect([callback, L]()
+			{
+				try {
+					callback(); // You might need to push L if the callback uses it
+				}
+				catch (luabridge::LuaException const& e)
+				{
+					std::cerr << "Lua exception: " << e.what() << std::endl;
+				}
+			});
 	}
 
 	// wrapper function for onReturnKeyPress.connect
