@@ -2,8 +2,11 @@
 #include "LuaAPI.h"
 
 #include <TGUI/Backends/SFML.hpp>
+#include <TGUI/Widgets/BoxLayoutRatios.hpp>
 #include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/EditBox.hpp>
+#include <TGUI/Widgets/HorizontalLayout.hpp>
+#include <TGUI/Widgets/VerticalLayout.hpp>
 
 #include "NetworkClientState.h"
 #include "NetworkConnectionState.h"
@@ -364,6 +367,12 @@ namespace LeaderEngine
 			    .endClass()
 	        .endNamespace();
 
+		/**
+		 * A few notes regarding tgui:
+		 * We are using version 0.9, check the doc and tutorials at https://tgui.eu/documentation/0.9/annotated.html
+		 * The class hierarchy is quite a bit more involved than what's suggested by our declarations here
+		 * The full class hierarchy is unneeded for the code to work well and makes this quite a bit simpler
+		 */
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("tgui")
 			    .beginClass<tgui::EditBox>("EditBox")
@@ -417,6 +426,9 @@ namespace LeaderEngine
 			        .addFunction("GetPosition", &tgui::Widget::getPosition)
 			        .addFunction("SetSize", static_cast<void (tgui::Widget::*)(tgui::Layout width, tgui::Layout height)>(&tgui::Widget::setSize))
 			        .addFunction("GetSize", &tgui::Widget::getSize)
+		            .addFunction("GetParentWidget", &tgui::Widget::getParent)
+		            .addFunction("GetWidgetName", &tgui::Widget::getWidgetName)
+		            .addFunction("GetPosition", &tgui::Widget::getPosition)
 			    .endClass()
 			    .deriveClass<tgui::ClickableWidget, tgui::Widget>("ClickableWidget")
 			    .endClass()
@@ -449,6 +461,31 @@ namespace LeaderEngine
 		            .addStaticFunction("Create", &tgui::Button::create)
 		            .addFunction("LeftMousePressed", &OnButtonClicked)
 		        .endClass()
+	        .endNamespace();
+
+		
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+		        .deriveClass<tgui::Container, tgui::Widget>("Container")
+			        .addFunction("Add", &tgui::Container::add)
+			        .addFunction("GetWidgets", &tgui::Container::getWidgets)
+		            .addFunction("RemoveWidget", &tgui::Container::remove)
+		            .addFunction("RemoveAllWidgets", &tgui::Container::removeAllWidgets)
+		            .addFunction("GetFocusedChild", &tgui::Container::getFocusedChild)
+		            .addFunction("FocusNextWidget", &tgui::Container::focusNextWidget)
+		            .addFunction("FocusPreviousWidget", &tgui::Container::focusPreviousWidget)
+			    .endClass()
+		        .deriveClass<tgui::BoxLayoutRatios, tgui::Container>("BoxLayoutRatios")
+		            .addFunction("AddSpaceAtEnd", &tgui::BoxLayoutRatios::addSpace)
+		            .addFunction("AddSpaceBetween", &tgui::BoxLayoutRatios::insertSpace)
+			    .endClass()
+		        // Note that there are also Similar Layouts that wrap; we might make use of them (HorizontalWrap, VerticalWrap)
+		        .deriveClass<tgui::HorizontalLayout, tgui::BoxLayoutRatios>("HorizontalLayout")
+			        .addStaticFunction("Create", &tgui::HorizontalLayout::create)
+	            .endClass()
+			    .deriveClass<tgui::VerticalLayout, tgui::BoxLayoutRatios>("VerticalLayout")
+			        .addStaticFunction("Create", &tgui::VerticalLayout::create)
+			    .endClass()
 	        .endNamespace();
 
 		luabridge::getGlobalNamespace(L)
