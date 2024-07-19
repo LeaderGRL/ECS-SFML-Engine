@@ -34,51 +34,29 @@ namespace LeaderEngine
 
 	void NetworkClientState::Update(float deltaTime)
 	{
-		std::cout << "my port : " << NetworkManager::GetInstance().GetSocket().getLocalPort() << std::endl;
-		//std::cout << "Update Network Client State" << std::endl;
+		std::cout << "Update Network Client State" << std::endl;
 
-		flatbuffers::FlatBufferBuilder builder;
+		//flatbuffers::FlatBufferBuilder builder;
 		auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
 
 		for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
 		{
-			if (!it->second->GetComponent<NetworkingComponent>())
+			auto* networkComponent = it->second->GetComponent<NetworkingComponent>();
+			if (!networkComponent)
 			{
 				continue;
 			}
 
-			if (it->second->IsDirty())
+			if (!networkComponent->GetDirty())
 			{
-				sf::Packet packet = sf::Packet();
-				sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
-				packet << dataType;
-				it->second->Serialize(builder);
-				auto data = builder.GetBufferPointer(); // Get the data from the builder
-				auto size = builder.GetSize(); // Get the size of the data
-				packet.append(data, size); // Append the data to the packet to send it over the network
-
-				SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5001);
-
-				it->second->SetDirty(false);
+				continue;
 			}
+			
+			NetworkManager::GetInstance().SendEntityPacket(*it->second, NetworkManager::GetInstance().GetIp(), 5001);
+			//NetworkManager::GetInstance().BroadcastEntitiesPacket(*it->second);
 
-			// -- TEMP -- //
-
-			//for (auto it2 = it->second->GetChildren().begin(); it2 != it->second->GetChildren().end(); ++it2) // Iterate through the children of the entity
-			//{
-			//	if (it2->second->GetComponent<NetworkingComponent>() != nullptr)
-			//	{
-			//		sf::Packet packet = sf::Packet();
-			//		sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::ENTITIES);
-			//		packet << dataType;
-			//		it2->second->Serialize(builder);
-			//		auto data = builder.GetBufferPointer(); // Get the data from the builder
-			//		auto size = builder.GetSize(); // Get the size of the data
-			//		packet.append(data, size); // Append the data to the packet to send it over the network
-
-			//		SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5001);
-			//	}
-			//}
+			networkComponent->SetDirty(false);
+			
 		}
 
 		ReceivePacket();
@@ -100,9 +78,29 @@ namespace LeaderEngine
 	{
 		std::cout << "Receiving data from server" << std::endl;
 
-		if (NetworkManager::GetInstance().GetSocket().receive(_packet, _ip, _port) != sf::Socket::Done)
+		sf::Packet packet;
+		sf::IpAddress ip;
+		unsigned short port;
+
+		switch (NetworkManager::GetInstance().GetSocket().receive(packet, ip, port))
 		{
+		case sf::Socket::Done:
+			std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
+			break;
+		case sf::Socket::NotReady:
+			std::cout << "No data received" << std::endl;
+			return;
+		case sf::Socket::Partial:
+			std::cout << "Partial data received" << std::endl;
+			return;
+		case sf::Socket::Disconnected:
+			std::cout << "Client disconnected" << std::endl;
+			return;
+		case sf::Socket::Error:
+			std::cout << "An error occurred" << std::endl;
 			return;
 		}
+
+		NetworkManager::GetInstance().HandleIncomingPackets(packet, ip, port);
 	}
 }

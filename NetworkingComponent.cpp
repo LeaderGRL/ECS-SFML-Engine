@@ -17,6 +17,15 @@ namespace LeaderEngine
 		_ip = ip;
 	}
 
+	bool NetworkingComponent::GetDirty() const
+	{
+		return isDirty;
+	}
+
+	void NetworkingComponent::SetDirty(bool dirty)
+	{
+		isDirty = dirty;
+	}
 
 	void NetworkingComponent::Init()
 	{
@@ -24,6 +33,16 @@ namespace LeaderEngine
 
 	void NetworkingComponent::Update(float deltaTime)
 	{
+	}
+
+	flatbuffers::Offset<void> NetworkingComponent::Serialize(flatbuffers::FlatBufferBuilder& builder) const
+	{
+		return flatbuffers::Offset<void>();
+	}
+
+	std::shared_ptr<ISerializable> NetworkingComponent::Deserialize(const void* buffer)
+	{
+		return std::shared_ptr<ISerializable>();
 	}
 
 	COMPONENT_TYPE NetworkingComponent::GetType() const

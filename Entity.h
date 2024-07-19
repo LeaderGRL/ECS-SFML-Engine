@@ -65,7 +65,7 @@ namespace LeaderEngine {
 				static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from IComponent"); // Check if T inherit from IComponent
 				_components.push_back(std::make_shared<T>(std::forward<Args>(args)...)); // forwards the arguments args to the constructor of T with their original value
 				_components.back()->setParent(this->_id);
-				SetDirty(true);
+				//SetDirty(true);
 			}
 			
 			template<typename T>
