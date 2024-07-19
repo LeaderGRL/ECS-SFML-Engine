@@ -26,7 +26,7 @@ namespace LeaderEngine
 		Start();
 
 	}
-
+	// Deprecated
 	ScriptComponent::ScriptComponent(const char* path) : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
 	{
 		LoadScript(path);
@@ -37,12 +37,23 @@ namespace LeaderEngine
 
 	}
 
-	void ScriptComponent::Init()
-	{
-		
-	}
+    ScriptComponent::ScriptComponent(const char* path, std::string parent) : _luaObject(luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1))
+    {
+		this->_scriptName = parent + "Script";
+		this->parent = parent;
+		LoadScript(path);
 
-	void ScriptComponent::Start()
+		_luaObject = luabridge::LuaRef::fromStack(LuaAPI::GetInstance().GetLuaState(), -1);
+
+		Start();
+    }
+
+    void ScriptComponent::Init()
+    {
+    }
+
+
+    void ScriptComponent::Start()
 	{
 		if (!_luaObject.isTable()) // if the lua object is not a table, return
 		{
@@ -57,7 +68,7 @@ namespace LeaderEngine
 
 		// In lua, a function set like Object:Function is actually Object.Function(Object)
 		// So we need to pass the object as the first parameter
-		if (const luabridge::LuaResult res = init(_luaObject); !res.wasOk()) // init statement
+		if (const luabridge::LuaResult res = init(_luaObject, parent); !res.wasOk()) // init statement
 			std::cout << "Error : " << res.errorCode() << " : " << res.errorMessage() << std::endl;
 	}
 
@@ -92,7 +103,12 @@ namespace LeaderEngine
 		return COMPONENT_TYPE::SCRIPT;
 	}
 
-	void ScriptComponent::report_errors(lua_State* luaState, int status)
+    luabridge::LuaRef ScriptComponent::getLuaObject()
+    {
+		return this->_luaObject;
+    }
+
+    void ScriptComponent::report_errors(lua_State* luaState, int status)
 	{
 		if (status == 0) {
 			return;

@@ -28,16 +28,22 @@ namespace LeaderEngine
 
 		std::cout << "Host state initialized" << std::endl;
 
+		NetworkManager::GetInstance().AddClient(NetworkManager::GetInstance().GetIp(), 5001); // Add the host as a client to the list of clients
+		NetworkManager::GetInstance().SetUUID(NetworkManager::GetInstance().GetClientId(NetworkManager::GetInstance().GetIp(), 5001)); // Generate a unique ID for the host
 	}
 
 	void NetworkHostState::Update(float deltaTime)
 	{
 		//std::cout << "Update Network Host State" << std::endl;
 
-		//std::lock_guard<std::mutex> lock(_mutex); // Lock the mutex to prevent simultaneous access to the socket from multiple threads
+
 		ReceiveDataFromClients();
+		if (!NetworkManager::GetInstance().GetClients().empty())
+			NetworkManager::GetInstance().BroadcastEntitiesPacket(); // Broadcast the entities to all clients
 		CheckForNewConnections(); // We need to check for new connections after receiving data from clients to avoid having the CheckForNewConnections() function to receive the data packet sent by the new client
 
+		
+		
 
 		// Check for new connections
 		// Check for new messages
@@ -144,19 +150,19 @@ namespace LeaderEngine
 		switch(NetworkManager::GetInstance().GetSocket().receive(packet, ip, port))
 		{
 			case sf::Socket::Done:
-				//std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
+				std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
 				break;
 			case sf::Socket::NotReady:
-				//std::cout << "No data received" << std::endl;
+				std::cout << "No data received" << std::endl;
 				return;
 			case sf::Socket::Partial:
-				//std::cout << "Partial data received" << std::endl;
+				std::cout << "Partial data received" << std::endl;
 				return;
 			case sf::Socket::Disconnected:
-				//std::cout << "Client disconnected" << std::endl;
+				std::cout << "Client disconnected" << std::endl;
 				return;
 			case sf::Socket::Error:
-				//std::cout << "An error occurred" << std::endl;
+				std::cout << "An error occurred" << std::endl;
 				return;
 		}
 
@@ -167,74 +173,18 @@ namespace LeaderEngine
 			return;
 		}
 
-		sf::Int32 dataType;
+		NetworkManager::GetInstance().HandleIncomingPackets(packet, ip, port);
 
-		if (!(packet >> dataType) || dataType != static_cast<sf::Int32>(NetworkPacketType::ENTITIES))
-		{
-			std::cerr << "Error: Invalid packet type or failed to read packet type." << std::endl;
-			return;
-		}
-
-		const void* packetData = packet.getData();
-		std::size_t packetSize = packet.getDataSize();
-
-		if (packetData == nullptr || packetSize == 0)
-		{
-			std::cerr << "Error: Invalid packet data or size." << std::endl;
-			return;
-		}
-
-		if (dataType == static_cast<sf::Int32>(NetworkPacketType::ENTITIES))
-		{
-			const uint8_t* data = static_cast<const uint8_t*>(packet.getData()) + sizeof(dataType); // Skip the dataType part
-			size_t dataSize = packet.getDataSize() - sizeof(dataType);
-
-			flatbuffers::Verifier verifier(static_cast<const uint8_t*>(data), dataSize);
-			if (!VerifyEntitySchemaBuffer(verifier))
-			{
-				std::cerr << "Error: Buffer verification failed." << std::endl;
-				return;
-			}
-
-			const LeaderEngine::EntitySchema* entity_schema = flatbuffers::GetRoot<LeaderEngine::EntitySchema>(data);
-			if (!entity_schema)
-			{
-				std::cerr << "Error: Failed to get entity schema." << std::endl;
-				return;
-			}
-
-			// Deserialize and process the entity
-			auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities();
-			for (auto it = entities.begin(); it != entities.end(); ++it) // Iterate through the entities 
-			{
-				if (it->second->GetComponent<NetworkingComponent>() != nullptr)
-				{
-					// validate the buffer
-					std::cout << "Deserializing entity : " << it->first << " : " << packetSize << std::endl;
-
-					try {
-						it->second->Deserialize(data);
-					}
-					catch (const std::exception& e) {
-						std::cerr << "Exception during deserialization: " << e.what() << std::endl;
-					}
-				}
-			}
-		}
+	}
 
 		//std::vector<uint8_t> data(packet.getDataSize()); // Create a vector to store the data from the packet
 		//memcpy(data.data(), packet.getData(), packet.getDataSize()); // Copy the data from the packet to the vector
-
-
-		
-	}
 
 	void NetworkHostState::SendDataToClient(sf::IpAddress address, unsigned short port, sf::Packet packet)
 	{
 		std::cout << "Sending data to : " << address.toString() << " : " << port << std::endl;
 		NetworkManager::GetInstance().GetSocket().send(packet, address, port);
 	}
-
-	
-
+		
 }
+

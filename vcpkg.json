@@ -1,8 +1,8 @@
 {
   "dependencies": [
+    "boost-uuid",
     "lua",
     "luabridge3",
-    "luacpp",
     "sfml",
     "tgui",
     "yaml-cpp",

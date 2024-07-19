@@ -30,9 +30,11 @@ namespace LeaderEngine {
 	}
 
 	void Application::Init()
-	{
-
-		ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
+	{ 
+		if (std::filesystem::exists("Assets/Config/resources.yml"))
+		{
+			ResourceManager::GetInstance().LoadResource("Assets/Config/resources.yml");
+		}
 
 		LuaAPI::GetInstance().CPP_To_LUA();
 
@@ -54,7 +56,7 @@ namespace LeaderEngine {
 		SceneManager::GetInstance().PushScene(std::move(mainScene));
 
 		Entity* mainMenu = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("MainMenu");
-		mainMenu->AddComponent<ScriptComponent, const char*>("Assets/Scripts/MainMenu.lua");
+		mainMenu->AddComponent<ScriptComponent, const char*>("Assets/Scripts/MainMenu.lua", mainMenu->GetId());
 		/*Entity* bulletManager = EntityManager::GetInstance().CreateEntity("BulletManager");
 		bulletManager->AddComponent<ScriptComponent, const char*>("Assets/Scripts/BulletManager.lua");*/
 		//Entity* camera = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().CreateEntity("MainCamera");
