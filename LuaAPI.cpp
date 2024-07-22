@@ -87,7 +87,7 @@ namespace LeaderEngine
 			        .addFunction("AddBoxColliderComponent", &Entity::AddComponent<BoxColliderComponent>)
 			        .addFunction("GetBoxColliderComponent", &Entity::GetComponent<BoxColliderComponent>)
 			        .addFunction("AddNetworkingComponent", &Entity::AddComponent<NetworkingComponent>)
-			        .addFunction("GetNetworkComponent", &Entity::GetComponent<NetworkingComponent>)
+			        .addFunction("GetNetworkingComponent", &Entity::GetComponent<NetworkingComponent>)
 		        /*	.addFunction("AddComponent", static_cast<void (Entity::*)(int)>(&Entity::AddComponent))
 			        .addFunction("GetComponent", static_cast<luabridge::LuaRef(Entity::*)(int)>(&Entity::GetComponent))*/
 			        .addFunction("GetPosition", (&sf::Transformable::getPosition))
@@ -174,6 +174,7 @@ namespace LeaderEngine
 			    .endClass()
 			    .deriveClass<ScriptComponent, IComponent>("ScriptComponent")
 			        .addFunction("LoadScript", &ScriptComponent::LoadScript)
+			        .addFunction("GetLuaObject", &ScriptComponent::getLuaObject)
 			    .endClass()
 			    .deriveClass<Animation2DComponent, Sprite2DComponent>("Animation2DComponent")
 			        .addConstructor<void(*) (void)>()
@@ -201,25 +202,23 @@ namespace LeaderEngine
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)
-			.beginClass<sf::Vector2f>("Vector2f")
-			    .addConstructor<void(*) (float, float)>()
-			    .addProperty("x", &sf::Vector2f::x)
-			    .addProperty("y", &sf::Vector2f::y)
-			.endClass();
-
-		luabridge::getGlobalNamespace(L)
-			.beginClass<sf::Vector2u>("Vector2u")
-			    .addConstructor<void(*) (unsigned int, unsigned int)>()
-			    .addProperty("x", &sf::Vector2u::x)
-			    .addProperty("y", &sf::Vector2u::y)
-			.endClass();
-
-		luabridge::getGlobalNamespace(L)
-			.beginClass<sf::Vector2i>("Vector2i")
-			    .addConstructor<void(*) (int, int)>()
-			    .addProperty("x", &sf::Vector2i::x)
-			    .addProperty("y", &sf::Vector2i::y)
-			.endClass();
+		    .beginNamespace("sf")
+			    .beginClass<sf::Vector2f>("Vector2f")
+			        .addConstructor<void(*) (float, float)>()
+			        .addProperty("x", &sf::Vector2f::x)
+			        .addProperty("y", &sf::Vector2f::y)
+			    .endClass()
+			    .beginClass<sf::Vector2u>("Vector2u")
+			        .addConstructor<void(*) (unsigned int, unsigned int)>()
+			        .addProperty("x", &sf::Vector2u::x)
+			        .addProperty("y", &sf::Vector2u::y)
+			    .endClass()
+			    .beginClass<sf::Vector2i>("Vector2i")
+			        .addConstructor<void(*) (int, int)>()
+			        .addProperty("x", &sf::Vector2i::x)
+			        .addProperty("y", &sf::Vector2i::y)
+			    .endClass()
+	        .endNamespace();
 
 		luabridge::getGlobalNamespace(L)
 			.beginClass<sf::Sprite>("Sprite")
@@ -351,6 +350,7 @@ namespace LeaderEngine
 			    .addStaticFunction("AddWidget", &Utils::GuiAddWidget)
 			.endClass();
 
+		
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("tgui")
 			    .beginClass<tgui::GuiSFML>("Gui")
@@ -367,47 +367,60 @@ namespace LeaderEngine
 			    .endClass()
 	        .endNamespace();
 
+		//Kill me now
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+			    .beginClass<std::shared_ptr<tgui::Widget>>("WidgetPtr")
+			    .endClass()
+			    .beginClass<std::shared_ptr<const tgui::Widget>>("WidgetConstPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::ClickableWidget::Ptr>>("ClickableWidgetPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::ClickableWidget::ConstPtr>>("ClickableWidgetConstPtr")
+		        .endClass()
+			    .beginClass< std::shared_ptr<tgui::EditBox::Ptr>>("EditBoxPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::EditBox::ConstPtr>>("EditBoxConstPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::Container::Ptr>>("ContainerPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::Container::ConstPtr>>("ContainerConstPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::BoxLayout::Ptr>>("BoxLayoutPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::BoxLayout::ConstPtr>>("BoxLayoutConstPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::BoxLayoutRatios::Ptr>>("BoxLayoutRatiosPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::BoxLayoutRatios::ConstPtr>>("BoxLayoutRatiosConstPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::HorizontalLayout::Ptr>>("HorizontalLayoutRatiosPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::HorizontalLayout::ConstPtr>>("HorizontalLayoutConstPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::VerticalLayout::Ptr>>("VerticalLayoutPtr")
+			    .endClass()
+			    .beginClass< std::shared_ptr<tgui::VerticalLayout::ConstPtr>>("VerticalLayoutConstPtr")
+			    .endClass()
+			.endNamespace();
+
 		/**
 		 * A few notes regarding tgui:
 		 * We are using version 0.9, check the doc and tutorials at https://tgui.eu/documentation/0.9/annotated.html
-		 * The class hierarchy is quite a bit more involved than what's suggested by our declarations here
-		 * The full class hierarchy is unneeded for the code to work well and makes this quite a bit simpler
 		 */
 		luabridge::getGlobalNamespace(L)
-			.beginNamespace("tgui")
-			    .beginClass<tgui::EditBox>("EditBox")
-			        /*.addFunction("SetPosition", static_cast<void (tgui::EditBox::*)(tgui::Layout x, tgui::Layout y)>(&tgui::EditBox::setPosition))
-			        .addFunction("GetPosition", &tgui::EditBox::getPosition)
-			        .addFunction("SetSize", static_cast<void (tgui::EditBox::*)(tgui::Layout width, tgui::Layout height)>(&tgui::EditBox::setSize))
-			        .addFunction("GetSize", &tgui::EditBox::getSize)
-			        .addFunction("SetText", &tgui::EditBox::setText)
-			        .addFunction("GetText", &tgui::EditBox::getText)
-			        .addFunction("SetDefaultText", &tgui::EditBox::setDefaultText)
-			        .addFunction("GetDefaultText", &tgui::EditBox::getDefaultText)
-			        .addFunction("SetMaximumCharacters", &tgui::EditBox::setMaximumCharacters)
-			        .addFunction("GetMaximumCharacters", &tgui::EditBox::getMaximumCharacters)
-			        .addFunction("SetReadOnly", &tgui::EditBox::setReadOnly)
-			        .addFunction("IsReadOnly", &tgui::EditBox::isReadOnly)
-			        .addFunction("SetAlignment", &tgui::EditBox::setAlignment)
-			        .addFunction("GetAlignment", &tgui::EditBox::getAlignment)
-			        .addFunction("SetInputValidator", &tgui::EditBox::setInputValidator)
-			        .addFunction("GetInputValidator", &tgui::EditBox::getInputValidator)
-			        .addFunction("SetTextSize", &tgui::EditBox::setTextSize)
-			        .addFunction("GetTextSize", &tgui::EditBox::getTextSize)
-			        .addFunction("SetPasswordCharacter", &tgui::EditBox::setPasswordCharacter)
-			        .addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
-			        .addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
-			        .addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)*/
-			        .addStaticFunction("Create", &tgui::EditBox::create)
-			    .endClass()
-	        .endNamespace();
-
-		luabridge::getGlobalNamespace(L)
-			.beginNamespace("tgui")
+		    .beginNamespace("tgui")
+		        .beginClass<tgui::Vector2f>("Vector2f")
+		            .addProperty("x", &tgui::Vector2f::x)
+			        .addProperty("x", &tgui::Vector2f::y)
+		        .endClass()
 			    .beginClass<tgui::Layout>("Layout")
 			        .addConstructor<void(*) (float)>()
 			        .addConstructor<void(*) (const std::string&)>()
 			        .addFunction("getValue", &tgui::Layout::getValue)
+			    .endClass()
+			    .beginClass<tgui::Layout2d>("Layout2D")
+			        .addConstructor<void (*) (const char*)>()
 			    .endClass()
 	        .endNamespace();
 
@@ -459,23 +472,26 @@ namespace LeaderEngine
 		        .endClass()
 		        .deriveClass<tgui::Button, tgui::ButtonBase>("Button")
 		            .addStaticFunction("Create", &tgui::Button::create)
-		            .addFunction("LeftMousePressed", &OnButtonClicked)
-		        .endClass()
-	        .endNamespace();
-
-		
-		luabridge::getGlobalNamespace(L)
-			.beginNamespace("tgui")
+		            //.addFunction("LeftMousePressed", &OnButtonClicked)
+		        .endClass()			
 		        .deriveClass<tgui::Container, tgui::Widget>("Container")
-			        .addFunction("Add", &tgui::Container::add)
 			        .addFunction("GetWidgets", &tgui::Container::getWidgets)
+		            .addFunction("Add", &tgui::Container::add)
 		            .addFunction("RemoveWidget", &tgui::Container::remove)
 		            .addFunction("RemoveAllWidgets", &tgui::Container::removeAllWidgets)
 		            .addFunction("GetFocusedChild", &tgui::Container::getFocusedChild)
 		            .addFunction("FocusNextWidget", &tgui::Container::focusNextWidget)
 		            .addFunction("FocusPreviousWidget", &tgui::Container::focusPreviousWidget)
 			    .endClass()
-		        .deriveClass<tgui::BoxLayoutRatios, tgui::Container>("BoxLayoutRatios")
+		        .deriveClass<tgui::Group, tgui::Container>("Group")
+		        .endClass()
+		        .deriveClass<tgui::BoxLayout, tgui::Group>("BoxLayout")
+		            .addFunction("Insert", &tgui::BoxLayout::insert)
+		        .endClass()
+		        .deriveClass<tgui::BoxLayoutRatios, tgui::BoxLayout>("BoxLayoutRatios")
+						//luabridge::overload<const tgui::Widget::Ptr&, const tgui::String&>(&tgui::BoxLayoutRatios::add),
+						//luabridge::overload<const tgui::Widget::Ptr&, float, const tgui::String&>(&tgui::BoxLayoutRatios::add)
+					    //static_cast<void (tgui::BoxLayoutRatios::*)(const tgui::Widget::Ptr&, float, const tgui::String&)>(&tgui::BoxLayoutRatios::add))
 		            .addFunction("AddSpaceAtEnd", &tgui::BoxLayoutRatios::addSpace)
 		            .addFunction("AddSpaceBetween", &tgui::BoxLayoutRatios::insertSpace)
 			    .endClass()
@@ -500,9 +516,11 @@ namespace LeaderEngine
 			    .endClass()
 	        .endNamespace();
 
+		// wrapper functions for tgui stuff that can't be directly called from lua
 		luabridge::getGlobalNamespace(L)
 		    .beginNamespace("tgui")
-			    .addFunction("OnReturnKeyPress", &OnReturnKeyPress)
+			    .addFunction("OnButtonClicked", &LuaAPI::OnButtonClicked)
+			    .addFunction("OnReturnKeyPress", &LuaAPI::OnReturnKeyPress)
 			.endNamespace();
 
 		luabridge::getGlobalNamespace(L)
@@ -552,7 +570,7 @@ namespace LeaderEngine
 		//EventManager::GetInstance().
 	}
 
-	void LuaAPI::LoadScript(const char* path)
+    void LuaAPI::LoadScript(const char* path)
 	{
 		const int scriptLoadStatus = luaL_dofile(L, path);
 		report_errors(L, scriptLoadStatus);
@@ -617,7 +635,12 @@ namespace LeaderEngine
 		}
 	}
 
-	void LuaAPI::OnButtonClicked(const tgui::Button::Ptr& button, const luabridge::LuaRef& callback, lua_State* L) {
+	void LuaAPI::AddWidgetToContainer(const tgui::Container::Ptr& container, const tgui::Widget::Ptr& widget, tgui::String name, lua_State* L)
+    {
+		container->add(widget, name);
+    }
+
+    void LuaAPI::OnButtonClicked(const tgui::ClickableWidget::Ptr& widget, const luabridge::LuaRef& callback, lua_State* L) {
 		if (!callback.isFunction()) {
 			// Handle error: provided argument is not a function
 
@@ -625,10 +648,10 @@ namespace LeaderEngine
 			return;
 		}
 
-		button->onMousePress.connect([callback, L]()
+		widget->onMousePress.connect([callback, widget, L]()
 			{
 				try {
-					callback(); // You might need to push L if the callback uses it
+					callback(widget); // You might need to push L if the callback uses it
 				}
 				catch (luabridge::LuaException const& e)
 				{

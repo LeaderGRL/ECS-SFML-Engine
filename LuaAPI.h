@@ -8,6 +8,7 @@
 
 #include "lua.hpp"
 #include "luabridge3/LuaBridge/LuaBridge.h"
+#include <luabridge3/LuaBridge/Vector.h>
 #include "Entity.h"
 #include "EntityManager.h"
 #include "BoxColliderComponent.h"
@@ -42,9 +43,10 @@ namespace LeaderEngine
 			//void RegisterEvent(int inputEvent, const luabridge::LuaRef& callback);
 			static bool Call_Errors(lua_State* luaState, const luabridge::LuaRef& func, int nbArgs, int nbReturnValue);
 			void CallFunction(const std::string& funcName);
-            void OnButtonClicked(const tgui::Button::Ptr& button, const luabridge::LuaRef& callback, lua_State* L);
 
-            static void OnReturnKeyPress(const tgui::EditBox::Ptr& editBox, const luabridge::LuaRef& callback, lua_State* L);
-		    
+            static void AddWidgetToContainer(const tgui::Container::Ptr& container, const tgui::Widget::Ptr& widget, tgui::String name, lua_State* L);
+
+			static void OnButtonClicked(const tgui::ClickableWidget::Ptr& widget, const luabridge::LuaRef& callback, lua_State* L);
+			static void OnReturnKeyPress(const tgui::EditBox::Ptr& editBox, const luabridge::LuaRef& callback, lua_State* L);
 	};
 }
