@@ -322,6 +322,8 @@ namespace LeaderEngine
 			.beginNamespace("sf")
 			    .beginClass<sf::Event::MouseButtonEvent>("MouseButtonEvent")
 			        .addStaticFunction("GetMouseEventCode", &Utils::GetMouseEventCode)
+		            .addStaticFunction("GetMouseEventPosX", &Utils::GetMouseEventPosX)
+			        .addStaticFunction("GetMouseEventPosY", &Utils::GetMouseEventPosY)
 			        //.addProperty("code", static_cast<int>(&sf::Event::KeyEvent::code), false)
 			    .endClass()
 	        .endNamespace();
@@ -356,6 +358,7 @@ namespace LeaderEngine
 			    .beginClass<tgui::GuiSFML>("Gui")
 			        .addFunction("Add", &tgui::GuiSFML::add)
 			        .addFunction("Remove", &tgui::GuiSFML::remove)
+		            .addFunction("GetWidgetBelowMouseCursor",  &LuaAPI::GetWidgetBelowMouseCursorWrapper)
 			    .endClass()
 	        .endNamespace();
 
@@ -363,11 +366,11 @@ namespace LeaderEngine
 			.beginNamespace("tgui")
 			    .beginClass<tgui::String>("String")
 			        .addConstructor<void(*) (const std::string&)>()
-			        .addFunction("ToStdString", &tgui::String::toStdString)
+			        .addFunction("__tostring", &tgui::String::toStdString)
 			    .endClass()
 	        .endNamespace();
 
-		//Kill me now
+		// TODO test if this is necessary (it shouldn't be, these are all forward declared in the library)
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("tgui")
 			    .beginClass<std::shared_ptr<tgui::Widget>>("WidgetPtr")
@@ -412,8 +415,12 @@ namespace LeaderEngine
 		    .beginNamespace("tgui")
 		        .beginClass<tgui::Vector2f>("Vector2f")
 		            .addProperty("x", &tgui::Vector2f::x)
-			        .addProperty("x", &tgui::Vector2f::y)
+			        .addProperty("y", &tgui::Vector2f::y)
 		        .endClass()
+			    .beginClass<tgui::Vector2i>("Vector2i")
+			        .addProperty("x", &tgui::Vector2i::x)
+			        .addProperty("y", &tgui::Vector2i::y)
+			    .endClass()
 			    .beginClass<tgui::Layout>("Layout")
 			        .addConstructor<void(*) (float)>()
 			        .addConstructor<void(*) (const std::string&)>()
@@ -441,7 +448,9 @@ namespace LeaderEngine
 			        .addFunction("GetSize", &tgui::Widget::getSize)
 		            .addFunction("GetParentWidget", &tgui::Widget::getParent)
 		            .addFunction("GetWidgetName", &tgui::Widget::getWidgetName)
-		            .addFunction("GetPosition", &tgui::Widget::getPosition)
+		            .addFunction("IsMouseOnWidget", &tgui::Widget::isMouseOnWidget)
+		            .addFunction("IsMouseDown", &tgui::Widget::isMouseDown)
+		            .addFunction("IsContainer", &tgui::Widget::isContainer)
 			    .endClass()
 			    .deriveClass<tgui::ClickableWidget, tgui::Widget>("ClickableWidget")
 			    .endClass()
@@ -465,18 +474,21 @@ namespace LeaderEngine
 			        .addFunction("GetPasswordCharacter", &tgui::EditBox::getPasswordCharacter)
 			        .addFunction("SetCaretPosition", &tgui::EditBox::setCaretPosition)
 			        .addFunction("GetCaretPosition", &tgui::EditBox::getCaretPosition)
-			        .addFunction("SetEnable", &tgui::EditBox::setEnabled)
+			        .addFunction("SetEnabled", &tgui::EditBox::setEnabled)
 			        .addStaticFunction("Create", &tgui::EditBox::create)
 			    .endClass()
 	            .deriveClass<tgui::ButtonBase, tgui::ClickableWidget>("ButtonBase")
+		            .addFunction("GetText", &tgui::ButtonBase::getText)
+			        .addFunction("SetText", &tgui::ButtonBase::setText)
 		        .endClass()
 		        .deriveClass<tgui::Button, tgui::ButtonBase>("Button")
 		            .addStaticFunction("Create", &tgui::Button::create)
-		            //.addFunction("LeftMousePressed", &OnButtonClicked)
 		        .endClass()			
 		        .deriveClass<tgui::Container, tgui::Widget>("Container")
 			        .addFunction("GetWidgets", &tgui::Container::getWidgets)
 		            .addFunction("Add", &tgui::Container::add)
+		            // careful using that one, it might act weird
+		            .addFunction("GetWidget", &tgui::Container::get<tgui::Widget>)
 		            .addFunction("RemoveWidget", &tgui::Container::remove)
 		            .addFunction("RemoveAllWidgets", &tgui::Container::removeAllWidgets)
 		            .addFunction("GetFocusedChild", &tgui::Container::getFocusedChild)
@@ -519,7 +531,7 @@ namespace LeaderEngine
 		// wrapper functions for tgui stuff that can't be directly called from lua
 		luabridge::getGlobalNamespace(L)
 		    .beginNamespace("tgui")
-			    .addFunction("OnButtonClicked", &LuaAPI::OnButtonClicked)
+			    .addFunction("OnWidgetClicked", &LuaAPI::OnWidgetClicked)
 			    .addFunction("OnReturnKeyPress", &LuaAPI::OnReturnKeyPress)
 			.endNamespace();
 
@@ -635,23 +647,29 @@ namespace LeaderEngine
 		}
 	}
 
-	void LuaAPI::AddWidgetToContainer(const tgui::Container::Ptr& container, const tgui::Widget::Ptr& widget, tgui::String name, lua_State* L)
+    tgui::Widget::Ptr LuaAPI::GetWidgetBelowMouseCursorWrapper(tgui::GuiSFML* gui, int x, int y)
+    {
+		return gui->getWidgetBelowMouseCursor(tgui::Vector2i(x, y));
+    }
+
+
+    void LuaAPI::AddWidgetToContainer(const tgui::Container::Ptr& container, const tgui::Widget::Ptr& widget, tgui::String name, lua_State* L)
     {
 		container->add(widget, name);
     }
 
-    void LuaAPI::OnButtonClicked(const tgui::ClickableWidget::Ptr& widget, const luabridge::LuaRef& callback, lua_State* L) {
-		if (!callback.isFunction()) {
+    void LuaAPI::OnWidgetClicked(const tgui::ClickableWidget::Ptr& widget, const luabridge::LuaRef& optionalLuaObj, const luabridge::LuaRef& callback, lua_State* L) {
+	    if (!callback.isFunction()) {
 			// Handle error: provided argument is not a function
 
 			std::cerr << "Provided argument is not a function" << std::endl;
 			return;
 		}
 
-		widget->onMousePress.connect([callback, widget, L]()
+		widget->onMousePress.connect([callback, widget, optionalLuaObj, L]()
 			{
 				try {
-					callback(widget); // You might need to push L if the callback uses it
+					callback(); // You might need to push L if the callback uses it
 				}
 				catch (luabridge::LuaException const& e)
 				{
