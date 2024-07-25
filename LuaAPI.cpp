@@ -451,6 +451,7 @@ namespace LeaderEngine
 		            .addFunction("IsMouseOnWidget", &tgui::Widget::isMouseOnWidget)
 		            .addFunction("IsMouseDown", &tgui::Widget::isMouseDown)
 		            .addFunction("IsContainer", &tgui::Widget::isContainer)
+		            .addFunction("SetEnabled", &tgui::Widget::setEnabled)
 			    .endClass()
 			    .deriveClass<tgui::ClickableWidget, tgui::Widget>("ClickableWidget")
 			    .endClass()
