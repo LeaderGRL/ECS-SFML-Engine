@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NetworkManager.h"
 
+#include "LuaAPI.h"
 #include "NetworkPacketType.h"
 #include "NetworkStateManager.h"
 
@@ -103,7 +104,65 @@ namespace LeaderEngine
 		return to_string(uuid);
 	}
 
-	void NetworkManager::HandleIncomingPackets(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort)
+    void NetworkManager::HandlePlayerStatePacket(sf::Packet& packet, sf::IpAddress sender, unsigned short senderPort)
+    {
+		sf::Int32 playerIndex;
+		//packet >> packetType;
+
+		if (!(packet >> playerIndex))
+		{
+			std::cerr << "Error: failed to read player index." << std::endl;
+			return;
+		}
+
+		std::cout << "Received packet for player index: " << playerIndex << std::endl;
+
+		std::string data;
+
+		if(!(packet >> data))
+		{
+			std::cerr << "Error: failed to read player action data" << std::endl;
+			return;
+		}
+		std::string token;
+		std::stringstream stream(data);
+		char delimiter = ',';
+		std::vector<std::string> playerActions;
+
+		while(std::getline(stream, token, delimiter))
+		{
+			playerActions.push_back(token);
+		}
+
+		delimiter = ';';
+
+		stream = std::stringstream(playerActions.at(0));
+		std::vector<std::string> characters;
+		while (std::getline(stream, token, delimiter))
+		{
+			characters.push_back(token);
+		}
+
+		stream = std::stringstream(playerActions.at(1));
+		std::vector<std::string> actions;
+		while (std::getline(stream, token, delimiter))
+		{
+			actions.push_back(token);
+		}
+
+		stream = std::stringstream(playerActions.at(2));
+		std::vector<std::string> internalState;
+		while (std::getline(stream, token, delimiter))
+		{
+			internalState.push_back(token);
+		}
+		int playerIndexInt = playerIndex;
+		auto MainMenuScript = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntity("MainMenu")->GetComponent<ScriptComponent>()->getLuaObject();
+		auto err = MainMenuScript["SetPlayerActions"](MainMenuScript, playerIndexInt, characters, actions, internalState);
+		if (err.hasFailed()) std::cerr << err.errorMessage();
+    }
+
+    void NetworkManager::HandleIncomingPackets(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort)
 	{
 		sf::Int32 packetType;
 		//packet >> packetType;
@@ -121,6 +180,11 @@ namespace LeaderEngine
 			case static_cast<sf::Int32>(NetworkPacketType::ENTITIES):
 				std::cout << "Received entities packet" << std::endl;
 				HandleEntitiesPacket(packet, sender, senderPort);
+			break;
+
+			case static_cast<sf::Int32>(NetworkPacketType::PLAYERSTATE):
+				std::cout << "Received player state packet" << std::endl;
+				HandlePlayerStatePacket(packet, sender, senderPort);
 			break;
 
 			default:
@@ -231,6 +295,34 @@ namespace LeaderEngine
 		if (_socket.send(packet, ip, port) != sf::Socket::Done)
 		{
 			std::cerr << "Error: Failed to send packet." << std::endl;
+		}
+	}
+
+    void NetworkManager::CreateAndSendPlayerActionsPacket(int playerIndex, std::string characters, std::string actions, std::string internalState)
+	{
+		sf::Packet packet = sf::Packet();
+
+		sf::Int32 dataType = static_cast<sf::Int32>(NetworkPacketType::PLAYERSTATE);
+		packet << dataType;
+
+		packet << playerIndex;
+		packet << characters + "," + actions + "," + internalState;
+
+		if (_clientsInfo.empty())
+		{
+			SendPacket(packet, NetworkManager::GetInstance().GetIp(), 5001);
+		}
+	    else
+		{
+			for (auto& client : _clientsInfo)
+			{
+				// -- TEMPORARY -- //
+				if (client.second.ip == _hostIp && client.second.port == _port) // Avoid host sending data to itself
+				{
+					continue;
+				}
+				SendPacket(packet, client.second.ip, client.second.port);
+			}
 		}
 	}
 

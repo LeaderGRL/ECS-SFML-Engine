@@ -78,7 +78,7 @@ namespace LeaderEngine
 			switch (status)
 			{
 				case sf::Socket::NotReady:
-					std::cout << "No data received" << std::endl;
+					//std::cout << "No data received" << std::endl;
 					break;
 				case sf::Socket::Partial:
 					std::cout << "Partial data received" << std::endl;
@@ -150,10 +150,10 @@ namespace LeaderEngine
 		switch(NetworkManager::GetInstance().GetSocket().receive(packet, ip, port))
 		{
 			case sf::Socket::Done:
-				std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
+				std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
 				break;
 			case sf::Socket::NotReady:
-				std::cout << "No data received" << std::endl;
+				//std::cout << "No data received" << std::endl;
 				return;
 			case sf::Socket::Partial:
 				std::cout << "Partial data received" << std::endl;

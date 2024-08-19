@@ -10,5 +10,6 @@ namespace LeaderEngine
 		REFUSED,
 		ERROR,
 		ENTITIES,
+		PLAYERSTATE,
 	};
 }
