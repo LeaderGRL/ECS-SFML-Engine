@@ -372,43 +372,6 @@ namespace LeaderEngine
 			    .endClass()
 	        .endNamespace();
 
-		// TODO test if this is necessary (it shouldn't be, these are all forward declared in the library)
-		luabridge::getGlobalNamespace(L)
-			.beginNamespace("tgui")
-			    .beginClass<std::shared_ptr<tgui::Widget>>("WidgetPtr")
-			    .endClass()
-			    .beginClass<std::shared_ptr<const tgui::Widget>>("WidgetConstPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::ClickableWidget::Ptr>>("ClickableWidgetPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::ClickableWidget::ConstPtr>>("ClickableWidgetConstPtr")
-		        .endClass()
-			    .beginClass< std::shared_ptr<tgui::EditBox::Ptr>>("EditBoxPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::EditBox::ConstPtr>>("EditBoxConstPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::Container::Ptr>>("ContainerPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::Container::ConstPtr>>("ContainerConstPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::BoxLayout::Ptr>>("BoxLayoutPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::BoxLayout::ConstPtr>>("BoxLayoutConstPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::BoxLayoutRatios::Ptr>>("BoxLayoutRatiosPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::BoxLayoutRatios::ConstPtr>>("BoxLayoutRatiosConstPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::HorizontalLayout::Ptr>>("HorizontalLayoutRatiosPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::HorizontalLayout::ConstPtr>>("HorizontalLayoutConstPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::VerticalLayout::Ptr>>("VerticalLayoutPtr")
-			    .endClass()
-			    .beginClass< std::shared_ptr<tgui::VerticalLayout::ConstPtr>>("VerticalLayoutConstPtr")
-			    .endClass()
-			.endNamespace();
-
 		/**
 		 * A few notes regarding tgui:
 		 * We are using version 0.9, check the doc and tutorials at https://tgui.eu/documentation/0.9/annotated.html
@@ -572,6 +535,8 @@ namespace LeaderEngine
 			    .addFunction("SetPort", &NetworkManager::SetPort)
 			    .addFunction("GetIp", &NetworkManager::GetIp)
 			    .addFunction("GetPort", &NetworkManager::GetPort)
+		        .addFunction("SendPacket", &NetworkManager::SendPacket)
+		        .addFunction("CreateAndSendPlayerActionsPacket", &NetworkManager::CreateAndSendPlayerActionsPacket)
 			.endClass();
 
 		luabridge::getGlobalNamespace(L)

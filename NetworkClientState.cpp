@@ -34,7 +34,7 @@ namespace LeaderEngine
 
 	void NetworkClientState::Update(float deltaTime)
 	{
-		std::cout << "Update Network Client State" << std::endl;
+		//std::cout << "Update Network Client State" << std::endl;
 
 		//flatbuffers::FlatBufferBuilder builder;
 		auto& entities = SceneManager::GetInstance().GetCurrentScene()->GetEntityManager().GetEntities(); // Reference to the entities map in the entity manager
@@ -70,13 +70,13 @@ namespace LeaderEngine
 
 	void NetworkClientState::SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port)
 	{
-		std::cout << "Sending data to server" << std::endl;
+		//std::cout << "Sending data to server" << std::endl;
 		NetworkManager::GetInstance().GetSocket().send(packet, ip, port);
 	}
 
 	void NetworkClientState::ReceivePacket()
 	{
-		std::cout << "Receiving data from server" << std::endl;
+		//std::cout << "Receiving data from server" << std::endl;
 
 		sf::Packet packet;
 		sf::IpAddress ip;
@@ -85,10 +85,10 @@ namespace LeaderEngine
 		switch (NetworkManager::GetInstance().GetSocket().receive(packet, ip, port))
 		{
 		case sf::Socket::Done:
-			std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
+			std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
 			break;
 		case sf::Socket::NotReady:
-			std::cout << "No data received" << std::endl;
+			//std::cout << "No data received" << std::endl;
 			return;
 		case sf::Socket::Partial:
 			std::cout << "Partial data received" << std::endl;

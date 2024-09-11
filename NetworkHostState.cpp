@@ -28,6 +28,7 @@ namespace LeaderEngine
 
 		std::cout << "Host state initialized" << std::endl;
 
+		NetworkManager::GetInstance().SetPort(5001);
 		NetworkManager::GetInstance().AddClient(NetworkManager::GetInstance().GetIp(), 5001); // Add the host as a client to the list of clients
 		NetworkManager::GetInstance().SetUUID(NetworkManager::GetInstance().GetClientId(NetworkManager::GetInstance().GetIp(), 5001)); // Generate a unique ID for the host
 	}
@@ -78,7 +79,7 @@ namespace LeaderEngine
 			switch (status)
 			{
 				case sf::Socket::NotReady:
-					std::cout << "No data received" << std::endl;
+					//std::cout << "No data received" << std::endl;
 					break;
 				case sf::Socket::Partial:
 					std::cout << "Partial data received" << std::endl;
@@ -150,10 +151,10 @@ namespace LeaderEngine
 		switch(NetworkManager::GetInstance().GetSocket().receive(packet, ip, port))
 		{
 			case sf::Socket::Done:
-				std::cout << "RReceived a packet from : " << ip.toString() << " : " << port << std::endl;
+				std::cout << "Received a packet from : " << ip.toString() << " : " << port << std::endl;
 				break;
 			case sf::Socket::NotReady:
-				std::cout << "No data received" << std::endl;
+				//std::cout << "No data received" << std::endl;
 				return;
 			case sf::Socket::Partial:
 				std::cout << "Partial data received" << std::endl;

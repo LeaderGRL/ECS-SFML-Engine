@@ -56,6 +56,7 @@ namespace LeaderEngine
 
 			std::string GenerateClientId();
 
+            void HandlePlayerStatePacket(sf::Packet& packet, sf::IpAddress sender, unsigned short senderPort);
 			void HandleIncomingPackets(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort);
 			void HandleEntitiesPacket(sf::Packet& packet, const sf::IpAddress& sender, unsigned short senderPort);
 			void BroadcastEntitiesPacket();
@@ -64,7 +65,9 @@ namespace LeaderEngine
 			sf::Packet CreateEntityPacket(const Entity& entity);
 
 			void SendPacket(sf::Packet& packet, const sf::IpAddress ip, const unsigned short port);
-			void SendEntityPacket(const Entity& entity, const sf::IpAddress ip, const unsigned short port);
+            void CreateAndSendPlayerActionsPacket(int playerIndex, std::string characters, std::string actions, std::string internalState);
+            void SendEntityPacket(const Entity& entity, const sf::IpAddress ip, const unsigned short port);
+		    
 			/*sf::Packet PackAllNetworkEntities();*/
 
 			void Update(float deltaTime);
