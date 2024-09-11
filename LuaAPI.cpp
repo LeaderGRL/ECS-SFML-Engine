@@ -17,6 +17,8 @@
 #include "NetworkStateManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
+#include <TGUI/Widgets/TextArea.hpp>
+#include <TGUI/Widgets/Label.hpp>
 
 
 namespace LeaderEngine 
@@ -484,7 +486,15 @@ namespace LeaderEngine
 		        .endClass()
 		        .deriveClass<tgui::Button, tgui::ButtonBase>("Button")
 		            .addStaticFunction("Create", &tgui::Button::create)
-		        .endClass()			
+		        .endClass()	
+				.deriveClass<tgui::Label, tgui::ClickableWidget>("Label")
+					.addProperty("HorizontalAlignment", &tgui::Label::getHorizontalAlignment, &tgui::Label::setHorizontalAlignment)
+					.addProperty("VerticalAlignment", &tgui::Label::getVerticalAlignment, &tgui::Label::setVerticalAlignment)
+					.addStaticFunction("Create", &tgui::Label::create)
+					.addFunction("SetText", &tgui::Label::setText)
+					.addFunction("GetText", &tgui::Label::getText)
+					.addFunction("SetTextSize", &tgui::Label::setTextSize)
+				.endClass()
 		        .deriveClass<tgui::Container, tgui::Widget>("Container")
 			        .addFunction("GetWidgets", &tgui::Container::getWidgets)
 		            .addFunction("Add", &tgui::Container::add)
@@ -516,6 +526,25 @@ namespace LeaderEngine
 			        .addStaticFunction("Create", &tgui::VerticalLayout::create)
 			    .endClass()
 	        .endNamespace();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+				.beginNamespace("HorizontalAlignment")
+					.addVariable("Left", tgui::Label::HorizontalAlignment::Left)
+					.addVariable("Center", tgui::Label::HorizontalAlignment::Center)
+					.addVariable("Right", tgui::Label::HorizontalAlignment::Right)
+				.endNamespace()
+			.endNamespace();
+
+		luabridge::getGlobalNamespace(L)
+			.beginNamespace("tgui")
+				.beginNamespace("VerticalAlignment")
+					.addVariable("Top", tgui::Label::VerticalAlignment::Top)
+					.addVariable("Center", tgui::Label::VerticalAlignment::Center)
+					.addVariable("Bottom", tgui::Label::VerticalAlignment::Bottom)
+				.endNamespace()
+			.endNamespace();
+			
 
 		luabridge::getGlobalNamespace(L)
 			.beginNamespace("tgui")
