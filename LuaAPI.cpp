@@ -477,7 +477,7 @@ namespace LeaderEngine
 		        .deriveClass<tgui::BoxLayoutRatios, tgui::BoxLayout>("BoxLayoutRatios")
 						//luabridge::overload<const tgui::Widget::Ptr&, const tgui::String&>(&tgui::BoxLayoutRatios::add),
 						//luabridge::overload<const tgui::Widget::Ptr&, float, const tgui::String&>(&tgui::BoxLayoutRatios::add)
-					    //static_cast<void (tgui::BoxLayoutRatios::*)(const tgui::Widget::Ptr&, float, const tgui::String&)>(&tgui::BoxLayoutRatios::add))
+					    //static_cast<void (tgui::BoxLayoutRatios::*)(const tgui::Widget::Ptr&, float, const tgui::String&)>(&tgui::BoxLayoutRatios::add)
 		            .addFunction("AddSpaceAtEnd", &tgui::BoxLayoutRatios::addSpace)
 		            .addFunction("AddSpaceBetween", &tgui::BoxLayoutRatios::insertSpace)
 			    .endClass()

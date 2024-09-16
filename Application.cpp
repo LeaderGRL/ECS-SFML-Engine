@@ -37,6 +37,7 @@ namespace LeaderEngine {
 		}
 
 		LuaAPI::GetInstance().CPP_To_LUA();
+		window.setSize(sf::Vector2u(1600, 1200));
 
 	/*	tgui::EditBox::Ptr editBox = tgui::EditBox::create();
 		editBox->setPosition(100, 100);
