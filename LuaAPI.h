@@ -3,10 +3,12 @@
 #include <iostream>
 #include <TGUI/Widget.hpp>
 #include <TGUI/Backends/SFML.hpp>
+#include <TGUI/Widgets/Button.hpp>
 #include <TGUI/Widgets/EditBox.hpp>
 
 #include "lua.hpp"
 #include "luabridge3/LuaBridge/LuaBridge.h"
+#include <luabridge3/LuaBridge/Vector.h>
 #include "Entity.h"
 #include "EntityManager.h"
 #include "BoxColliderComponent.h"
@@ -42,7 +44,9 @@ namespace LeaderEngine
 			static bool Call_Errors(lua_State* luaState, const luabridge::LuaRef& func, int nbArgs, int nbReturnValue);
 			void CallFunction(const std::string& funcName);
 
+			static tgui::Widget::Ptr GetWidgetBelowMouseCursorWrapper(tgui::GuiSFML* gui, int x, int y);
+            static void AddWidgetToContainer(const tgui::Container::Ptr& container, const tgui::Widget::Ptr& widget, tgui::String name, lua_State* L);
+			static void OnWidgetClicked(const tgui::ClickableWidget::Ptr& widget, const luabridge::LuaRef& ability, const luabridge::LuaRef& callback, lua_State* L);
 			static void OnReturnKeyPress(const tgui::EditBox::Ptr& editBox, const luabridge::LuaRef& callback, lua_State* L);
-		
 	};
 }

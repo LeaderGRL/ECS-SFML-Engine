@@ -41,7 +41,5 @@ namespace LeaderEngine
 			void draw(sf::RenderTarget& target, sf::RenderStates states);
 			void Init();
 			void Update(float deltaTime);
-
-			
 	};
 }

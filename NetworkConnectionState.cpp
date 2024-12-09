@@ -88,9 +88,10 @@ namespace LeaderEngine
 
 			switch (packetType)
 			{
-				case static_cast<sf::Int32>(NetworkPacketType::ACCEPTED):
-					//HandleConnectionAccepted();
-					NetworkStateManager::GetInstance().PushState(std::make_shared<NetworkClientState>(UUID));
+			case static_cast<sf::Int32>(NetworkPacketType::ACCEPTED):
+					NetworkManager::GetInstance().SetUUID(UUID);
+					HandleConnectionAccepted();
+					//NetworkStateManager::GetInstance().PushState(std::make_shared<NetworkClientState>(UUID));
 					break;
 				case static_cast<sf::Int32>(NetworkPacketType::REFUSED):
 					HandleConnectionRefused();

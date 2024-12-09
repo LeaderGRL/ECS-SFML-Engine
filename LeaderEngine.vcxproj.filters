@@ -40,6 +40,9 @@
     <Filter Include="Fichiers d%27en-tête\Schema">
       <UniqueIdentifier>{398a7b2b-6b90-4075-b25a-66054ec6b7ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{1ed6881b-fcc9-4f01-bef2-47556add8c9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -271,6 +274,9 @@
     </None>
     <None Include="TransformSchema.fbs">
       <Filter>Fichiers d%27en-tête\Schema</Filter>
+    </None>
+    <None Include="vcpkg.json">
+      <Filter>Config</Filter>
     </None>
   </ItemGroup>
 </Project>

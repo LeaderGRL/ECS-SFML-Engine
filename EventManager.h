@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/window.hpp>
 #include <functional>
+#include <mutex>
 #include "INPUT_EVENT.h"
 #include "lua.hpp"
 #include "luabridge3/LuaBridge/LuaBridge.h"
